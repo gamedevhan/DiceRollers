@@ -28,7 +28,7 @@ public class CharacterMovement : MonoBehaviour
 	
 	// This method listens to DiceRolled event
 	public void OnDiceRolled()
-	{		
+	{
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
 		StartCoroutine(MoveOneTile());
