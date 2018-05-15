@@ -4683,7 +4683,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1237606717800428}
   m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.21, z: 0}
+  m_LocalPosition: {x: 0.15, y: 0.21, z: -0.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4077316512918090}
@@ -5778,7 +5778,7 @@ Animator:
   m_GameObject: {fileID: 1031864218718568}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: fac07c02e72454540b1ed45d382b9fc1, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: eb3ff9f4c33b19f47a8cf36052d815b5, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -5798,8 +5798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4d92532c7a7d745bfe34232dd5e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilesToMove: 0
+  isMoving: 0
+  speed: 0.5
   currentTile: {fileID: 0}
+  nextTile: {fileID: 0}
 --- !u!137 &137035743418079178
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
