@@ -6,12 +6,12 @@ public class Dice : MonoBehaviour
 	public delegate void DiceRollEvent();
 	public static event DiceRollEvent DiceRolled;
 	
-	public static int diceResult;
+	public static int DiceResult;
 
 	// For Test
 	public void DiceButton()
 	{
-		diceResult = Roll();
+		DiceResult = Roll();
 	}
 
 	public int Roll()

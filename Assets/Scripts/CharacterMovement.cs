@@ -5,11 +5,12 @@ public class CharacterMovement : MonoBehaviour
 {
 	private const float lerpThreshold = 0.05f;
 
-	public bool isMoving = false;
-	public float speed = 1.0F;	
+	public bool IsMoving = false;
+	public float Speed = 1.0F;
 	
-	public Transform currentTile;
-	public Transform nextTile;
+	private int tileIndex = 0;
+	private Transform currentTile;
+	private Transform nextTile;
 		
 	private float startTime;
 	private float journeyLength;
@@ -25,7 +26,13 @@ public class CharacterMovement : MonoBehaviour
 		Dice.DiceRolled -= OnDiceRolled;
 		Tile.TileEntered -= OnTileEntered;
 	}
-	
+
+	private void Start()
+	{
+		currentTile = TileManager.Instance.Tiles[tileIndex];
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
+	}
+
 	// This method listens to DiceRolled event
 	public void OnDiceRolled()
 	{
@@ -36,13 +43,14 @@ public class CharacterMovement : MonoBehaviour
 
 	// This method listens to TileEntered event
 	public void OnTileEntered()
-	{		
-		currentTile = nextTile;
-		nextTile = currentTile.GetComponent<Tile>().nextTile;
-		isMoving = false;
+	{	
+		tileIndex++;
+		currentTile = TileManager.Instance.Tiles[tileIndex];
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
+		IsMoving = false;
 
-		Dice.diceResult--;
-		if (Dice.diceResult > 0)
+		Dice.DiceResult--;
+		if (Dice.DiceResult > 0)
 		{
 			startTime = Time.time;
 			journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
@@ -53,11 +61,11 @@ public class CharacterMovement : MonoBehaviour
 	public IEnumerator MoveOneTile()
 	{
 		Debug.Log(name + " Start lerping");
-		isMoving = true;
+		IsMoving = true;
 		
 		while (Vector3.Distance(transform.position, nextTile.position) > lerpThreshold)
 		{
-			float distCovered = (Time.time - startTime) * speed;
+			float distCovered = (Time.time - startTime) * Speed;
 			float fracJourney = distCovered / journeyLength;
 			transform.position = Vector3.Lerp(currentTile.position, nextTile.position, fracJourney);
 			yield return null;

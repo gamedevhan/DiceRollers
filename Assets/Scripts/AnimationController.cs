@@ -14,6 +14,6 @@ public class AnimationController : MonoBehaviour
 
 	private void Update()
 	{
-		animator.SetBool("isMoving", character.isMoving);
+		animator.SetBool("isMoving", character.IsMoving);
 	}
 }
