@@ -34,7 +34,7 @@ public class CharacterMovement : MonoBehaviour
 	}
 
 	// This method listens to DiceRolled event
-	public void OnDiceRolled()
+	private void OnDiceRolled()
 	{
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
@@ -42,7 +42,7 @@ public class CharacterMovement : MonoBehaviour
 	}
 
 	// This method listens to TileEntered event
-	public void OnTileEntered()
+	private void OnTileEntered()
 	{	
 		tileIndex++;
 		currentTile = TileManager.Instance.Tiles[tileIndex];
@@ -81,6 +81,6 @@ public class CharacterMovement : MonoBehaviour
 	// For testing
 	public void ResetPosition()
 	{
-		transform.position = currentTile.position;
+		transform.position = new Vector3(0, 0, 0);
 	}
 }

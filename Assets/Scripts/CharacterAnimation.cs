@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [RequireComponent(typeof(CharacterMovement))]
-public class AnimationController : MonoBehaviour
+public class CharacterAnimation : MonoBehaviour
 {
 	private CharacterMovement character;
 	private Animator animator;

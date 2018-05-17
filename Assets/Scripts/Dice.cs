@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Dice : MonoBehaviour
 {	
@@ -7,20 +8,25 @@ public class Dice : MonoBehaviour
 	public static event DiceRollEvent DiceRolled;
 	
 	public static int DiceResult;
-
-	// For Test
-	public void DiceButton()
-	{
-		DiceResult = Roll();
+	
+	private MeshRenderer meshRenderer;
+	
+	private void Start()
+	{			
+		meshRenderer = GetComponent<MeshRenderer>();		
 	}
-
-	public int Roll()
-	{	
-		int diceResult = Random.Range(1, 7);
-		Debug.Log("<color=yellow>Rolling a die! Result:</color> " + diceResult);
-
+		
+	public void Roll()
+	{
+		DiceResult = Random.Range(1, 7);
+		
 		if (DiceRolled != null)
 			DiceRolled();
-		return diceResult;
+		Debug.Log("<color=yellow>Rolling a die! Result:</color> " + DiceResult);
+	}
+
+	private void ResetDice()
+	{
+		meshRenderer.enabled = false;		
 	}
 }
