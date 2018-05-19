@@ -42,18 +42,26 @@ public class CharacterMovement : MonoBehaviour
 	// This method listens to TileEntered event
 	private void OnTileEntered()
 	{	
+		Dice.DiceResult--;
+		
+		// Update tile index
 		tileIndex++;
 		currentTile = TileManager.Instance.Tiles[tileIndex];
-		nextTile = TileManager.Instance.Tiles[tileIndex + 1];		
-
-		Dice.DiceResult--;
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
+		
+		Debug.Log("Current tile Index is: " + currentTile.GetComponent<Tile>().index);
 		if (Dice.DiceResult > 0) // Still moving
 		{			
 			StartCoroutine(MoveOneTile());
 		}
-		else // Finished moving
-		{			
+		if (Dice.DiceResult == 0) // Finished moving
+		{	
 			IsMoving = false;
+			transform.LookAt(nextTile);
+
+			ISpecialTile specialTile = currentTile.GetComponent<ISpecialTile>();
+			if (specialTile != null)			
+				StartCoroutine(specialTile.SpecialTileEffect());
 		}
 	}
 
@@ -85,5 +93,9 @@ public class CharacterMovement : MonoBehaviour
 	public void ResetPosition()
 	{
 		transform.position = new Vector3(0, 0, 0);
+		tileIndex = 0;
+		currentTile = TileManager.Instance.Tiles[tileIndex];
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
+		transform.LookAt(nextTile);
 	}
 }
