@@ -28,14 +28,14 @@ public class CharacterMovement : MonoBehaviour
 	}
 
 	private void Start()
-	{
+	{		
 		currentTile = TileManager.Instance.Tiles[tileIndex];
-		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];		
 	}
 
 	// This method listens to DiceRolled event
 	private void OnDiceRolled()
-	{
+	{	
 		StartCoroutine(MoveOneTile());
 	}
 
@@ -44,18 +44,22 @@ public class CharacterMovement : MonoBehaviour
 	{	
 		tileIndex++;
 		currentTile = TileManager.Instance.Tiles[tileIndex];
-		nextTile = TileManager.Instance.Tiles[tileIndex + 1];
-		IsMoving = false;
+		nextTile = TileManager.Instance.Tiles[tileIndex + 1];		
 
 		Dice.DiceResult--;
-		if (Dice.DiceResult > 0)
+		if (Dice.DiceResult > 0) // Still moving
 		{			
 			StartCoroutine(MoveOneTile());
+		}
+		else // Finished moving
+		{			
+			IsMoving = false;
 		}
 	}
 
 	public IEnumerator MoveOneTile()
-	{
+	{		
+		transform.LookAt(nextTile);
 		Debug.Log(name + " Start lerping");
 
 		startTime = Time.time;
