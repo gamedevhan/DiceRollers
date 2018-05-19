@@ -5,7 +5,7 @@ public class CharacterMovement : MonoBehaviour
 {
 	private const float lerpThreshold = 0.05f;
 
-	private int tilesToMove = 0;
+	public int tilesToMove = 0;
 	public bool IsMoving = false;
 	public bool IsMovingForward = true;
 
@@ -50,40 +50,33 @@ public class CharacterMovement : MonoBehaviour
 		// Update tile index
 		if (IsMovingForward)		
 			tileIndex++;
-		else
-		{
+		else		
 			tileIndex--;
-		}
-
-		if(tilesToMove == 0)
-			IsMoving = false;
-
+		
+		// Set current tile
 		CurrentTile = TileManager.Instance.Tiles[tileIndex];
 
+		// Set next tile
 		if (IsMovingForward)		
 			NextTile = TileManager.Instance.Tiles[tileIndex + 1];
 		else
 			NextTile = TileManager.Instance.Tiles[tileIndex - 1];
 
 		Debug.Log("<color=yellow> Current tile Index is: </color>" + "<b>" + CurrentTile.GetComponent<Tile>().index + "</b>" + "<color=yellow>, Next tile Index is: </color>" + "<b>" + NextTile.GetComponent<Tile>().index + "</b>");
-
-		if (tilesToMove > 0) // Still moving
-		{			
+		
+		if (tilesToMove != 0) // Call Move() again if there is still tiles to move
 			StartCoroutine(Move());
-		}
-		if (tilesToMove < 0) // Going Backward
-		{
-			StartCoroutine(Move());
-		}
-		if (tilesToMove == 0) // Finished moving
-		{	
+		else if (tilesToMove == 0) // Otherwise, stop moving
+		{				
 			IsMoving = false;
+			IsMovingForward = true;			
 			transform.LookAt(NextTile);
+			NextTile = TileManager.Instance.Tiles[tileIndex + 1];
 
 			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
 			if (specialTile != null)
 				StartCoroutine(specialTile.SpecialTileEffect());
-		}
+		}		
 	}
 
 	public IEnumerator Move()
@@ -106,8 +99,12 @@ public class CharacterMovement : MonoBehaviour
 		//Snap to the destination when distance between transform.position <= lerpThreshold
 		transform.position = NextTile.position;
 		Debug.Log(name + " Reached next tile.");
-		
-		tilesToMove--;
+
+		if (IsMovingForward)
+			tilesToMove--;
+		else
+			tilesToMove++;
+
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}
 
