@@ -19,9 +19,12 @@ public class TileManager : MonoBehaviour
 
 	private void PopulateTileList()
 	{
-		foreach (Transform tile  in transform)
+		int i = 0;
+		foreach (Transform tile in transform)
 		{
+			tile.GetComponent<Tile>().index = i;
 			Tiles.Add(tile);
+			i++;
 		}
 	}
 }
