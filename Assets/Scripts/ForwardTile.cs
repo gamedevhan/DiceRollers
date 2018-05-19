@@ -14,9 +14,9 @@ public class ForwardTile : MonoBehaviour, ISpecialTile
 		yield return new WaitForSeconds(FxDelay);
 				
 		Dice.DiceResult += amount;
-		Debug.Log("Tiles to Move: " + Dice.DiceResult);
+		Debug.Log("Entered ForwardTile, Tiles to Move: " + Dice.DiceResult);
 		
 		CharacterMovement character = FindObjectOfType<CharacterMovement>();
-		StartCoroutine(character.MoveOneTile());
+		StartCoroutine(character.Move());
 	}
 }

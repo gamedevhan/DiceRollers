@@ -65,7 +65,7 @@ public class Dice : MonoBehaviour
 	private void GetDiceResult()
 	{		
 		if (Vector3.Dot (transform.forward, Vector3.up) > 0.6f)
-					DiceResult = 2;
+				DiceResult = 2;
 		if (Vector3.Dot (-transform.forward, Vector3.up) > 0.6f)
 				DiceResult = 5;
 		if (Vector3.Dot (transform.up, Vector3.up) > 0.6f)
