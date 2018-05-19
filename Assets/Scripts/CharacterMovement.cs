@@ -36,8 +36,6 @@ public class CharacterMovement : MonoBehaviour
 	// This method listens to DiceRolled event
 	private void OnDiceRolled()
 	{
-		startTime = Time.time;
-		journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
 		StartCoroutine(MoveOneTile());
 	}
 
@@ -51,9 +49,7 @@ public class CharacterMovement : MonoBehaviour
 
 		Dice.DiceResult--;
 		if (Dice.DiceResult > 0)
-		{
-			startTime = Time.time;
-			journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
+		{			
 			StartCoroutine(MoveOneTile());
 		}
 	}
@@ -61,6 +57,9 @@ public class CharacterMovement : MonoBehaviour
 	public IEnumerator MoveOneTile()
 	{
 		Debug.Log(name + " Start lerping");
+
+		startTime = Time.time;
+		journeyLength = Vector3.Distance(currentTile.position, nextTile.position);
 		IsMoving = true;
 		
 		while (Vector3.Distance(transform.position, nextTile.position) > lerpThreshold)
