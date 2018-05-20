@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
+[RequireComponent(typeof(Tile))]
 public class MoveTile : MonoBehaviour, ISpecialTile
 {
 	private const float FxDelay = 1f;
@@ -29,17 +30,23 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 	private void Move()
 	{
 		if (amount > 0)
-			StartCoroutine(character.Move());
-		else if (amount < 0)
-			MoveBackWard();
+			MoveForward();
+		else if (amount < 0)		
+			MoveBackWard();	
 		else
 			Debug.Log("Check the inspector, amount is probably set to 0");
+	}
+
+	private void MoveForward()
+	{
+		character.IsMovingForward = true;
+		StartCoroutine(character.Move());
 	}
 
 	private void MoveBackWard()
 	{	
 		character.IsMovingForward = false;
-		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];		
+		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
 		StartCoroutine(character.Move());
 	}
 }
