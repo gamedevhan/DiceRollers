@@ -56,7 +56,7 @@ public class Dice : MonoBehaviour
 		if (DiceRolled != null)
 			DiceRolled();
 
-		Debug.Log("<color=yellow>Rolling a die! Result:</color> " + DiceResult);
+		Debug.Log("<color=yellow>Rolling a die! Result:</color> " + "<b>" + DiceResult + "</b>");
 
 		// Reset Dice when character stops moving
 		StartCoroutine(ResetDice());

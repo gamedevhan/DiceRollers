@@ -8,10 +8,9 @@ public class CharacterMovement : MonoBehaviour
 	public int tilesToMove = 0;
 	public bool IsMoving = false;
 	public bool IsMovingForward = true;
-
-	public float Speed = 1.0F;
 	
-	private int tileIndex = 0;
+	public float Speed = 1.0F;
+		
 	public Transform CurrentTile;
 	public Transform NextTile;
 	
@@ -32,8 +31,8 @@ public class CharacterMovement : MonoBehaviour
 
 	private void Start()
 	{		
-		CurrentTile = TileManager.Instance.Tiles[tileIndex];
-		NextTile = TileManager.Instance.Tiles[tileIndex + 1];		
+		CurrentTile = TileManager.Instance.Tiles[0];
+		NextTile = TileManager.Instance.Tiles[1];	
 	}
 
 	// This method listens to DiceRolled event
@@ -47,36 +46,18 @@ public class CharacterMovement : MonoBehaviour
 	// This method listens to TileEntered event
 	private void OnTileEntered()
 	{	
-		// Update tile index
-		if (IsMovingForward)		
-			tileIndex++;
-		else		
-			tileIndex--;
-		
-		// Set current tile
-		CurrentTile = TileManager.Instance.Tiles[tileIndex];
-
-		// Set next tile
-		if (IsMovingForward)		
-			NextTile = TileManager.Instance.Tiles[tileIndex + 1];
-		else
-			NextTile = TileManager.Instance.Tiles[tileIndex - 1];
-
-		Debug.Log("<color=yellow> Current tile Index is: </color>" + "<b>" + CurrentTile.GetComponent<Tile>().index + "</b>" + "<color=yellow>, Next tile Index is: </color>" + "<b>" + NextTile.GetComponent<Tile>().index + "</b>");
-		
 		if (tilesToMove != 0) // Call Move() again if there is still tiles to move
 			StartCoroutine(Move());
 		else if (tilesToMove == 0) // Otherwise, stop moving
 		{				
 			IsMoving = false;
-			IsMovingForward = true;			
-			transform.LookAt(NextTile);
-			NextTile = TileManager.Instance.Tiles[tileIndex + 1];
-
+			IsMovingForward = true;
+			
+			// SpecialTileEffect
 			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
 			if (specialTile != null)
 				StartCoroutine(specialTile.SpecialTileEffect());
-		}		
+		}
 	}
 
 	public IEnumerator Move()
@@ -84,6 +65,7 @@ public class CharacterMovement : MonoBehaviour
 		transform.LookAt(NextTile);
 		Debug.Log(name + " Start lerping");
 
+		// Lerp
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
 		IsMoving = true;
@@ -96,14 +78,27 @@ public class CharacterMovement : MonoBehaviour
 			yield return null;
 		}
 
-		//Snap to the destination when distance between transform.position <= lerpThreshold
+		// Snap to the destination when distance between transform.position <= lerpThreshold
 		transform.position = NextTile.position;
 		Debug.Log(name + " Reached next tile.");
 
+		// Update tilesToMove
 		if (IsMovingForward)
 			tilesToMove--;
 		else
 			tilesToMove++;
+				
+		// Update CurrentTile and NextTile
+		CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
+			
+		if (tilesToMove >= 0)
+			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index + 1];
+		else if (tilesToMove < 0)
+			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];		
+		else
+			Debug.LogError("There is a logic error with updating NextTile");
+		
+		Debug.Log("<color=yellow> Current tile Index is: </color>" + "<b>" + CurrentTile.GetComponent<Tile>().index + "</b>" + "<color=yellow>, Next tile Index is: </color>" + "<b>" + NextTile.GetComponent<Tile>().index + "</b>");
 
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}
@@ -111,10 +106,9 @@ public class CharacterMovement : MonoBehaviour
 	// For testing
 	public void ResetPosition()
 	{
-		transform.position = new Vector3(0, 0, 0);
-		tileIndex = 0;
-		CurrentTile = TileManager.Instance.Tiles[tileIndex];
-		NextTile = TileManager.Instance.Tiles[tileIndex + 1];
+		transform.position = new Vector3(0, 0, 0);		
+		CurrentTile = TileManager.Instance.Tiles[0];
+		NextTile = TileManager.Instance.Tiles[1];
 		transform.LookAt(NextTile);
 	}
 }
