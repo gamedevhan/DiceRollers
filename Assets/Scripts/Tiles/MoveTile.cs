@@ -21,7 +21,7 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 		yield return new WaitForSeconds(FxDelay);
 				
 		character.tilesToMove += amount;
-		Debug.Log("Entered ForwardTile, Tiles to Move: " + character.tilesToMove);
+		Debug.Log("Entered MoveTile, Tiles to Move: " + character.tilesToMove);
 		
 		Move();
 	}
