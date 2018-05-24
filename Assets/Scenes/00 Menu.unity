@@ -564,7 +564,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 327876040}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -128, y: 60, z: 0}
+  m_LocalPosition: {x: -128, y: 61, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1904614737}
@@ -700,7 +700,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 576951942}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -36, z: 0}
+  m_LocalPosition: {x: 0, y: -35, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 217249503}
@@ -832,7 +832,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1933014167}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &645642729
 MonoBehaviour:
@@ -917,7 +917,7 @@ Transform:
   - {fileID: 106716044}
   - {fileID: 197066901}
   m_Father: {fileID: 1933014167}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1027341840
 MonoBehaviour:
@@ -968,34 +968,6 @@ MonoBehaviour:
   mSortingLayerName: 
   mClipOffset: {x: 0, y: 0}
   useSortingOrder: 0
---- !u!1 &1535564374
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1535564375}
-  m_Layer: 8
-  m_Name: ControlPanel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1535564375
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1535564374}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1933014167}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1554214385
 GameObject:
   m_ObjectHideFlags: 0
@@ -1250,7 +1222,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149c0442feb13f64daccbd338c92a8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxPlayersPerRoom: 4
   UIManager: {fileID: 1933014169}
 --- !u!1 &1904614736
 GameObject:
@@ -1462,10 +1433,9 @@ Transform:
   m_GameObject: {fileID: 1933014163}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0050125313, y: 0.0050125313, z: 0.0050125313}
+  m_LocalScale: {x: 0.005509642, y: 0.005509642, z: 0.005509642}
   m_Children:
   - {fileID: 1640734103}
-  - {fileID: 1535564375}
   - {fileID: 645642728}
   - {fileID: 1973169322}
   - {fileID: 1954310489}
@@ -1566,7 +1536,7 @@ Transform:
   m_Children:
   - {fileID: 1554214386}
   m_Father: {fileID: 1933014167}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1973169321
 GameObject:
@@ -1597,7 +1567,7 @@ Transform:
   - {fileID: 327876041}
   - {fileID: 576951943}
   m_Father: {fileID: 1933014167}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1973169323
 MonoBehaviour:

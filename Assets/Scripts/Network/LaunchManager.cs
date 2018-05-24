@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LaunchManager : Photon.PunBehaviour
-{
-	public byte MaxPlayersPerRoom = 4;
+{	
 	public UIManager UIManager;
 
 	private bool isConnecting;
@@ -20,7 +19,7 @@ public class LaunchManager : Photon.PunBehaviour
 	{
 		isConnecting = true;
 
-		if (PhotonNetwork.connected) { PhotonNetwork.JoinRandomRoom(); }
+		if (PhotonNetwork.connected) { PhotonNetwork.JoinLobby(); }
 		else { PhotonNetwork.ConnectUsingSettings(gameVersion); }
 	}
 
@@ -29,26 +28,19 @@ public class LaunchManager : Photon.PunBehaviour
 		Debug.Log("Region: " + PhotonNetwork.networkingPeer.CloudRegion);
 		if (isConnecting)
 		{
-			Debug.Log("OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room.\n Calling: PhotonNetwork.JoinRandomRoom(); Operation will fail if no room found");
-			PhotonNetwork.JoinRandomRoom();
+			Debug.Log("Joining Lobby");
+			PhotonNetwork.JoinLobby();
 		}
 	}
-
-	public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
-	{
-		Debug.Log("OnPhotonRandomJoinFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom(null, new RoomOptions() {maxPlayers = 4}, null);");
-
-		PhotonNetwork.CreateRoom(null, new RoomOptions() { MaxPlayers = MaxPlayersPerRoom }, null);
-	}
-
+	
 	public override void OnDisconnectedFromPhoton()
 	{
 		isConnecting = false;
 		UIManager.Disconnected();
 	}
 
-	public override void OnJoinedRoom()
-	{
-		PhotonNetwork.LoadLevel("01 Prep");
+	public override void OnJoinedLobby()
+	{		
+		PhotonNetwork.LoadLevel("01 Lobby");
 	}
 }
