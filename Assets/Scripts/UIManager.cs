@@ -4,8 +4,7 @@
 public class UIManager : MonoBehaviour
 {
 	public UILabel NameInputField;
-	public LaunchManager LaunchManager;
-
+	
 	public GameObject ConnectPanel;
 	public GameObject ConnectingPanel;
 	public GameObject DisConnectPanel;
@@ -14,20 +13,12 @@ public class UIManager : MonoBehaviour
 	{
 		ConnectPanel.SetActive(false);
 		ConnectingPanel.SetActive(true);
-		LaunchManager.Connect();
 	}
 
 	public void ReConnectButton()
 	{
 		ConnectingPanel.SetActive(true);
 		DisConnectPanel.SetActive(false);
-		LaunchManager.Connect();
-	}
 
-	public void Disconnected()
-	{
-		ConnectingPanel.SetActive(false);
-		ConnectingPanel.SetActive(false);
-		DisConnectPanel.SetActive(true);		
 	}
 }
