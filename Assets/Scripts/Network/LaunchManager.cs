@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LaunchManager : Photon.PunBehaviour
 {	
-	public UIManager UIManager;
+	public LaunchUI LaunchUI;
 
 	private bool isConnecting;
 	private string gameVersion = "0.1.0";
@@ -36,7 +36,7 @@ public class LaunchManager : Photon.PunBehaviour
 	public override void OnDisconnectedFromPhoton()
 	{
 		isConnecting = false;
-		UIManager.Disconnected();
+		LaunchUI.Disconnected();
 	}
 
 	public override void OnJoinedLobby()

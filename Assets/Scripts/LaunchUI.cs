@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 
-public class UIManager : MonoBehaviour
+public class LaunchUI : MonoBehaviour
 {
 	public UILabel NameInputField;
 	public LaunchManager LaunchManager;
