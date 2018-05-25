@@ -614,10 +614,6 @@ MonoBehaviour:
     mMethodName: RemoveFocus
     mParameters: []
     oneShot: 0
-  - mTarget: {fileID: 1933014166}
-    mMethodName: 
-    mParameters: []
-    oneShot: 0
   onChange: []
   mValue: 
 --- !u!114 &327876044
@@ -748,6 +744,10 @@ MonoBehaviour:
   onClick:
   - mTarget: {fileID: 1933014169}
     mMethodName: ConnectButton
+    mParameters: []
+    oneShot: 0
+  - mTarget: {fileID: 1933014169}
+    mMethodName: SetPlayerName
     mParameters: []
     oneShot: 0
 --- !u!114 &576951946
@@ -1433,7 +1433,7 @@ Transform:
   m_GameObject: {fileID: 1933014163}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.005319149, y: 0.005319149, z: 0.005319149}
+  m_LocalScale: {x: 0.0046296297, y: 0.0046296297, z: 0.0046296297}
   m_Children:
   - {fileID: 1640734103}
   - {fileID: 645642728}
