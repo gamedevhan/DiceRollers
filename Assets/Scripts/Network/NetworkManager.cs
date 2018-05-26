@@ -37,6 +37,20 @@ public class NetworkManager : Photon.PunBehaviour
 
 	#region Lobby
 
+	public void QuickGame()
+	{
+
+	}
+
+	public void CreateGame()
+	{
+
+	}
+
+	public void RefreshRoomList()
+	{
+
+	}
 
 	#endregion
 
@@ -45,7 +59,9 @@ public class NetworkManager : Photon.PunBehaviour
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Region: " + PhotonNetwork.networkingPeer.CloudRegion);
+
 		PhotonNetwork.playerName = PlayerPrefs.GetString(LaunchUI.playerNamePrefKey);
+
 		if (isConnecting)
 		{
 			Debug.Log("Joining Lobby");

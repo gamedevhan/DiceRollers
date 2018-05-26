@@ -807,10 +807,6 @@ MonoBehaviour:
     mMethodName: SetPlayerName
     mParameters: []
     oneShot: 0
-  - mTarget: {fileID: 398425554}
-    mMethodName: ConnectToMaster
-    mParameters: []
-    oneShot: 0
 --- !u!114 &576951946
 MonoBehaviour:
   m_ObjectHideFlags: 0

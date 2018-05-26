@@ -28,7 +28,8 @@ public class LaunchUI : MonoBehaviour
 	public void ConnectButton()
 	{
 		ConnectPanel.SetActive(false);
-		ConnectingPanel.SetActive(true);		
+		ConnectingPanel.SetActive(true);
+		NetworkManager.Instance.ConnectToMaster();
 	}
 
 	public void ReConnectButton()
