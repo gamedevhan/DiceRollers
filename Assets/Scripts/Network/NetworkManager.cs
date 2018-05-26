@@ -1,21 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class LaunchManager : Photon.PunBehaviour
-{	
-	public LaunchUI LaunchUI;
+public class NetworkManager : Photon.PunBehaviour
+{
+	public LaunchUI launchUI;
 
 	private bool isConnecting;
 	private string gameVersion = "0.1.0";
 
+	public static NetworkManager Instance = null;
+	public string Name { get; private set; }
+
 	private void Awake()
 	{
+		if (Instance == null) {	Instance = this; }
+		else if (Instance != this)
+		{
+			Destroy(gameObject);
+		}
+		
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 	}
-
-	public void Connect()
+		
+	public void OnConnectButtonPressed()
 	{
 		isConnecting = true;
 
@@ -26,17 +36,18 @@ public class LaunchManager : Photon.PunBehaviour
 	public override void OnConnectedToMaster()
 	{
 		Debug.Log("Region: " + PhotonNetwork.networkingPeer.CloudRegion);
+		PhotonNetwork.playerName = PlayerPrefs.GetString(LaunchUI.playerNamePrefKey);
 		if (isConnecting)
 		{
 			Debug.Log("Joining Lobby");
 			PhotonNetwork.JoinLobby();
 		}
 	}
-	
+
 	public override void OnDisconnectedFromPhoton()
 	{
 		isConnecting = false;
-		LaunchUI.Disconnected();
+		SceneManager.LoadScene("00 Menu");
 	}
 
 	public override void OnJoinedLobby()

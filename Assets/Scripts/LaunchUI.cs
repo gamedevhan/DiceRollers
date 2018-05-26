@@ -1,17 +1,19 @@
-﻿using UnityEngine;
-
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class LaunchUI : MonoBehaviour
-{
+{	
 	public UILabel NameInputField;
-	public LaunchManager LaunchManager;
+	
+	public delegate void ButtonEvent();
 
-	public GameObject ConnectPanel;
-	public GameObject ConnectingPanel;
-	public GameObject DisConnectPanel;
+	[SerializeField] private GameObject ConnectPanel;
+	[SerializeField] private GameObject ConnectingPanel;
+	[SerializeField] private GameObject DisconnectPanel;
 
-	private static string playerNamePrefKey = "PlayerName";
-
+	public static string playerNamePrefKey = "PlayerName";
+	
 	private void Start()
 	{
 		string playerName = "";
@@ -24,31 +26,30 @@ public class LaunchUI : MonoBehaviour
 			}
 		}
 	}
-
+		
 	public void ConnectButton()
 	{
 		ConnectPanel.SetActive(false);
 		ConnectingPanel.SetActive(true);
-		LaunchManager.Connect();
+		NetworkManager.Instance.OnConnectButtonPressed();
 	}
 
 	public void ReConnectButton()
 	{
 		ConnectingPanel.SetActive(true);
-		DisConnectPanel.SetActive(false);
-		LaunchManager.Connect();
+		DisconnectPanel.SetActive(false);
+		NetworkManager.Instance.OnConnectButtonPressed();
 	}
 
 	public void Disconnected()
 	{
 		ConnectingPanel.SetActive(false);
 		ConnectingPanel.SetActive(false);
-		DisConnectPanel.SetActive(true);		
+		DisconnectPanel.SetActive(true);
 	}
 
 	public void SetPlayerName()
-	{	
-		PhotonNetwork.playerName = NameInputField.text;
+	{			
 		PlayerPrefs.SetString(playerNamePrefKey, NameInputField.text);
 	}
 }
