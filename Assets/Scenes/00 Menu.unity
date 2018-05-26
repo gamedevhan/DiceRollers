@@ -808,7 +808,7 @@ MonoBehaviour:
     mParameters: []
     oneShot: 0
   - mTarget: {fileID: 398425554}
-    mMethodName: OnConnectButtonPressed
+    mMethodName: ConnectToMaster
     mParameters: []
     oneShot: 0
 --- !u!114 &576951946

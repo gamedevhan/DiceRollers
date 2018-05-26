@@ -22,14 +22,25 @@ public class NetworkManager : Photon.PunBehaviour
 		PhotonNetwork.autoJoinLobby = false;
 		PhotonNetwork.automaticallySyncScene = true;
 	}
-		
-	public void OnConnectButtonPressed()
+
+	#region Launch
+
+	public void ConnectToMaster()
 	{
 		isConnecting = true;
 
-		if (PhotonNetwork.connected) { PhotonNetwork.JoinLobby(); }
+		if (PhotonNetwork.connected) { PhotonNetwork.JoinLobby(TypedLobby.Default); }
 		else { PhotonNetwork.ConnectUsingSettings(gameVersion); }
 	}
+
+	#endregion
+
+	#region Lobby
+
+
+	#endregion
+
+	#region Photon CallBacks
 
 	public override void OnConnectedToMaster()
 	{
@@ -52,4 +63,6 @@ public class NetworkManager : Photon.PunBehaviour
 	{		
 		PhotonNetwork.LoadLevel("01 Lobby");
 	}
+
+	#endregion
 }
