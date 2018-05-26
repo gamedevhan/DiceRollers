@@ -286,6 +286,10 @@ MonoBehaviour:
     mMethodName: ReConnectButton
     mParameters: []
     oneShot: 0
+  - mTarget: {fileID: 398425554}
+    mMethodName: OnConnectButtonPressed
+    mParameters: []
+    oneShot: 0
 --- !u!114 &197066904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -718,6 +722,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f1a361f7e913e3942a05f7a45849d908, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &398425554 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114359645555672554, guid: f1a361f7e913e3942a05f7a45849d908,
+    type: 2}
+  m_PrefabInternal: {fileID: 398425553}
+  m_Script: {fileID: 11500000, guid: 720fa53d61d9e8442a4c66eea7c1fc1d, type: 3}
 --- !u!1 &576951942
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,6 +805,10 @@ MonoBehaviour:
     oneShot: 0
   - mTarget: {fileID: 1933014169}
     mMethodName: SetPlayerName
+    mParameters: []
+    oneShot: 0
+  - mTarget: {fileID: 398425554}
+    mMethodName: OnConnectButtonPressed
     mParameters: []
     oneShot: 0
 --- !u!114 &576951946
