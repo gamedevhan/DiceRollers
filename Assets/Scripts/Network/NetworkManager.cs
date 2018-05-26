@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManager : Photon.PunBehaviour
 {
+	public byte maxPlayersPerRoom = 4;
+	public string Name { get; private set; }
+
 	private bool isConnecting;
 	private string gameVersion = "0.1.0";
-
+	
 	public static NetworkManager Instance = null;
-	public string Name { get; private set; }
 
 	private void Awake()
 	{
@@ -23,7 +25,7 @@ public class NetworkManager : Photon.PunBehaviour
 		PhotonNetwork.automaticallySyncScene = true;
 	}
 
-	#region Launch
+	#region Public Methods
 
 	public void ConnectToMaster()
 	{
@@ -32,28 +34,9 @@ public class NetworkManager : Photon.PunBehaviour
 		if (PhotonNetwork.connected) { PhotonNetwork.JoinLobby(TypedLobby.Default); }
 		else { PhotonNetwork.ConnectUsingSettings(gameVersion); }
 	}
-
+	
 	#endregion
-
-	#region Lobby
-
-	public void QuickGame()
-	{
-
-	}
-
-	public void CreateGame()
-	{
-
-	}
-
-	public void RefreshRoomList()
-	{
-
-	}
-
-	#endregion
-
+	
 	#region Photon CallBacks
 
 	public override void OnConnectedToMaster()
@@ -71,13 +54,41 @@ public class NetworkManager : Photon.PunBehaviour
 
 	public override void OnDisconnectedFromPhoton()
 	{
-		isConnecting = false;
+		Debug.Log("Disconnected from Photon, Loading 00 Menu Scene");
+		isConnecting = false;		
 		SceneManager.LoadScene("00 Menu");
 	}
 
 	public override void OnJoinedLobby()
 	{		
-		PhotonNetwork.LoadLevel("01 Lobby");
+		Debug.Log("Joined Lobby, Loading 01 Lobby Scene");
+		SceneManager.LoadScene("01 Lobby");
+		// TODO: Refresh Room List. Maybe do this on lobby scene loaded?
+	}
+
+	public override void OnCreatedRoom()
+	{
+		Debug.Log("Room created succesfully");
+		PhotonNetwork.LoadLevel("02 Room");
+	}
+
+	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg)
+	{
+		Debug.Log("Create room failed due to " + codeAndMsg[1]);
+	}
+
+	public override void OnJoinedRoom()
+	{
+		Debug.Log("Room joined scuccesfully");
+		PhotonNetwork.LoadLevel("02 Room");
+	}
+
+	public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
+	{
+		Debug.Log("No room available, create new one");
+		
+		// Create a room
+		PhotonNetwork.CreateRoom(PhotonNetwork.playerName + "'s Game", new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
 	}
 
 	#endregion
