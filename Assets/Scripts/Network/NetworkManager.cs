@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class NetworkManager : Photon.PunBehaviour
 {
-	public LaunchUI launchUI;
-
 	private bool isConnecting;
 	private string gameVersion = "0.1.0";
 

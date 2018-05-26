@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LaunchUI : MonoBehaviour
 {	
@@ -30,15 +28,13 @@ public class LaunchUI : MonoBehaviour
 	public void ConnectButton()
 	{
 		ConnectPanel.SetActive(false);
-		ConnectingPanel.SetActive(true);
-		NetworkManager.Instance.OnConnectButtonPressed();
+		ConnectingPanel.SetActive(true);		
 	}
 
 	public void ReConnectButton()
 	{
 		ConnectingPanel.SetActive(true);
-		DisconnectPanel.SetActive(false);
-		NetworkManager.Instance.OnConnectButtonPressed();
+		DisconnectPanel.SetActive(false);		
 	}
 
 	public void Disconnected()
