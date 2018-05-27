@@ -36,7 +36,7 @@ public class NetworkManager : Photon.PunBehaviour
 	}
 	
 	#endregion
-	
+
 	#region Photon CallBacks
 
 	public override void OnConnectedToMaster()
@@ -64,31 +64,6 @@ public class NetworkManager : Photon.PunBehaviour
 		Debug.Log("Joined Lobby, Loading 01 Lobby Scene");
 		SceneManager.LoadScene("01 Lobby");
 		// TODO: Refresh Room List. Maybe do this on lobby scene loaded?
-	}
-
-	public override void OnCreatedRoom()
-	{
-		Debug.Log("Room created succesfully");
-		PhotonNetwork.LoadLevel("02 Room");
-	}
-
-	public override void OnPhotonCreateRoomFailed(object[] codeAndMsg)
-	{
-		Debug.Log("Create room failed due to " + codeAndMsg[1]);
-	}
-
-	public override void OnJoinedRoom()
-	{
-		Debug.Log("Room joined scuccesfully");
-		PhotonNetwork.LoadLevel("02 Room");
-	}
-
-	public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
-	{
-		Debug.Log("No room available, create new one");
-		
-		// Create a room
-		PhotonNetwork.CreateRoom(PhotonNetwork.playerName + "'s Game", new RoomOptions { MaxPlayers = maxPlayersPerRoom }, TypedLobby.Default);
 	}
 
 	#endregion
