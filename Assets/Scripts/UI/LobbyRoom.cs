@@ -6,11 +6,15 @@ public class LobbyRoom : MonoBehaviour
 	public string RoomName;
 
 	public bool Updated;
-	
-	public void OnClicked()
-	{		
+
+	private void Awake()
+	{
 		RoomNameLabel = GetComponentInChildren<UILabel>();
-		LobbyManager.Instance.JoinRoom(RoomNameLabel.text);		
+	}
+
+	public void OnClicked()
+	{	
+		LobbyManager.Instance.JoinRoom(RoomNameLabel.text);	
 	}
 
 	public void SetRoomNameText(string text)

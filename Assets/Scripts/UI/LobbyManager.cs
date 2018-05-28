@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class LobbyManager : Photon.PunBehaviour
@@ -57,10 +58,10 @@ public class LobbyManager : Photon.PunBehaviour
 		foreach (RoomInfo rooom in rooms)
 		{
 			RoomReceived(rooom);
+			
 		}
 
-		RemoveEmptyOrFullRooms();
-
+		RemoveOldRooms();
 		RoomListGrid.GetComponent<UIGrid>().Reposition();
 	}
 
@@ -91,7 +92,7 @@ public class LobbyManager : Photon.PunBehaviour
 	public override void OnJoinedRoom()
 	{
 		Debug.Log("Room joined scuccesfully");
-		//PhotonNetwork.LoadLevel("02 Room");
+		PhotonNetwork.LoadLevel("02 Room");
 	}
 
 	public override void OnPhotonRandomJoinFailed(object[] codeAndMsg)
@@ -121,38 +122,48 @@ public class LobbyManager : Photon.PunBehaviour
 		// Check if localLobbyRoomList has matching room in Photon RoomList
 		int index = localLobbyRoomList.FindIndex(x => x.RoomName == room.Name);
 
-		// index == -1, localLobbyRoomList doesn't have same name of room existing in Photon RoomList. 
+		// index == -1, localLobbyRoomList doesn't have same name of room existing in Photon RoomList.
 		// Instantiate lobbyRoom gameobject from prefab, and add to localLobbyRommList.
 		if (index == -1)
 		{	
 			// Instantiate gameobject if room is visible and not full
 			if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
 			{
-				GameObject lobbyRoomGO = Instantiate(lobbyRoomPrefab);				
+				GameObject lobbyRoomGO = Instantiate(lobbyRoomPrefab);
 				lobbyRoomGO.transform.SetParent(RoomListGrid, false);				
 				
-				// TODO: Set room's name
+				// Add lobbyRoom to local roomlist
 				LobbyRoom lobbyRoom = lobbyRoomGO.GetComponent<LobbyRoom>();
-				lobbyRoom.RoomName = room.Name;
-
-				// Add lobbyRoom to local roomlist				
 				localLobbyRoomList.Add(lobbyRoom);
 
 				index = (localLobbyRoomList.Count - 1);
 			}
-		}		
-		else // index != -1, localLobbyRoomList has a room that matches the name of room in Photon RoomList.
+		}
+
+		// index != -1, localLobbyRoomList has a room that matches the name of room in Photon RoomList.
+		if (index != -1)		
 		{
-			// TODO: If LocalLobbyRoomList playerCount doesn't match Photon RoomList's update
+			LobbyRoom lobbyRoom = localLobbyRoomList[index];
+			lobbyRoom.SetRoomNameText(room.Name);
+			lobbyRoom.Updated = true;
 		}
 	}
 
-	private void RemoveEmptyOrFullRooms() 
+	private void RemoveOldRooms() 
 	{
-		return;
+		List<LobbyRoom> roomsToRemove = new List<LobbyRoom>();
 
-		// TODO: Check if PhotonList has room with 0 or MaxPlayer. If do, remove it from LocalRoomList and destroy GO.
-		// List contains rooms that are going to be removed.
-		List<LobbyRoom> emptyRooms = new List<LobbyRoom>();
+		foreach (LobbyRoom lobbyRoom in localLobbyRoomList)
+		{
+			if (!lobbyRoom.Updated) { roomsToRemove.Add(lobbyRoom);	}
+			else { lobbyRoom.Updated = false; }
+		}
+
+		foreach (LobbyRoom lobbyRoom in roomsToRemove)
+		{
+			GameObject lobbyRoomGO = lobbyRoom.gameObject;
+			localLobbyRoomList.Remove(lobbyRoom);
+			Destroy(lobbyRoomGO);
+		}
 	}
 }
