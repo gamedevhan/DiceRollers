@@ -91,7 +91,10 @@ public class LobbyManager : Photon.PunBehaviour
 
 	public override void OnJoinedRoom()
 	{
-		Debug.Log("Room joined scuccesfully");
+		if (!PhotonNetwork.isMasterClient)
+		{
+			Debug.Log("Trying to load a level but we are not masterclient");
+		}		
 		PhotonNetwork.LoadLevel("02 Room");
 	}
 
