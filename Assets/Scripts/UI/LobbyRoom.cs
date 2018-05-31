@@ -14,7 +14,7 @@ public class LobbyRoom : MonoBehaviour
 
 	public void OnClicked()
 	{	
-		LobbyManager.Instance.JoinRoom(RoomNameLabel.text);	
+		LobbyManager.Instance.JoinRoom(RoomNameLabel.text);
 	}
 
 	public void SetRoomNameText(string text)

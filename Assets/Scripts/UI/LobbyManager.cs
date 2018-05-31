@@ -74,6 +74,11 @@ public class LobbyManager : Photon.PunBehaviour
 	{	
 		Application.Quit();
 	}
+	
+	public void JoinRoom(string roomName)
+	{
+		PhotonNetwork.JoinRoom(roomName);
+	}
 
 	#endregion
 
@@ -114,12 +119,7 @@ public class LobbyManager : Photon.PunBehaviour
 	}
 
 	#endregion
-		
-	public void JoinRoom(string roomName)
-	{
 
-	}
-		
 	private void RoomReceived(RoomInfo room)
 	{		
 		// Check if localLobbyRoomList has matching room in Photon RoomList

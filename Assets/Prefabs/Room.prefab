@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb300c1d2f07f343a2a699d9340bc7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RoomNameLabel: {fileID: 114916264882775358}
+  RoomName: 
   Updated: 0
 --- !u!114 &114861414955527610
 MonoBehaviour:
@@ -176,7 +176,11 @@ MonoBehaviour:
   pressedSprite2D: {fileID: 0}
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
-  onClick: []
+  onClick:
+  - mTarget: {fileID: 114411087521981858}
+    mMethodName: OnClicked
+    mParameters: []
+    oneShot: 0
 --- !u!114 &114916264882775358
 MonoBehaviour:
   m_ObjectHideFlags: 1
