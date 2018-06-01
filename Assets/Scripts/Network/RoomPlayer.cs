@@ -3,6 +3,9 @@
 public class RoomPlayer : MonoBehaviour
 {	
 	public GameObject[] Characters;
+	public PhotonPlayer PhotonPlayer { get; private set; }	
+	public UILabel PlayerName;
+
 	[SerializeField] private Transform charactersParent;
 
 	private int currentCharacter = 0;
@@ -43,5 +46,10 @@ public class RoomPlayer : MonoBehaviour
 		Camera camera = Camera.main;
 		Vector3 targetPosition = new Vector3(camera.transform.position.x, transform.position.y, camera.transform.position.z);
 		charactersParent.LookAt(targetPosition);
+	}
+	
+	public void ApplyPhotonPlayer(PhotonPlayer photonPlayer)
+	{
+		PlayerName.text = photonPlayer.NickName;
 	}
 }
