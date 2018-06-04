@@ -42,4 +42,14 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - TaggedPlayer
+  - NetWorkDisplayCurrnetCharacter
+  - DisplayCurrnetCharacter
+  - RPCDisplayCurrnetCharacter
+  - RPCSetParent
+  - InstantiateRoomPlayer
+  - RPCSetParentSpawnPoint
+  - PositionOccupied
+  - DisplayCurrentCharacter
+  - DisplayNextCharacter
+  - DisplayPreviousCharacter
   DisableAutoOpenWizard: 1
