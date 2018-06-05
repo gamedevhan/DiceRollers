@@ -98,7 +98,7 @@ public class CharacterMovement : MonoBehaviour
 		else
 			Debug.LogError("There is a logic error with updating NextTile");
 		
-		Debug.Log("<color=yellow> Current tile Index is: </color>" + "<b>" + CurrentTile.GetComponent<Tile>().index + "</b>" + "<color=yellow>, Next tile Index is: </color>" + "<b>" + NextTile.GetComponent<Tile>().index + "</b>");
+		Debug.Log("<b><color=green> Current tile Index is: </color>" + CurrentTile.GetComponent<Tile>().index + "<color=green>, Next tile Index is: </color>" + NextTile.GetComponent<Tile>().index + "</b>");
 
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}

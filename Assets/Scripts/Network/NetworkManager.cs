@@ -63,7 +63,6 @@ public class NetworkManager : Photon.PunBehaviour
 	{		
 		Debug.Log("Joined Lobby, Loading 01 Lobby Scene");
 		SceneManager.LoadScene("01 Lobby");
-		// TODO: Refresh Room List. Maybe do this on lobby scene loaded?
 	}
 
 	#endregion
