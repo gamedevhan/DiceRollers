@@ -10,25 +10,26 @@ public class RoomPlayerUI : MonoBehaviour
 	private GameObject uiButtons;
 
 	private PhotonView photonView;
-		
+
+	#region Unity CallBacks
+
 	private void Awake()
 	{	
-		photonView = PhotonView.Get(this);
-		
-		HideNotMine();
+		photonView = PhotonView.Get(this);		
 	}
 
-	private void HideNotMine()
+	#endregion
+
+	#region Photon CallBacks
+
+	public void OnOwnershipTransfered(object[] viewAndPlayers)
 	{
-		if (!photonView.isMine || photonView.isSceneView)
-		{ uiButtons.SetActive(false); }
-
-		if (photonView.isSceneView)
-		{
-			PlayerName.alpha = 0;
-		}
+		DisplayButtons();
 	}
 
+	#endregion
+
+	#region UIButtons
 	public void OnPreviousPressed()
 	{
 		photonView.RPC("DisplayPreviousCharacter", PhotonTargets.All);
@@ -37,5 +38,12 @@ public class RoomPlayerUI : MonoBehaviour
 	public void OnNextPressed()
 	{
 		photonView.RPC("DisplayNextCharacter", PhotonTargets.All);
+	}
+
+	#endregion
+	
+	public void DisplayButtons()
+	{
+		if (photonView.isMine) { uiButtons.SetActive(true); }
 	}
 }

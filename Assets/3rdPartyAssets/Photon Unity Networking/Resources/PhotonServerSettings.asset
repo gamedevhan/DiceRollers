@@ -52,4 +52,11 @@ MonoBehaviour:
   - DisplayCurrentCharacter
   - DisplayNextCharacter
   - DisplayPreviousCharacter
+  - RequestEmptyPosition
+  - ReturnEmptyPosition
+  - RequestIsEmptySeats
+  - SyncIsEmptySeats
+  - RequestIsEmptySpawnPoints
+  - SyncIsEmptySpawnPoints
+  - SetSpawnPointToFalse
   DisableAutoOpenWizard: 1
