@@ -30,6 +30,8 @@ MonoBehaviour:
   - Chat
   - ColorRpc
   - DestroyRpc
+  - DisplayNextCharacter
+  - DisplayPreviousCharacter
   - DoJump
   - Flash
   - InstantiateRpc
@@ -39,24 +41,9 @@ MonoBehaviour:
   - PunPickup
   - PunPickupSimple
   - PunRespawn
+  - RequestEmptySpawnPointsInfo
   - RequestForPickupItems
   - RequestForPickupTimes
+  - SendEmptySpawnPointsInfo
   - TaggedPlayer
-  - NetWorkDisplayCurrnetCharacter
-  - DisplayCurrnetCharacter
-  - RPCDisplayCurrnetCharacter
-  - RPCSetParent
-  - InstantiateRoomPlayer
-  - RPCSetParentSpawnPoint
-  - PositionOccupied
-  - DisplayCurrentCharacter
-  - DisplayNextCharacter
-  - DisplayPreviousCharacter
-  - RequestEmptyPosition
-  - ReturnEmptyPosition
-  - RequestIsEmptySeats
-  - SyncIsEmptySeats
-  - RequestIsEmptySpawnPoints
-  - SyncIsEmptySpawnPoints
-  - SetSpawnPointToFalse
   DisableAutoOpenWizard: 1
