@@ -8,7 +8,7 @@ public class LobbyManager : Photon.PunBehaviour
 		
 	public GameObject lobbyRoomPrefab;
 
-	private List<LobbyRoom> localLobbyRoomList = new List<LobbyRoom>();
+	private List<RoomListing> localLobbyRoomList = new List<RoomListing>();
 	
 	public static LobbyManager Instance;
 
@@ -136,7 +136,7 @@ public class LobbyManager : Photon.PunBehaviour
 				lobbyRoomGO.transform.SetParent(RoomListGrid, false);				
 				
 				// Add lobbyRoom to local roomlist
-				LobbyRoom lobbyRoom = lobbyRoomGO.GetComponent<LobbyRoom>();
+				RoomListing lobbyRoom = lobbyRoomGO.GetComponent<RoomListing>();
 				localLobbyRoomList.Add(lobbyRoom);
 
 				index = (localLobbyRoomList.Count - 1);
@@ -146,7 +146,7 @@ public class LobbyManager : Photon.PunBehaviour
 		// index != -1, localLobbyRoomList has a room that matches the name of room in Photon RoomList.
 		if (index != -1)		
 		{
-			LobbyRoom lobbyRoom = localLobbyRoomList[index];
+			RoomListing lobbyRoom = localLobbyRoomList[index];
 			lobbyRoom.SetRoomNameText(room.Name);
 			lobbyRoom.Updated = true;
 		}
@@ -154,15 +154,15 @@ public class LobbyManager : Photon.PunBehaviour
 
 	private void RemoveOldRooms() 
 	{
-		List<LobbyRoom> roomsToRemove = new List<LobbyRoom>();
+		List<RoomListing> roomsToRemove = new List<RoomListing>();
 
-		foreach (LobbyRoom lobbyRoom in localLobbyRoomList)
+		foreach (RoomListing lobbyRoom in localLobbyRoomList)
 		{
 			if (!lobbyRoom.Updated) { roomsToRemove.Add(lobbyRoom);	}
 			else { lobbyRoom.Updated = false; }
 		}
 
-		foreach (LobbyRoom lobbyRoom in roomsToRemove)
+		foreach (RoomListing lobbyRoom in roomsToRemove)
 		{
 			GameObject lobbyRoomGO = lobbyRoom.gameObject;
 			localLobbyRoomList.Remove(lobbyRoom);

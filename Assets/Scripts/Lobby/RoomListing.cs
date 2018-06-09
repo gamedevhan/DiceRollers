@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 
-public class LobbyRoom : MonoBehaviour
+public class RoomListing : MonoBehaviour
 {	
 	private UILabel RoomNameLabel;
+
+	[HideInInspector]
 	public string RoomName;
 
 	public bool Updated;
