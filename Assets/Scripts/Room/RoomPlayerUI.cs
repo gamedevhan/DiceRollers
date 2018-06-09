@@ -3,8 +3,7 @@
 public class RoomPlayerUI : MonoBehaviour
 {		
 	public UILabel PlayerName;
-	public UISprite ReadySprite;
-	public bool IsReady = false;
+	public UISprite ReadyIcon;
 	
 	[SerializeField]
 	private GameObject uiButtons;

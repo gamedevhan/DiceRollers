@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RoomPlayerSpawnManager : Photon.PunBehaviour
+public class RoomManager : Photon.PunBehaviour
 {	
 	[SerializeField]
 	private GameObject roomPlayerPrefab;
@@ -11,6 +11,11 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	
 	[SerializeField]
 	private bool[] IsEmptySpawnPoints = { true, true, true, true };
+
+	private bool isReady;
+	private int mySpawnPointIndex = 0;
+	private GameObject myGameObject;
+	
 
 	#region Unity CallBacks
 
@@ -27,26 +32,31 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	#endregion
 	
 	#region Photon CallBacks
-
-	// On newPlayer Joined, masterClient instantiate prefab on emptySpawnPoint and transfer ownership
-	public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
-	{
-		
-	}
-
+	
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
-
+		if (PhotonNetwork.player != otherPlayer)
+		{
+			// TODO: Set leaver's isEmptySpawnPosition = true
+			
+		}
 	}
 
 	#endregion
 	
-	public void LeaveRoom()
+	public void Ready()
 	{
+		RoomPlayerUI roomPlayerUI = myGameObject.GetComponent<RoomPlayerUI>();
+		isReady = !isReady;
+		roomPlayerUI.ReadyIcon.alpha = isReady ? 255 : 0;
+	}
+
+	public void LeaveRoom()
+	{		
+		IsEmptySpawnPoints[mySpawnPointIndex] = true;
 		PhotonNetwork.LeaveRoom(false);
 		PhotonNetwork.JoinLobby();
 		SceneManager.LoadScene("01 Lobby");
-		// TODO: set isempty true
 	}
 	
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -55,7 +65,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		if (PhotonNetwork.isMasterClient)
 		{
 			IsEmptySpawnPoints[0] = false;
-			PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0], Quaternion.identity, 0);		
+			myGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0], Quaternion.identity, 0);		
 		}
 		else // If not masterclient, send RPC to MasterClient to receive index to spawn and sync isEmptySpawnPoints
 		{
@@ -69,14 +79,13 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	{
 		int SpawnPointsCount = IsEmptySpawnPoints.Length;
 
-		// Find first isEmptyPoints = true and set it false
-		int indexToSpawn = new int();
+		// Find first isEmptyPoints = true and set it false		
 		for (int i = 0; i < SpawnPointsCount; i++)
 		{
 			if (IsEmptySpawnPoints[i])
 			{
 				IsEmptySpawnPoints[i] = false;
-				indexToSpawn = i;
+				mySpawnPointIndex = i;
 				break;
 			}
 		}
@@ -87,7 +96,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 			syncedEmptySpawnPoints[i] = IsEmptySpawnPoints[i];
 		}
 
-		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), indexToSpawn, syncedEmptySpawnPoints);
+		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), mySpawnPointIndex, syncedEmptySpawnPoints);
 	}
 
 	[PunRPC]
@@ -100,6 +109,6 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		}
 		
 		// Instantiate gameobject
-		PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn], Quaternion.identity, 0);
+		myGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn], Quaternion.identity, 0);
 	}
 }
