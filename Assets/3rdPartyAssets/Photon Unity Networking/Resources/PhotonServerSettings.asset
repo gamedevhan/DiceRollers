@@ -36,6 +36,7 @@ MonoBehaviour:
   - Flash
   - InstantiateRpc
   - Marco
+  - OnEmptySpawnPointsInfoReceived
   - PickupItemInit
   - Polo
   - PunPickup
@@ -44,6 +45,5 @@ MonoBehaviour:
   - RequestEmptySpawnPointsInfo
   - RequestForPickupItems
   - RequestForPickupTimes
-  - SendEmptySpawnPointsInfo
   - TaggedPlayer
   DisableAutoOpenWizard: 1

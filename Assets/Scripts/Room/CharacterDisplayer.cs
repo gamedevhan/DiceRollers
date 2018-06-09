@@ -21,7 +21,6 @@ public class CharacterDisplayer : MonoBehaviour
 	private void Start()
 	{
 		FaceCamera();
-		HideSceneOwned();
 	}
 	
 	[PunRPC]
@@ -40,16 +39,6 @@ public class CharacterDisplayer : MonoBehaviour
 		currentCharacterIndex = currentCharacterIndex != characters.Count - 1 ? currentCharacterIndex + 1 : 0;
 
 		DisplayCurrentCharacter();
-	}
-
-	private void HideSceneOwned()
-	{		
-		PhotonView photonView = PhotonView.Get(this);
-
-		if (photonView.isSceneView)
-		{
-			charactersParent.gameObject.SetActive(false);
-		}
 	}
 		
 	private void DisplayCurrentCharacter()

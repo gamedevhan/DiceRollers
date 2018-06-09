@@ -15,16 +15,8 @@ public class RoomPlayerUI : MonoBehaviour
 
 	private void Awake()
 	{	
-		photonView = PhotonView.Get(this);		
-	}
-
-	#endregion
-
-	#region Photon CallBacks
-
-	public void OnOwnershipTransfered(object[] viewAndPlayers)
-	{
-		DisplayButtons();
+		photonView = PhotonView.Get(this);
+		if (photonView.isMine) { uiButtons.SetActive(true); }
 	}
 
 	#endregion
@@ -41,9 +33,4 @@ public class RoomPlayerUI : MonoBehaviour
 	}
 
 	#endregion
-	
-	public void DisplayButtons()
-	{
-		if (photonView.isMine) { uiButtons.SetActive(true); }
-	}
 }

@@ -14,15 +14,6 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 
 	#region Unity CallBacks
 
-	private void Awake()
-	{
-		if (PhotonNetwork.isMasterClient)
-		{
-			GameObject MasterClientGO = InstantiateRoomPlayer(0);			
-			MasterClientGO.GetComponent<RoomPlayerUI>().DisplayButtons();
-		}
-	}
-
 	private void OnEnable()
 	{
 		SceneManager.sceneLoaded += OnSceneLoaded;
@@ -40,19 +31,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	// On newPlayer Joined, masterClient instantiate prefab on emptySpawnPoint and transfer ownership
 	public override void OnPhotonPlayerConnected(PhotonPlayer newPlayer)
 	{
-		if (!PhotonNetwork.isMasterClient) { return; }
-
-		// Find emptySpawnPoint
-		int i;
-		for (i = 0; i < IsEmptySpawnPoints.Length; i++)
-		{
-			if (IsEmptySpawnPoints[i]) { break; }			
-		}
 		
-		// Instantiate and transfer ownership
-		GameObject newRoomPlayerGO = InstantiateRoomPlayer(i);
-		PhotonView newPlayerView = PhotonView.Get(newRoomPlayerGO);
-		newPlayerView.TransferOwnership(newPlayer);
 	}
 
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
@@ -70,38 +49,57 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		// TODO: set isempty true
 	}
 	
-	private GameObject InstantiateRoomPlayer(int spawnPointIndex)
-	{
-		IsEmptySpawnPoints[spawnPointIndex] = false;
-		return PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[spawnPointIndex], Quaternion.identity, 0);		
-	}
-
 	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
 	{
-		if (!PhotonNetwork.isMasterClient)
-		{			
-			PhotonView clientView = PhotonView.Get(this);
-			clientView.RPC("RequestEmptySpawnPointsInfo", PhotonTargets.MasterClient);
-		}
-	}
-
-	[PunRPC]
-	private void RequestEmptySpawnPointsInfo()
-	{
+		// If masterClient, instantiate on spawnPoints[0], set IsEmptySpawnPoints[0] false
 		if (PhotonNetwork.isMasterClient)
-		{			
-			bool[] tmp = IsEmptySpawnPoints;
-			PhotonView masterClientView = PhotonView.Get(this);
-			masterClientView.RPC("SendEmptySpawnPointsInfo", PhotonTargets.All, tmp);
+		{
+			IsEmptySpawnPoints[0] = false;
+			PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0], Quaternion.identity, 0);		
 		}
+		else // If not masterclient, send RPC to MasterClient to receive index to spawn and sync isEmptySpawnPoints
+		{
+			photonView.RPC("RequestEmptySpawnPointsInfo", PhotonTargets.MasterClient, photonView.ownerId);
+		}
+		
 	}
 
 	[PunRPC]
-	private void SendEmptySpawnPointsInfo(bool[] tmp)
+	private void RequestEmptySpawnPointsInfo(int id)
 	{
-		for (int i = 0; i < tmp.Length; i++)
+		int SpawnPointsCount = IsEmptySpawnPoints.Length;
+
+		// Find first isEmptyPoints = true and set it false
+		int indexToSpawn = new int();
+		for (int i = 0; i < SpawnPointsCount; i++)
 		{
-			IsEmptySpawnPoints[i] = tmp[i];
+			if (IsEmptySpawnPoints[i])
+			{
+				IsEmptySpawnPoints[i] = false;
+				indexToSpawn = i;
+				break;
+			}
 		}
+
+		bool[] syncedEmptySpawnPoints = new bool[SpawnPointsCount];
+		for (int i = 0; i < SpawnPointsCount; i++)
+		{			
+			syncedEmptySpawnPoints[i] = IsEmptySpawnPoints[i];
+		}
+
+		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), indexToSpawn, syncedEmptySpawnPoints);
+	}
+
+	[PunRPC]
+	private void OnEmptySpawnPointsInfoReceived(int indexToSpawn, bool[] syncedEmptySpawnPointsInfo)
+	{
+		// Sync emptySpawnpoints
+		for (int i = 0; i < IsEmptySpawnPoints.Length; i++)
+		{
+			IsEmptySpawnPoints[i] = syncedEmptySpawnPointsInfo[i];
+		}
+		
+		// Instantiate gameobject
+		PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn], Quaternion.identity, 0);
 	}
 }
