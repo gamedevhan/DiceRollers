@@ -95,3 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ccc045951a143a45a346d808403904b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  forceMin: {x: 0, y: 0, z: 0}
+  forceMax: {x: 0, y: 0, z: 0}
+  offsetFromCamera: {x: 0, y: 0, z: 0}
