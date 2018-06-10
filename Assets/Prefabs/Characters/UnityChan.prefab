@@ -3284,7 +3284,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1284280201551466}
-  m_LocalRotation: {x: 0.95549077, y: 0.1616498, z: 0.04944903, w: -0.24178815}
+  m_LocalRotation: {x: 0.95549077, y: 0.16164981, z: 0.04944903, w: -0.24178816}
   m_LocalPosition: {x: -0.065019004, y: -0.027721604, z: 0.010366318}
   m_LocalScale: {x: 1.0000012, y: 1.0000013, z: 1.000001}
   m_Children:
@@ -4559,7 +4559,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1489153044299782}
-  m_LocalRotation: {x: 0.002749186, y: -0.061828945, z: 0.0046093785, w: 0.9980723}
+  m_LocalRotation: {x: 0.0027491862, y: -0.061828945, z: 0.004609379, w: 0.9980723}
   m_LocalPosition: {x: -0.016096681, y: 0.000118210985, z: -0.00045832127}
   m_LocalScale: {x: 1.0000032, y: 1.0000025, z: 1.000002}
   m_Children:
@@ -4641,7 +4641,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1239997275375024}
-  m_LocalRotation: {x: -0.000123844, y: 0.00104117, z: -0.00042751798, w: 0.99999934}
+  m_LocalRotation: {x: -0.00012384402, y: 0.0010411701, z: -0.000427518, w: 0.9999994}
   m_LocalPosition: {x: -0.23377718, y: 0.000017186263, z: 0.0000117539585}
   m_LocalScale: {x: 0.99999994, y: 0.9999998, z: 0.9999999}
   m_Children:
@@ -4801,7 +4801,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1440196107113044}
-  m_LocalRotation: {x: 0.004569878, y: 0.041777767, z: 0.001183233, w: 0.99911577}
+  m_LocalRotation: {x: 0.0045698783, y: 0.04177777, z: 0.0011832331, w: 0.9991158}
   m_LocalPosition: {x: -0.019415826, y: -0.00041664625, z: -0.0007046589}
   m_LocalScale: {x: 1.0000017, y: 1.0000015, z: 1.0000013}
   m_Children:
@@ -5058,10 +5058,10 @@ Animator:
   m_GameObject: {fileID: 1954723028436904}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 8f0565f23a2b58541a475bd3c1393052, type: 3}
-  m_Controller: {fileID: 9100000, guid: 3173dc991e314594abd6180b45c49c92, type: 2}
+  m_Controller: {fileID: 9100000, guid: 5b120a404cc5be94c8534c3330b03503, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
