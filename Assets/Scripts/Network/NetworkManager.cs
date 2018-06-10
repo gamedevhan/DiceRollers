@@ -43,7 +43,7 @@ public class NetworkManager : Photon.PunBehaviour
 	{
 		Debug.Log("Region: " + PhotonNetwork.networkingPeer.CloudRegion);
 
-		PhotonNetwork.playerName = PlayerPrefs.GetString(LaunchUI.playerNamePrefKey);
+		PhotonNetwork.playerName = PlayerPrefs.GetString(Launcher.playerNamePrefKey);
 
 		if (isConnecting)
 		{

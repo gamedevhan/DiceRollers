@@ -35,13 +35,13 @@ public class LobbyManager : Photon.PunBehaviour
 
 	#region UI Buttons
 
-	public void QuickGameButton()
+	public void OnQuickGamePressed()
 	{
 		// Join random room. If fails, NetworkManager will create room. OnPhotonRandomJoinFailed()
 		PhotonNetwork.JoinRandomRoom();
 	}
 
-	public void CreateButton()
+	public void OnCreatePressed()
 	{	
 		// TODO: Open a Panel that lets users to type room name
 		// Create a room.
@@ -50,27 +50,17 @@ public class LobbyManager : Photon.PunBehaviour
 		PhotonNetwork.CreateRoom(PhotonNetwork.playerName + "'s Game", roomOptions, TypedLobby.Default);
 	}
 	
-	public void Refresh()
+	public void OnRefreshPressed()
 	{	
-		// Get Photon Room List and check if room locally exist, if not create new one		
-		RoomInfo[] rooms = PhotonNetwork.GetRoomList();
-	
-		foreach (RoomInfo rooom in rooms)
-		{
-			RoomReceived(rooom);
-			
-		}
-
-		RemoveOldRooms();
-		RoomListGrid.GetComponent<UIGrid>().Reposition();
+		Refresh();
 	}
 
-	public void SettingsButton()
+	public void OnSettingsPressed()
 	{
 		// TODO: Open Settings Panel
 	}
 
-	public void QuitButton()
+	public void OnQuitPressed()
 	{	
 		Application.Quit();
 	}
@@ -99,7 +89,7 @@ public class LobbyManager : Photon.PunBehaviour
 		if (!PhotonNetwork.isMasterClient)
 		{
 			Debug.Log("Trying to load a level but we are not masterclient");
-		}		
+		}
 		PhotonNetwork.LoadLevel("02 Room");
 	}
 
@@ -119,6 +109,21 @@ public class LobbyManager : Photon.PunBehaviour
 	}
 
 	#endregion
+
+	private void Refresh()
+	{
+		// Get Photon Room List and check if room locally exist, if not create new one		
+		RoomInfo[] rooms = PhotonNetwork.GetRoomList();
+	
+		foreach (RoomInfo rooom in rooms)
+		{
+			RoomReceived(rooom);
+			
+		}
+
+		RemoveOldRooms();
+		RoomListGrid.GetComponent<UIGrid>().Reposition();
+	}
 
 	private void RoomReceived(RoomInfo room)
 	{		

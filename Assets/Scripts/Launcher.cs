@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LaunchUI : MonoBehaviour
+public class Launcher : MonoBehaviour
 {	
 	public UILabel NameInputField;
 	
@@ -25,14 +25,15 @@ public class LaunchUI : MonoBehaviour
 		}
 	}
 		
-	public void ConnectButton()
+	public void OnConnectPressed()
 	{
+		SetPlayerName();
 		ConnectPanel.SetActive(false);
 		ConnectingPanel.SetActive(true);
 		NetworkManager.Instance.ConnectToMaster();
 	}
 
-	public void ReConnectButton()
+	public void OnReconnectPressed()
 	{
 		ConnectingPanel.SetActive(true);
 		DisconnectPanel.SetActive(false);		
@@ -45,7 +46,7 @@ public class LaunchUI : MonoBehaviour
 		DisconnectPanel.SetActive(true);
 	}
 
-	public void SetPlayerName()
+	private void SetPlayerName()
 	{			
 		PlayerPrefs.SetString(playerNamePrefKey, NameInputField.text);
 	}

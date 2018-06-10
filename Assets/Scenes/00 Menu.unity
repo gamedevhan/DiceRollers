@@ -211,6 +211,50 @@ MonoBehaviour:
   mMaxLineHeight: 0
   mLineWidth: 0
   mMultiline: 1
+--- !u!1 &146550311
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 146550313}
+  - component: {fileID: 146550312}
+  m_Layer: 0
+  m_Name: Launcher
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &146550312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 146550311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b039efd9ac1e9d4681c0859dcf51022, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NameInputField: {fileID: 1904614738}
+  ConnectPanel: {fileID: 1973169321}
+  ConnectingPanel: {fileID: 1954310487}
+  DisconnectPanel: {fileID: 1027341838}
+--- !u!4 &146550313
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 146550311}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &197066900
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,12 +326,8 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 1933014169}
-    mMethodName: ReConnectButton
-    mParameters: []
-    oneShot: 0
-  - mTarget: {fileID: 398425554}
-    mMethodName: OnConnectButtonPressed
+  - mTarget: {fileID: 146550312}
+    mMethodName: OnReconnectPressed
     mParameters: []
     oneShot: 0
 --- !u!114 &197066904
@@ -718,16 +758,10 @@ Prefab:
         type: 2}
       propertyPath: launchUI
       value: 
-      objectReference: {fileID: 1933014169}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f1a361f7e913e3942a05f7a45849d908, type: 2}
   m_IsPrefabParent: 0
---- !u!114 &398425554 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114359645555672554, guid: f1a361f7e913e3942a05f7a45849d908,
-    type: 2}
-  m_PrefabInternal: {fileID: 398425553}
-  m_Script: {fileID: 11500000, guid: 720fa53d61d9e8442a4c66eea7c1fc1d, type: 3}
 --- !u!1 &576951942
 GameObject:
   m_ObjectHideFlags: 0
@@ -799,12 +833,8 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 1933014169}
-    mMethodName: ConnectButton
-    mParameters: []
-    oneShot: 0
-  - mTarget: {fileID: 1933014169}
-    mMethodName: SetPlayerName
+  - mTarget: {fileID: 146550312}
+    mMethodName: OnConnectPressed
     mParameters: []
     oneShot: 0
 --- !u!114 &576951946
@@ -1349,7 +1379,6 @@ GameObject:
   - component: {fileID: 1933014166}
   - component: {fileID: 1933014165}
   - component: {fileID: 1933014164}
-  - component: {fileID: 1933014169}
   m_Layer: 8
   m_Name: UI Root
   m_TagString: Untagged
@@ -1449,7 +1478,7 @@ Transform:
   m_GameObject: {fileID: 1933014163}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0024600246, y: 0.0024600246, z: 0.0024600246}
+  m_LocalScale: {x: 0.0024783148, y: 0.0024783148, z: 0.0024783148}
   m_Children:
   - {fileID: 1640734103}
   - {fileID: 645642728}
@@ -1459,21 +1488,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1933014169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1933014163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b039efd9ac1e9d4681c0859dcf51022, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NameInputField: {fileID: 1904614738}
-  ConnectPanel: {fileID: 1973169321}
-  ConnectingPanel: {fileID: 1954310487}
-  DisconnectPanel: {fileID: 1027341838}
 --- !u!1 &1954310487
 GameObject:
   m_ObjectHideFlags: 0

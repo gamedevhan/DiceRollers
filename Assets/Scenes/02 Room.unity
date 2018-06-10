@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 22110691}
   - component: {fileID: 22110693}
   m_Layer: 8
-  m_Name: ReadyButton
+  m_Name: Ready
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -138,7 +138,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 22110689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -204, y: -283, z: 0}
+  m_LocalPosition: {x: -204, y: -277, z: 0}
   m_LocalScale: {x: 0.99917996, y: 0.99917996, z: 0.99917996}
   m_Children:
   - {fileID: 130625111}
@@ -171,7 +171,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 589314671}
-    mMethodName: Ready
+    mMethodName: OnReadyPressed
     mParameters: []
     oneShot: 0
 --- !u!114 &22110692
@@ -677,7 +677,7 @@ Transform:
   m_GameObject: {fileID: 1003000930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0024420025, y: 0.0024420025, z: 0.0024420025}
+  m_LocalScale: {x: 0.0024783148, y: 0.0024783148, z: 0.0024783148}
   m_Children:
   - {fileID: 1475099855}
   - {fileID: 687396408}
@@ -804,7 +804,7 @@ GameObject:
   - component: {fileID: 1705435391}
   - component: {fileID: 1705435393}
   m_Layer: 8
-  m_Name: LeaveButton
+  m_Name: Leave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -817,7 +817,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1705435389}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 204, y: -283, z: 0}
+  m_LocalPosition: {x: 204, y: -277, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1814628645}
@@ -850,7 +850,7 @@ MonoBehaviour:
   pixelSnap: 0
   onClick:
   - mTarget: {fileID: 589314671}
-    mMethodName: LeaveRoom
+    mMethodName: OnLeavePressed
     mParameters: []
     oneShot: 0
 --- !u!114 &1705435392
