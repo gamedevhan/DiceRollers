@@ -8,27 +8,28 @@ public class RoomPlayerUI : MonoBehaviour
 	[SerializeField]
 	private GameObject uiButtons;
 
-	private PhotonView photonView;
-
+	public PhotonView RoomPlayerView { get; private set; }
+	
 	#region Unity CallBacks
 
 	private void Awake()
-	{	
-		photonView = PhotonView.Get(this);
-		if (photonView.isMine) { uiButtons.SetActive(true); }
+	{			
+		RoomPlayerView = PhotonView.Get(this);
+		if (RoomPlayerView.isMine) { uiButtons.SetActive(true); }
 	}
 
 	#endregion
 
 	#region UIButtons
+
 	public void OnPreviousPressed()
 	{
-		photonView.RPC("DisplayPreviousCharacter", PhotonTargets.All);
+		RoomPlayerView.RPC("DisplayPreviousCharacter", PhotonTargets.All);
 	}
 
 	public void OnNextPressed()
 	{
-		photonView.RPC("DisplayNextCharacter", PhotonTargets.All);
+		RoomPlayerView.RPC("DisplayNextCharacter", PhotonTargets.All);
 	}
 
 	#endregion

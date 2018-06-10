@@ -170,7 +170,7 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 589314671}
+  - mTarget: {fileID: 589314673}
     mMethodName: OnReadyPressed
     mParameters: []
     oneShot: 0
@@ -347,6 +347,7 @@ GameObject:
   m_Component:
   - component: {fileID: 589314670}
   - component: {fileID: 589314671}
+  - component: {fileID: 589314673}
   - component: {fileID: 589314672}
   m_Layer: 0
   m_Name: Room Manager
@@ -379,6 +380,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e007c68f2f6d48469abd3e48c4b624a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsEmptySpawnPoints: d1d1
   roomPlayerPrefab: {fileID: 1319104366758984, guid: 26d19cb7e6eeeea49a7357f4acb975f3,
     type: 2}
   spawnPoints:
@@ -386,7 +388,6 @@ MonoBehaviour:
   - {x: -0.4, y: 0, z: 0}
   - {x: 0.4, y: 0, z: 0}
   - {x: 1.2, y: 0, z: 0}
-  IsEmptySpawnPoints: d1d1
 --- !u!114 &589314672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +414,17 @@ MonoBehaviour:
   instantiationId: 5
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &589314673
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 589314669}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5383783e5f9e1a344bcd919c14eba065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &687396407
 GameObject:
   m_ObjectHideFlags: 0
@@ -849,7 +861,7 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 589314671}
+  - mTarget: {fileID: 589314673}
     mMethodName: OnLeavePressed
     mParameters: []
     oneShot: 0

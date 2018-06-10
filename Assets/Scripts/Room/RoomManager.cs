@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RoomManager : Photon.PunBehaviour
 {	
-	public static RoomManager Instance { get; private set; }
+	public bool[] IsEmptySpawnPoints = { true, true, true, true };
 
 	[SerializeField]
 	private GameObject roomPlayerPrefab;
@@ -11,12 +10,9 @@ public class RoomManager : Photon.PunBehaviour
 	[SerializeField]
 	private Vector3[] spawnPoints;
 	
-	[SerializeField]
-	private bool[] IsEmptySpawnPoints = { true, true, true, true };
-
-	private bool isReady;
-	private int mySpawnPointIndex = 0;
+	public int MySpawnPointIndex { get; private set; }	
 	public GameObject MyGameObject { get; private set; }
+	public static RoomManager Instance { get; private set; }	
 	
 	#region Unity CallBacks
 
@@ -25,20 +21,15 @@ public class RoomManager : Photon.PunBehaviour
 		Instance = this;
 	}
 
-	private void OnEnable()
+	private void Start()
 	{
-		SceneManager.sceneLoaded += OnSceneLoaded;
+		SpawnRoomPlayer();
 	}
-
-	private void OnDisable()
-	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-	}
-
+	
 	#endregion
-	
+
 	#region Photon CallBacks
-	
+
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
 		if (PhotonNetwork.player != otherPlayer)
@@ -49,23 +40,8 @@ public class RoomManager : Photon.PunBehaviour
 	}
 
 	#endregion
-		
-	public void OnReadyPressed()
-	{
-		RoomPlayerUI roomPlayerUI = MyGameObject.GetComponent<RoomPlayerUI>();
-		isReady = !isReady;
-		roomPlayerUI.ReadyIcon.alpha = isReady ? 255 : 0;
-	}
-		
-	public void OnLeavePressed()
-	{		
-		IsEmptySpawnPoints[mySpawnPointIndex] = true;
-		PhotonNetwork.LeaveRoom(false);
-		PhotonNetwork.JoinLobby();
-		SceneManager.LoadScene("01 Lobby");
-	}
 	
-	private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	private void SpawnRoomPlayer()
 	{
 		// If masterClient, instantiate on spawnPoints[0], set IsEmptySpawnPoints[0] false
 		if (PhotonNetwork.isMasterClient)
@@ -77,7 +53,6 @@ public class RoomManager : Photon.PunBehaviour
 		{
 			photonView.RPC("RequestEmptySpawnPointsInfo", PhotonTargets.MasterClient, photonView.ownerId);
 		}
-		
 	}
 
 	[PunRPC]
@@ -91,7 +66,7 @@ public class RoomManager : Photon.PunBehaviour
 			if (IsEmptySpawnPoints[i])
 			{
 				IsEmptySpawnPoints[i] = false;
-				mySpawnPointIndex = i;
+				MySpawnPointIndex = i;
 				break;
 			}
 		}
@@ -102,7 +77,7 @@ public class RoomManager : Photon.PunBehaviour
 			syncedEmptySpawnPoints[i] = IsEmptySpawnPoints[i];
 		}
 
-		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), mySpawnPointIndex, syncedEmptySpawnPoints);
+		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), MySpawnPointIndex, syncedEmptySpawnPoints);
 	}
 
 	[PunRPC]
