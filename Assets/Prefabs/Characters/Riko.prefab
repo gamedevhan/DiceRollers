@@ -5798,10 +5798,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4d92532c7a7d745bfe34232dd5e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMoving: 0
-  speed: 0.5
-  currentTile: {fileID: 0}
-  nextTile: {fileID: 0}
+  tilesToMove: 0
+  IsMoving: 0
+  IsMovingForward: 1
+  Speed: 1
+  CurrentTile: {fileID: 0}
+  NextTile: {fileID: 0}
 --- !u!137 &137035743418079178
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
