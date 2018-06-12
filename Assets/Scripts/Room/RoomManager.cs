@@ -2,16 +2,18 @@
 
 public class RoomManager : Photon.PunBehaviour
 {	
-	public bool[] IsEmptySpawnPoints = { true, true, true, true };
-
-	[SerializeField]
-	private GameObject roomPlayerPrefab;
-
-	[SerializeField]
-	private Vector3[] spawnPoints;
+	[System.Serializable]
+	public class SpawnPoint
+	{		
+		public bool IsOccupied;
+		public Vector3 Position;
+	}
 	
-	public int MySpawnPointIndex { get; private set; }	
-	public GameObject MyGameObject { get; private set; }
+	public SpawnPoint[] spawnPoints;
+
+	[SerializeField]
+	private GameObject roomPlayerPrefab;	
+	
 	public static RoomManager Instance { get; private set; }	
 	
 	#region Unity CallBacks
@@ -24,8 +26,11 @@ public class RoomManager : Photon.PunBehaviour
 	private void Start()
 	{
 		SpawnRoomPlayer();
+		// SyncCurrentCharacter - what are other players' current character?
+		// SyncReadyStatus - what are other players' ready status?
+		// SyncName - what are other players' name?		
 	}
-	
+
 	#endregion
 
 	#region Photon CallBacks
@@ -35,61 +40,71 @@ public class RoomManager : Photon.PunBehaviour
 		if (PhotonNetwork.player != otherPlayer)
 		{
 			// TODO: Set leaver's isEmptySpawnPosition = true
-			
 		}
 	}
 
 	#endregion
-	
+
 	private void SpawnRoomPlayer()
 	{
-		// If masterClient, instantiate on spawnPoints[0], set IsEmptySpawnPoints[0] false
+		// If masterClient, Spawn on spawnPoints[0]
 		if (PhotonNetwork.isMasterClient)
-		{
-			IsEmptySpawnPoints[0] = false;
-			MyGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0], Quaternion.identity, 0);		
+		{			
+			// Instantiate on first spawn point
+			GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0].Position, Quaternion.identity, 0);
+			spawnPoints[0].IsOccupied = true;
 		}
-		else // If not masterclient, send RPC to MasterClient to receive index to spawn and sync isEmptySpawnPoints
+		else // If not masterclient, send RPC to MasterClient to sync spawnPoints then Instantiate
 		{
-			photonView.RPC("RequestEmptySpawnPointsInfo", PhotonTargets.MasterClient, photonView.ownerId);
+			photonView.RPC("SyncSpawnPointsThenSpawn", PhotonTargets.MasterClient, photonView.ownerId);
 		}
 	}
 
 	[PunRPC]
-	private void RequestEmptySpawnPointsInfo(int id)
+	private void SyncSpawnPointsThenSpawn(int id)
 	{
-		int SpawnPointsCount = IsEmptySpawnPoints.Length;
+		int spawnPointsCount = spawnPoints.Length;
 
-		// Find first isEmptyPoints = true and set it false		
-		for (int i = 0; i < SpawnPointsCount; i++)
+		// Find first empty spawnPoint, this will be where the client spawn
+		int indexToSpawn = new int();
+		
+		for (int i = 0; i < spawnPointsCount; i++)
 		{
-			if (IsEmptySpawnPoints[i])
-			{
-				IsEmptySpawnPoints[i] = false;
-				MySpawnPointIndex = i;
+			if (!spawnPoints[i].IsOccupied)
+			{			
+				indexToSpawn = i;
+				spawnPoints[i].IsOccupied = true;
 				break;
 			}
 		}
 
-		bool[] syncedEmptySpawnPoints = new bool[SpawnPointsCount];
-		for (int i = 0; i < SpawnPointsCount; i++)
+		//// Sync spawnPoints. True if occupied, false if empty
+		bool[] isOccupieds = new bool[spawnPointsCount];
+		
+		for (int i = 0; i < spawnPointsCount; i++)
 		{			
-			syncedEmptySpawnPoints[i] = IsEmptySpawnPoints[i];
+			if (spawnPoints[i].IsOccupied)
+			{
+				isOccupieds[i] = true;
+			}
+
+			if (!spawnPoints[i].IsOccupied)
+			{
+				isOccupieds[i] = false;
+			}
 		}
 
-		photonView.RPC("OnEmptySpawnPointsInfoReceived", PhotonPlayer.Find(id), MySpawnPointIndex, syncedEmptySpawnPoints);
+		// Send RPC back to the client to sync
+		photonView.RPC("OnSpawnPointsInfoReceived", PhotonPlayer.Find(id), indexToSpawn, isOccupieds);
 	}
 
 	[PunRPC]
-	private void OnEmptySpawnPointsInfoReceived(int indexToSpawn, bool[] syncedEmptySpawnPointsInfo)
+	private void OnSpawnPointsInfoReceived(int indexToSpawn, bool[] isOccupieds)
 	{
-		// Sync emptySpawnpoints
-		for (int i = 0; i < IsEmptySpawnPoints.Length; i++)
-		{
-			IsEmptySpawnPoints[i] = syncedEmptySpawnPointsInfo[i];
+		PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn].Position, Quaternion.identity, 0);
+		for (int i = 0; i < spawnPoints.Length; i++)
+		{	
+			spawnPoints[i].IsOccupied = isOccupieds[i];
 		}
-		
-		// Instantiate gameobject
-		MyGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn], Quaternion.identity, 0);
 	}
 }

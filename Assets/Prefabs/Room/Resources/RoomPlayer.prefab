@@ -25729,9 +25729,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed78f8854e0780a438d4345c49208b48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerName: {fileID: 114311337737101608}
-  ReadyIcon: {fileID: 114966782191055972}
   uiButtons: {fileID: 1626927969762522}
+  nameLabel: {fileID: 114311337737101608}
+  ReadyIcon: {fileID: 114966782191055972}
 --- !u!114 &114306683717471816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -27247,6 +27247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbc6c9b52e9b790449d1a3e0b70da170, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsReady: 0
 --- !u!114 &114726318611649662
 MonoBehaviour:
   m_ObjectHideFlags: 1

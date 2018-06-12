@@ -47,4 +47,7 @@ MonoBehaviour:
   - RequestForPickupTimes
   - TaggedPlayer
   - ToggleReady
+  - SyncEmptyPositionThenSpawn
+  - SyncSpawnPointsThenSpawn
+  - OnSpawnPointsInfoReceived
   DisableAutoOpenWizard: 1
