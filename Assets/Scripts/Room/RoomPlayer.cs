@@ -2,11 +2,12 @@
 
 public class RoomPlayer : MonoBehaviour
 {		
-	public PhotonPlayer PhotonPlayer { get; private set; }
-	public bool IsReady { get; private set; }	
+	public bool IsReady { get; private set; }		
 	public string PlayerName { get; private set; }
+		
+	public PhotonPlayer PhotonPlayer { get; private set; }
 	public PhotonView PhotonView { get; private set; }
-
+		
 	private RoomPlayerUI roomPlayerUI;
 
 	#region Unity Methods
@@ -48,7 +49,7 @@ public class RoomPlayer : MonoBehaviour
 		// RPC method in RoomPlayer gets called
 		PhotonView.RPC("DisplayPlayerName", PhotonTargets.All, PlayerName);
 	}
-
+	
 	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
 	{
 		// Send RPC to newplayer to sync local player's ready status

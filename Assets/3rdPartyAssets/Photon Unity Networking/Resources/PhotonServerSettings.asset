@@ -37,7 +37,6 @@ MonoBehaviour:
   - Flash
   - InstantiateRpc
   - Marco
-  - OnInstantiatedRoomPlayer
   - OnSpawnPointsInfoReceived
   - PickupItemInit
   - Polo
@@ -46,8 +45,11 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - SendCurrentCharacterIndex
   - SendSpawnPointInfo
+  - SyncOtherPlayerCharacter
   - SyncReadyIcon
   - SyncReadyStatus
+  - SyncSpawnPointInfo
   - TaggedPlayer
   DisableAutoOpenWizard: 1

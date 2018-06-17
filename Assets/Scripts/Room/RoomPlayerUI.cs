@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class RoomPlayerUI : MonoBehaviour
-{	
+{
 	public UISprite ReadyIcon;
 
 	[SerializeField]
@@ -9,9 +9,9 @@ public class RoomPlayerUI : MonoBehaviour
 
 	[SerializeField]
 	private UILabel nameLabel;
-	
-	private RoomPlayer roomPlayer;
-	
+
+	private RoomPlayer roomPlayer;	
+
 	public string PlayerName
 	{
 		get
@@ -25,17 +25,17 @@ public class RoomPlayerUI : MonoBehaviour
 	}
 
 	public PhotonView PhotonView { get; private set; }
-	
+
 	#region Unity Methods
 
 	private void Awake()
-	{			
+	{
 		PhotonView = PhotonView.Get(this);
-		roomPlayer = GetComponent<RoomPlayer>();
+		roomPlayer = GetComponent<RoomPlayer>();		
 	}
 
 	private void Start()
-	{	
+	{
 		// Display only local player's character selection buttons
 		if (PhotonView.isMine) { uiButtons.SetActive(true); }
 		else { uiButtons.SetActive(false); }
@@ -43,18 +43,18 @@ public class RoomPlayerUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnNewPlayerJoined;		
+		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;		
+		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
 	}
 
 	#endregion
 
 	#region UIButtons
-	
+
 	public void OnPreviousPressed()
 	{
 		PhotonView.RPC("DisplayPreviousCharacter", PhotonTargets.All);

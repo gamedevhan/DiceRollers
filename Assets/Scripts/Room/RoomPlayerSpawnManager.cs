@@ -120,11 +120,11 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		PhotonNetwork.RaiseEvent(0, null, true, null);
 
 		// Send RPC to other players to let spawnPoint[indexToSpawn] is occupied
-		photonView.RPC("OnInstantiatedRoomPlayer", PhotonTargets.All, indexToSpawn, viewID, playerID);
+		photonView.RPC("SyncSpawnPointInfo", PhotonTargets.All, indexToSpawn, viewID, playerID);
 	}
 
 	[PunRPC]
-	private void OnInstantiatedRoomPlayer(int spawnedPointIndex, int viewID, int playerID)
+	private void SyncSpawnPointInfo(int spawnedPointIndex, int viewID, int playerID)
 	{
 		spawnPoints[spawnedPointIndex].IsOccupied = true;
 		spawnPoints[spawnedPointIndex].ViewID = viewID;
