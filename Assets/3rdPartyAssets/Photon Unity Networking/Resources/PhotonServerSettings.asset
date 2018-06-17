@@ -31,6 +31,7 @@ MonoBehaviour:
   - ColorRpc
   - DestroyRpc
   - DisplayNextCharacter
+  - DisplayPlayerName
   - DisplayPreviousCharacter
   - DoJump
   - Flash
@@ -46,6 +47,7 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - SendSpawnPointInfo
+  - SyncReadyIcon
+  - SyncReadyStatus
   - TaggedPlayer
-  - ToggleReady
   DisableAutoOpenWizard: 1

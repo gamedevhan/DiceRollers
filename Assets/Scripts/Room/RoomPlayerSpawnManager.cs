@@ -59,6 +59,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 			spawnPoints[0].IsOccupied = true;
 			spawnPoints[0].ViewID = PhotonView.Get(roomPlayerGameObject).viewID;
 			spawnPoints[0].PlayerID = PhotonNetwork.player.ID;
+			roomPlayerGameObject.GetComponent<RoomPlayer>().ApplyPhotonPlayer(PhotonNetwork.player);
 		}
 		else // If not masterclient, send RPC to MasterClient to sync spawnPoints then Instantiate
 		{
@@ -74,6 +75,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		// Find first empty spawnPoint
 		int indexToSpawn = new int();
 		int[] syncedViewIDs = new int[spawnPointsCount];
+		int[] syncedPlayerIDs = new int[spawnPointsCount];
 		bool[] syncedOccupiedInfo = new bool[spawnPointsCount];
 
 		for (int i = 0; i < spawnPointsCount; i++)
@@ -91,14 +93,15 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		{	
 			syncedOccupiedInfo[i] = spawnPoints[i].IsOccupied;
 			syncedViewIDs[i] = spawnPoints[i].ViewID;
+			syncedPlayerIDs[i] = spawnPoints[i].PlayerID;
 		}
 
 		// Send RPC back to the client to sync
-		photonView.RPC("OnSpawnPointsInfoReceived", PhotonPlayer.Find(playerID), indexToSpawn, syncedOccupiedInfo, syncedViewIDs);
+		photonView.RPC("OnSpawnPointsInfoReceived", PhotonPlayer.Find(playerID), indexToSpawn, syncedOccupiedInfo, syncedViewIDs, syncedPlayerIDs);
 	}
 
 	[PunRPC]
-	private void OnSpawnPointsInfoReceived(int indexToSpawn, bool[] syncedEmptyInfo, int[] syncedViewIDs)
+	private void OnSpawnPointsInfoReceived(int indexToSpawn, bool[] syncedEmptyInfo, int[] syncedViewIDs, int[] syncedPlayerIDs)
 	{
 		// Update local spawnPoints
 		for (int i = 0; i < spawnPoints.Length; i++)
@@ -110,7 +113,13 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn].Position, Quaternion.identity, 0);
 		int viewID = PhotonView.Get(roomPlayerGameObject).viewID;
 		int playerID = PhotonNetwork.player.ID;
+				
+		roomPlayerGameObject.GetComponent<RoomPlayer>().ApplyPhotonPlayer(PhotonNetwork.player);
+		
+		// Raise Event so other players already in the room can send RPC to new player so their current character selected, player name, ready status synced
+		PhotonNetwork.RaiseEvent(0, null, true, null);
 
+		// Send RPC to other players to let spawnPoint[indexToSpawn] is occupied
 		photonView.RPC("OnInstantiatedRoomPlayer", PhotonTargets.All, indexToSpawn, viewID, playerID);
 	}
 
