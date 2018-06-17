@@ -7,7 +7,8 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	{	
 		public Vector3 Position;
 		public bool IsOccupied = false;
-		public int viewID = 0;
+		public int ViewID = 0;
+		public int PlayerID = -1;
 	}
 	
 	public SpawnPoint[] spawnPoints;
@@ -35,12 +36,17 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 
 	public override void OnPhotonPlayerDisconnected(PhotonPlayer otherPlayer)
 	{
-		if (PhotonNetwork.player != otherPlayer)
+		for (int i = 0; i < spawnPoints.Length; i++)
 		{
-			// TODO: Set leaver's isEmptySpawnPosition = true
+			if (spawnPoints[i].PlayerID == otherPlayer.ID)
+			{
+				spawnPoints[i].IsOccupied = false;
+				spawnPoints[i].ViewID = 0;
+				spawnPoints[i].PlayerID = -1;
+			}
 		}
 	}
-
+	
 	#endregion
 
 	private void SpawnRoomPlayer()
@@ -51,7 +57,8 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 			// Instantiate on first spawn point
 			GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0].Position, Quaternion.identity, 0);
 			spawnPoints[0].IsOccupied = true;
-			spawnPoints[0].viewID = PhotonView.Get(roomPlayerGameObject).viewID;
+			spawnPoints[0].ViewID = PhotonView.Get(roomPlayerGameObject).viewID;
+			spawnPoints[0].PlayerID = PhotonNetwork.player.ID;
 		}
 		else // If not masterclient, send RPC to MasterClient to sync spawnPoints then Instantiate
 		{
@@ -79,11 +86,11 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 			}
 		}
 
-		// 
+		// Sync parameters to send RPC
 		for (int i = 0; i < spawnPointsCount; i++)
 		{	
 			syncedOccupiedInfo[i] = spawnPoints[i].IsOccupied;
-			syncedViewIDs[i] = spawnPoints[i].viewID;
+			syncedViewIDs[i] = spawnPoints[i].ViewID;
 		}
 
 		// Send RPC back to the client to sync
@@ -97,19 +104,21 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		for (int i = 0; i < spawnPoints.Length; i++)
 		{	
 			spawnPoints[i].IsOccupied = syncedEmptyInfo[i];
-			spawnPoints[i].viewID = syncedViewIDs[i];
+			spawnPoints[i].ViewID = syncedViewIDs[i];
 		}
 		
 		GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn].Position, Quaternion.identity, 0);
 		int viewID = PhotonView.Get(roomPlayerGameObject).viewID;
+		int playerID = PhotonNetwork.player.ID;
 
-		photonView.RPC("OnInstantiatedRoomPlayer", PhotonTargets.All, indexToSpawn, viewID);		
+		photonView.RPC("OnInstantiatedRoomPlayer", PhotonTargets.All, indexToSpawn, viewID, playerID);
 	}
 
 	[PunRPC]
-	private void OnInstantiatedRoomPlayer(int spawnedPointIndex, int viewID)
+	private void OnInstantiatedRoomPlayer(int spawnedPointIndex, int viewID, int playerID)
 	{
 		spawnPoints[spawnedPointIndex].IsOccupied = true;
-		spawnPoints[spawnedPointIndex].viewID = viewID;
+		spawnPoints[spawnedPointIndex].ViewID = viewID;
+		spawnPoints[spawnedPointIndex].PlayerID = playerID;
 	}
 }
