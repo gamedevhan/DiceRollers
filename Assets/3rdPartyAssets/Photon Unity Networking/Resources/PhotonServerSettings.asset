@@ -36,18 +36,16 @@ MonoBehaviour:
   - Flash
   - InstantiateRpc
   - Marco
-  - OnEmptySpawnPointsInfoReceived
+  - OnInstantiatedRoomPlayer
+  - OnSpawnPointsInfoReceived
   - PickupItemInit
   - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
-  - RequestEmptySpawnPointsInfo
   - RequestForPickupItems
   - RequestForPickupTimes
+  - SendSpawnPointInfo
   - TaggedPlayer
   - ToggleReady
-  - SyncEmptyPositionThenSpawn
-  - SyncSpawnPointsThenSpawn
-  - OnSpawnPointsInfoReceived
   DisableAutoOpenWizard: 1
