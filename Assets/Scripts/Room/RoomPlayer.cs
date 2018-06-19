@@ -2,7 +2,7 @@
 
 public class RoomPlayer : MonoBehaviour
 {		
-	public bool IsReady { get; private set; }		
+	public bool IsReady { get; set; }		
 	public string PlayerName { get; private set; }
 		
 	public PhotonPlayer PhotonPlayer { get; private set; }
@@ -28,14 +28,12 @@ public class RoomPlayer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+		PhotonNetwork.OnEventCall += OnNewPlayerJoined;		
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed -= OnReadyButtonPressed;
+		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;		
 	}
 
 	#endregion

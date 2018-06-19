@@ -5,7 +5,7 @@ public class RoomPlayerUI : MonoBehaviour
 	public UISprite ReadyIcon;
 
 	[SerializeField]
-	private GameObject uiButtons;
+	private GameObject characterScrollButtons;
 
 	[SerializeField]
 	private UILabel nameLabel;
@@ -37,18 +37,20 @@ public class RoomPlayerUI : MonoBehaviour
 	private void Start()
 	{
 		// Display only local player's character selection buttons
-		if (PhotonView.isMine) { uiButtons.SetActive(true); }
-		else { uiButtons.SetActive(false); }
+		if (PhotonView.isMine) { characterScrollButtons.SetActive(true); }
+		else { characterScrollButtons.SetActive(false); }
 	}
 
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
+		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void OnDisable()
 	{
 		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
+		RoomUIManager.ReadyPressed -= OnReadyButtonPressed;
 	}
 
 	#endregion
@@ -73,10 +75,25 @@ public class RoomPlayerUI : MonoBehaviour
 		PhotonView.RPC("SyncReadyIcon", PhotonPlayer.Find(senderid), roomPlayer.IsReady);
 		PhotonView.RPC("DisplayPlayerName", PhotonPlayer.Find(senderid), PlayerName);
 	}
-
+		
 	private void OnReadyButtonPressed()
 	{
-		PhotonView.RPC("SyncReadyIcon", PhotonTargets.Others, roomPlayer.IsReady);
+		if (!PhotonView.isMine)	{ return; }
+
+		roomPlayer.IsReady = !roomPlayer.IsReady;
+
+		if (roomPlayer.IsReady)
+		{
+			characterScrollButtons.SetActive(false);
+		}
+		else
+		{
+			characterScrollButtons.SetActive(true);
+		}
+		
+
+		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, roomPlayer.IsReady);
+		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);		
 	}
 
 	[PunRPC]
