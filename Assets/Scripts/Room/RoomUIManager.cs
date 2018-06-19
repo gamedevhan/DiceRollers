@@ -8,11 +8,12 @@ public class RoomUIManager : MonoBehaviour
 
 	public void OnReadyPressed()
 	{	
-		ReadyPressed();		
+		ReadyPressed();
 	}
 		
 	public void OnLeavePressed()
 	{	
+		LevelTransitionManager.Instance.DestroyGameObject();
 		PhotonNetwork.LeaveRoom(false);
 		PhotonNetwork.JoinLobby();
 		SceneManager.LoadScene("01 Lobby");

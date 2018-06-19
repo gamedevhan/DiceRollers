@@ -19,11 +19,26 @@ public class RoomPlayerCharacter : MonoBehaviour
 		}
 	}
 
+	private void OnEnable()
+	{
+		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+	}
+
+	private void OnDestroy()
+	{
+		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+	}
+
 	private void Start()
 	{
 		FaceCamera();
 		// Send RPC to request other players' current character		
 		photonView.RPC("SendCurrentCharacterIndex", PhotonTargets.Others, PhotonNetwork.player.ID);
+	}
+
+	private void OnReadyButtonPressed()
+	{
+		LevelTransitionManager.Instance.SelectedCharacterIndex = currentCharacterIndex;
 	}
 
 	[PunRPC]

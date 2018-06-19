@@ -55,7 +55,13 @@ public class NetworkManager : Photon.PunBehaviour
 	public override void OnDisconnectedFromPhoton()
 	{
 		Debug.Log("Disconnected from Photon, Loading 00 Menu Scene");
-		isConnecting = false;		
+
+		if (LevelTransitionManager.Instance != null)
+		{
+			LevelTransitionManager.Instance.DestroyGameObject();
+		}
+
+		isConnecting = false;
 		SceneManager.LoadScene("00 Menu");
 	}
 
