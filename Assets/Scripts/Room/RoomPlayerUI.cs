@@ -91,9 +91,10 @@ public class RoomPlayerUI : MonoBehaviour
 			characterScrollButtons.SetActive(true);
 		}
 		
-
 		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, roomPlayer.IsReady);
-		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);		
+		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);
+
+		LevelTransitionManager.Instance.LoadGameLevel();
 	}
 
 	[PunRPC]

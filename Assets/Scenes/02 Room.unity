@@ -383,19 +383,15 @@ MonoBehaviour:
   spawnPoints:
   - Position: {x: -1.2, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: -0.4, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: 0.4, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: 1.2, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   roomPlayerPrefab: {fileID: 1319104366758984, guid: 26d19cb7e6eeeea49a7357f4acb975f3,
     type: 2}
@@ -760,9 +756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f83a1cbbcff15674d9981696a3070946, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SelectedCharacterIndex: 0
-  LevelNames:
-  - 03 TestLevel
+  SelectedCharacter: 4
 --- !u!114 &1176484573
 MonoBehaviour:
   m_ObjectHideFlags: 0

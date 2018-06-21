@@ -52,4 +52,6 @@ MonoBehaviour:
   - SyncReadyStatus
   - SyncSpawnPointInfo
   - TaggedPlayer
+  - AddToLevelTransitionManager
+  - RemoveFromLevelTransitionManager
   DisableAutoOpenWizard: 1

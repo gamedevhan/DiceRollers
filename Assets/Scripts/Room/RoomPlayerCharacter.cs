@@ -8,11 +8,12 @@ public class RoomPlayerCharacter : MonoBehaviour
 
 	private int currentCharacterIndex = 0;
 	private List<GameObject> characters = new List<GameObject>();	
-	private PhotonView photonView;
+	private PhotonView photonView;	
 
 	private void Awake()
 	{	
-		photonView = PhotonView.Get(this);
+		photonView = PhotonView.Get(this);		
+
 		foreach (Transform character in charactersParent)
 		{			
 			characters.Add(character.gameObject);		
@@ -38,7 +39,23 @@ public class RoomPlayerCharacter : MonoBehaviour
 
 	private void OnReadyButtonPressed()
 	{
-		LevelTransitionManager.Instance.SelectedCharacterIndex = currentCharacterIndex;
+		switch (characters[currentCharacterIndex].name)
+		{
+			case "Ai":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Ai;
+				break;
+			case "UnityChan":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.UnityChan;
+				break;
+			case "Riko":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Riko;
+				break;
+			case "Yuji":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Yuji;
+				break;
+			default:
+				break;
+		}		
 	}
 
 	[PunRPC]

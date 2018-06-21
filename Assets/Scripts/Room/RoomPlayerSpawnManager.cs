@@ -7,14 +7,13 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	{	
 		public Vector3 Position;
 		public bool IsOccupied = false;
-		public int ViewID = 0;
 		public int PlayerID = -1;
 	}
 	
 	public SpawnPoint[] spawnPoints;
 
 	[SerializeField]
-	private GameObject roomPlayerPrefab;	
+	private GameObject roomPlayerPrefab;
 	
 	public static RoomPlayerSpawnManager Instance { get; private set; }	
 	
@@ -41,7 +40,6 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 			if (spawnPoints[i].PlayerID == otherPlayer.ID)
 			{
 				spawnPoints[i].IsOccupied = false;
-				spawnPoints[i].ViewID = 0;
 				spawnPoints[i].PlayerID = -1;
 			}
 		}
@@ -56,8 +54,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		{			
 			// Instantiate on first spawn point
 			GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[0].Position, Quaternion.identity, 0);
-			spawnPoints[0].IsOccupied = true;
-			spawnPoints[0].ViewID = PhotonView.Get(roomPlayerGameObject).viewID;
+			spawnPoints[0].IsOccupied = true;			
 			spawnPoints[0].PlayerID = PhotonNetwork.player.ID;
 			roomPlayerGameObject.GetComponent<RoomPlayer>().ApplyPhotonPlayer(PhotonNetwork.player);
 		}
@@ -91,8 +88,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		// Sync parameters to send RPC
 		for (int i = 0; i < spawnPointsCount; i++)
 		{	
-			syncedOccupiedInfo[i] = spawnPoints[i].IsOccupied;
-			syncedViewIDs[i] = spawnPoints[i].ViewID;
+			syncedOccupiedInfo[i] = spawnPoints[i].IsOccupied;			
 			syncedPlayerIDs[i] = spawnPoints[i].PlayerID;
 		}
 
@@ -106,8 +102,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		// Update local spawnPoints
 		for (int i = 0; i < spawnPoints.Length; i++)
 		{	
-			spawnPoints[i].IsOccupied = syncedEmptyInfo[i];
-			spawnPoints[i].ViewID = syncedViewIDs[i];
+			spawnPoints[i].IsOccupied = syncedEmptyInfo[i];			
 		}
 		
 		GameObject roomPlayerGameObject = PhotonNetwork.Instantiate(roomPlayerPrefab.name, spawnPoints[indexToSpawn].Position, Quaternion.identity, 0);
@@ -126,8 +121,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	[PunRPC]
 	private void SyncSpawnPointInfo(int spawnedPointIndex, int viewID, int playerID)
 	{
-		spawnPoints[spawnedPointIndex].IsOccupied = true;
-		spawnPoints[spawnedPointIndex].ViewID = viewID;
+		spawnPoints[spawnedPointIndex].IsOccupied = true;		
 		spawnPoints[spawnedPointIndex].PlayerID = playerID;
 	}
 }
