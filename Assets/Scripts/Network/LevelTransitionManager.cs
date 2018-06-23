@@ -14,7 +14,7 @@ public class LevelTransitionManager : MonoBehaviour
 {	
 	public Character SelectedCharacter; // For local player
 	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
-
+	
 	public static LevelTransitionManager Instance = null;
 
 	private void Awake()
@@ -47,8 +47,13 @@ public class LevelTransitionManager : MonoBehaviour
 		if (roomPlayers.Count > 1 && CheckIfAllReady())
 		{
 			Debug.Log("Masterclient will load level");
+			
+			// TODO: Disable ready buttons 
+			// TODO: Start Countdown 
+
 			if (PhotonNetwork.isMasterClient)
-			{
+			{	
+				PhotonNetwork.room.IsOpen = false;
 				PhotonNetwork.LoadLevel("03 TestLevel");
 			}
 		}

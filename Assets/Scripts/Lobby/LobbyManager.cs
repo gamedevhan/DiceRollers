@@ -21,18 +21,7 @@ public class LobbyManager : Photon.PunBehaviour
 	{
 		Refresh();
 	}
-
-	private void Update()
-	{
-		if (Input.GetKeyDown(KeyCode.F3))
-		{
-			GameObject lobbyRoomGO = Instantiate(lobbyRoomPrefab);
-			Debug.Log("Instantiated prefab");
-			lobbyRoomGO.transform.SetParent(RoomListGrid.transform, false);
-			Debug.Log("Instantiated GO's parent is: " + lobbyRoomGO.transform.parent.name);
-		}
-	}
-
+		
 	#region UI Buttons
 
 	public void OnQuickGamePressed()
@@ -116,9 +105,8 @@ public class LobbyManager : Photon.PunBehaviour
 		RoomInfo[] rooms = PhotonNetwork.GetRoomList();
 	
 		foreach (RoomInfo rooom in rooms)
-		{
-			RoomReceived(rooom);
-			
+		{			
+			RoomReceived(rooom);			
 		}
 
 		RemoveOldRooms();
@@ -135,13 +123,13 @@ public class LobbyManager : Photon.PunBehaviour
 		if (index == -1)
 		{	
 			// Instantiate gameobject if room is visible and not full
-			if (room.IsVisible && room.PlayerCount < room.MaxPlayers)
+			if (room.IsVisible && room.IsOpen && room.PlayerCount < room.MaxPlayers)
 			{
 				GameObject lobbyRoomGO = Instantiate(lobbyRoomPrefab);
 				lobbyRoomGO.transform.SetParent(RoomListGrid, false);				
 				
 				// Add lobbyRoom to local roomlist
-				RoomListing lobbyRoom = lobbyRoomGO.GetComponent<RoomListing>();
+				RoomListing lobbyRoom = lobbyRoomGO.GetComponent<RoomListing>();				
 				localLobbyRoomList.Add(lobbyRoom);
 
 				index = (localLobbyRoomList.Count - 1);
@@ -149,7 +137,7 @@ public class LobbyManager : Photon.PunBehaviour
 		}
 
 		// index != -1, localLobbyRoomList has a room that matches the name of room in Photon RoomList.
-		if (index != -1)		
+		if (index != -1)
 		{
 			RoomListing lobbyRoom = localLobbyRoomList[index];
 			lobbyRoom.SetRoomNameText(room.Name);
