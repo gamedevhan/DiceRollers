@@ -28,31 +28,23 @@ MonoBehaviour:
   RunInBackground: 1
   RpcList:
   - Chat
-  - ColorRpc
   - DestroyRpc
   - DisplayNextCharacter
   - DisplayPlayerName
   - DisplayPreviousCharacter
-  - DoJump
-  - Flash
   - InstantiateRpc
-  - Marco
   - OnSpawnPointsInfoReceived
   - PickupItemInit
-  - Polo
   - PunPickup
   - PunPickupSimple
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
   - SendCurrentCharacterIndex
+  - SendPlayerLoadedStatus
   - SendSpawnPointInfo
   - SyncOtherPlayerCharacter
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
-  - TaggedPlayer
-  - AddToLevelTransitionManager
-  - RemoveFromLevelTransitionManager
-  - SendPlayerLoadedStatus
   DisableAutoOpenWizard: 1

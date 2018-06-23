@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Character
@@ -14,7 +15,8 @@ public class LevelTransitionManager : MonoBehaviour
 {	
 	public Character SelectedCharacter; // For local player
 	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
-	
+		
+	public static event Action GameStart = delegate{ };
 	public static LevelTransitionManager Instance = null;
 
 	private void Awake()
@@ -47,9 +49,9 @@ public class LevelTransitionManager : MonoBehaviour
 		if (roomPlayers.Count > 1 && CheckIfAllReady())
 		{
 			Debug.Log("Masterclient will load level");
-			
-			// TODO: Disable ready buttons 
-			// TODO: Start Countdown 
+
+			// Publish event to disable UI buttons and (TODO)start countdown
+			GameStart();
 
 			if (PhotonNetwork.isMasterClient)
 			{	
