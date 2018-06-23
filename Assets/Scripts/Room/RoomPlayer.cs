@@ -29,13 +29,13 @@ public class RoomPlayer : MonoBehaviour
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnNewPlayerJoined;		
-		LevelTransitionManager.Instance.roomPlayerIDs.Add(PhotonPlayer.ID);
+		LevelTransitionManager.Instance.roomPlayers.Add(this);
 	}
 
 	private void OnDisable()
 	{
 		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;		
-		LevelTransitionManager.Instance.roomPlayerIDs.Remove(PhotonPlayer.ID);
+		LevelTransitionManager.Instance.roomPlayers.Add(this);
 	}
 	
 	#endregion

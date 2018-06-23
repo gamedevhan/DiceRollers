@@ -13,7 +13,7 @@ public enum Character
 public class LevelTransitionManager : MonoBehaviour
 {	
 	public Character SelectedCharacter; // For local player
-	public List<int> roomPlayerIDs = new List<int>();
+	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
 
 	public static LevelTransitionManager Instance = null;
 
@@ -44,11 +44,9 @@ public class LevelTransitionManager : MonoBehaviour
 		if (eventcode != PhotonEventList.ReadyPress)
 			return;
 
-		if (roomPlayerIDs.Count > 1 && CheckIfAllReady())
+		if (roomPlayers.Count > 1 && CheckIfAllReady())
 		{
 			Debug.Log("Masterclient will load level");
-			// TODO: Disable ready buttons
-			// TODO: Start Countdown
 			if (PhotonNetwork.isMasterClient)
 			{
 				PhotonNetwork.LoadLevel("03 TestLevel");
