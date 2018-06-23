@@ -54,4 +54,5 @@ MonoBehaviour:
   - TaggedPlayer
   - AddToLevelTransitionManager
   - RemoveFromLevelTransitionManager
+  - SendPlayerLoadedStatus
   DisableAutoOpenWizard: 1
