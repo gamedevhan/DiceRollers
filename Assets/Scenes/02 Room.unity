@@ -367,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &589314671
 MonoBehaviour:
@@ -383,19 +383,15 @@ MonoBehaviour:
   spawnPoints:
   - Position: {x: -1.2, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: -0.4, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: 0.4, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   - Position: {x: 1.2, y: 0, z: 0}
     IsOccupied: 0
-    ViewID: 0
     PlayerID: -1
   roomPlayerPrefab: {fileID: 1319104366758984, guid: 26d19cb7e6eeeea49a7357f4acb975f3,
     type: 2}
@@ -706,7 +702,7 @@ Transform:
   - {fileID: 1475099855}
   - {fileID: 687396408}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1003000935
 MonoBehaviour:
@@ -717,6 +713,59 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5383783e5f9e1a344bcd919c14eba065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1176484570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1176484571}
+  - component: {fileID: 1176484572}
+  - component: {fileID: 1176484573}
+  m_Layer: 0
+  m_Name: LevelTransitionManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1176484571
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1176484570}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1176484572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1176484570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f83a1cbbcff15674d9981696a3070946, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SelectedCharacter: 4
+--- !u!114 &1176484573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1176484570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dfb639471a1f6d4aa490f18df47a0cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1475099854

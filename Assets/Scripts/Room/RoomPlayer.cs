@@ -2,7 +2,7 @@
 
 public class RoomPlayer : MonoBehaviour
 {		
-	public bool IsReady { get; private set; }		
+	public bool IsReady { get; set; }
 	public string PlayerName { get; private set; }
 		
 	public PhotonPlayer PhotonPlayer { get; private set; }
@@ -28,18 +28,18 @@ public class RoomPlayer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+		PhotonNetwork.OnEventCall += OnNewPlayerJoined;		
+		LevelTransitionManager.Instance.roomPlayerIDs.Add(PhotonPlayer.ID);
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed -= OnReadyButtonPressed;
+		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;		
+		LevelTransitionManager.Instance.roomPlayerIDs.Remove(PhotonPlayer.ID);
 	}
-
-	#endregion
 	
+	#endregion
+
 	public void ApplyPhotonPlayer(PhotonPlayer photonPlayer)
 	{
 		PhotonPlayer = photonPlayer;
@@ -52,17 +52,11 @@ public class RoomPlayer : MonoBehaviour
 	
 	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
 	{
+		if (eventcode != PhotonEventList.NewPlayerJoin)
+			return;
+		
 		// Send RPC to newplayer to sync local player's ready status
 		PhotonView.RPC("SyncReadyStatus", PhotonPlayer.Find(senderid), IsReady);
-	}
-
-	private void OnReadyButtonPressed()
-	{
-		if (!PhotonView.isMine)	{ return; }
-
-		IsReady = !IsReady;
-		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, IsReady);
-		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, IsReady);
 	}
 
 	[PunRPC]

@@ -8,15 +8,26 @@ public class RoomPlayerCharacter : MonoBehaviour
 
 	private int currentCharacterIndex = 0;
 	private List<GameObject> characters = new List<GameObject>();	
-	private PhotonView photonView;
+	private PhotonView photonView;	
 
 	private void Awake()
 	{	
-		photonView = PhotonView.Get(this);
+		photonView = PhotonView.Get(this);		
+
 		foreach (Transform character in charactersParent)
 		{			
 			characters.Add(character.gameObject);		
 		}
+	}
+
+	private void OnEnable()
+	{
+		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+	}
+
+	private void OnDestroy()
+	{
+		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void Start()
@@ -24,6 +35,27 @@ public class RoomPlayerCharacter : MonoBehaviour
 		FaceCamera();
 		// Send RPC to request other players' current character		
 		photonView.RPC("SendCurrentCharacterIndex", PhotonTargets.Others, PhotonNetwork.player.ID);
+	}
+
+	private void OnReadyButtonPressed()
+	{
+		switch (characters[currentCharacterIndex].name)
+		{
+			case "Ai":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Ai;
+				break;
+			case "UnityChan":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.UnityChan;
+				break;
+			case "Riko":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Riko;
+				break;
+			case "Yuji":
+				LevelTransitionManager.Instance.SelectedCharacter = Character.Yuji;
+				break;
+			default:
+				break;
+		}		
 	}
 
 	[PunRPC]
