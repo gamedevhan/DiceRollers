@@ -138,7 +138,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 22110689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -204, y: -283, z: 0}
+  m_LocalPosition: {x: -204, y: -277, z: 0}
   m_LocalScale: {x: 0.99917996, y: 0.99917996, z: 0.99917996}
   m_Children:
   - {fileID: 130625111}
@@ -445,6 +445,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6aea49fcd90e8554ca358f0667358838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeRemaining: 5
+  countDownText: {fileID: 2049395236}
 --- !u!1 &687396407
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,7 +712,7 @@ Transform:
   m_GameObject: {fileID: 1003000930}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0024420025, y: 0.0024420025, z: 0.0024420025}
+  m_LocalScale: {x: 0.0024783148, y: 0.0024783148, z: 0.0024783148}
   m_Children:
   - {fileID: 1475099855}
   - {fileID: 2049395234}
@@ -917,7 +919,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1705435389}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 204, y: -283, z: 0}
+  m_LocalPosition: {x: 204, y: -277, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1814628645}
@@ -1192,7 +1194,7 @@ GameObject:
   - component: {fileID: 2049395234}
   - component: {fileID: 2049395236}
   m_Layer: 8
-  m_Name: CountDownTimer
+  m_Name: CountDownText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1205,7 +1207,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2049395233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 260, z: 0}
+  m_LocalPosition: {x: 0, y: 254, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1003000934}
@@ -1225,11 +1227,11 @@ MonoBehaviour:
   leftAnchor:
     target: {fileID: 1003000934}
     relative: 0.5
-    absolute: -64
+    absolute: -128
   rightAnchor:
     target: {fileID: 1003000934}
     relative: 0.5
-    absolute: 64
+    absolute: 128
   bottomAnchor:
     target: {fileID: 1003000934}
     relative: 1
@@ -1241,14 +1243,14 @@ MonoBehaviour:
   updateAnchors: 1
   mColor: {r: 1, g: 1, b: 1, a: 1}
   mPivot: 4
-  mWidth: 128
+  mWidth: 256
   mHeight: 100
   mDepth: 2
   mMat: {fileID: 0}
   autoResizeBoxCollider: 0
   hideIfOffScreen: 0
   keepAspectRatio: 0
-  aspectRatio: 1.28
+  aspectRatio: 2.56
   keepCrispWhenShrunk: 1
   mTrueTypeFont: {fileID: 0}
   mFont: {fileID: 11400000, guid: 93e68f7902ba67545ba1e60502873fb5, type: 2}
