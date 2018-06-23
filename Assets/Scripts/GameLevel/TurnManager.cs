@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour
 {
-
 	public static TurnManager Instance = null;
 
 	private void Awake()
