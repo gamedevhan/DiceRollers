@@ -112,7 +112,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 		roomPlayerGameObject.GetComponent<RoomPlayer>().ApplyPhotonPlayer(PhotonNetwork.player);
 		
 		// Raise Event so other players already in the room can send RPC to new player so their current character selected, player name, ready status synced
-		PhotonNetwork.RaiseEvent(0, null, true, null);
+		PhotonNetwork.RaiseEvent(PhotonEventList.NewPlayerJoin, null, true, null);
 
 		// Send RPC to other players to let spawnPoint[indexToSpawn] is occupied
 		photonView.RPC("SyncSpawnPointInfo", PhotonTargets.All, indexToSpawn, viewID, playerID);
