@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class RoomUIManager : MonoBehaviour
+public class RoomButtonManager : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject roomUIButtons;

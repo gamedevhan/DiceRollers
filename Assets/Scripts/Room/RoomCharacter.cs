@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class RoomPlayerCharacter : MonoBehaviour
+public class RoomCharacter : MonoBehaviour
 {	
 	[SerializeField]
 	private Transform charactersParent;
@@ -22,12 +22,12 @@ public class RoomPlayerCharacter : MonoBehaviour
 
 	private void OnEnable()
 	{
-		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+		RoomButtonManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void OnDestroy()
 	{
-		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+		RoomButtonManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void Start()

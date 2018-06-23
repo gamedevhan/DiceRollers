@@ -44,13 +44,13 @@ public class RoomPlayerUI : MonoBehaviour
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed += OnReadyButtonPressed;
+		RoomButtonManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void OnDisable()
 	{
 		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
-		RoomUIManager.ReadyPressed -= OnReadyButtonPressed;
+		RoomButtonManager.ReadyPressed -= OnReadyButtonPressed;
 	}
 
 	#endregion
