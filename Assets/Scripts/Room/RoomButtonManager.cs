@@ -11,12 +11,12 @@ public class RoomButtonManager : MonoBehaviour
 	
 	private void OnEnable()
 	{
-		LevelTransitionManager.GameStart += OnGameStart;
+		LevelTransitionManager.StartCountdown += OnStartCountDown;
 	}
 
 	private void OnDisable()
 	{
-		LevelTransitionManager.GameStart -= OnGameStart;
+		LevelTransitionManager.StartCountdown -= OnStartCountDown;
 	}
 
 	public void OnReadyPressed()
@@ -32,7 +32,7 @@ public class RoomButtonManager : MonoBehaviour
 		SceneManager.LoadScene("01 Lobby");
 	}
 
-	private void OnGameStart()
+	private void OnStartCountDown()
 	{
 		roomUIButtons.SetActive(false);
 	}

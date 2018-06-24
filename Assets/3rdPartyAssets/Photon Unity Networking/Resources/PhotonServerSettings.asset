@@ -41,8 +41,8 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - SendCurrentCharacterIndex
-  - SendPlayerLoadedStatus
   - SendSpawnPointInfo
+  - StartCountDown
   - SyncOtherPlayerCharacter
   - SyncReadyIcon
   - SyncReadyStatus

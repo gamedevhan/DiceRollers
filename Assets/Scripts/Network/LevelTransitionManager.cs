@@ -16,7 +16,7 @@ public class LevelTransitionManager : MonoBehaviour
 	public Character SelectedCharacter; // For local player
 	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
 		
-	public static event Action GameStart = delegate{ };
+	public static event Action StartCountdown = delegate{ };
 	public static LevelTransitionManager Instance = null;
 
 	private void Awake()
@@ -34,14 +34,16 @@ public class LevelTransitionManager : MonoBehaviour
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnReadyPressed;
+		SpriteTimer.CountDownFinish += OnCountDownFinish;
 	}
 
 	private void OnDisable()
 	{
 		PhotonNetwork.OnEventCall -= OnReadyPressed;
+		SpriteTimer.CountDownFinish -= OnCountDownFinish;
 	}
 
-	public void OnReadyPressed(byte eventcode, object content, int senderid)
+	private void OnReadyPressed(byte eventcode, object content, int senderid)
 	{
 		if (eventcode != PhotonEventList.ReadyPress)
 			return;
@@ -50,14 +52,21 @@ public class LevelTransitionManager : MonoBehaviour
 		{
 			Debug.Log("Masterclient will load level");
 
-			// Publish event to disable UI buttons and (TODO)start countdown
-			GameStart();
+			// Publish event to disable UI buttons
+			StartCountdown();
 
 			if (PhotonNetwork.isMasterClient)
 			{	
-				PhotonNetwork.room.IsOpen = false;
-				PhotonNetwork.LoadLevel("03 TestLevel");
+				PhotonNetwork.room.IsOpen = false;				
 			}
+		}
+	}
+
+	private void OnCountDownFinish()
+	{
+		if (PhotonNetwork.isMasterClient)
+		{
+			PhotonNetwork.LoadLevel("03 TestLevel");
 		}
 	}
 

@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class SpriteTimer : MonoBehaviour
 {
@@ -15,13 +15,32 @@ public class SpriteTimer : MonoBehaviour
 	[SerializeField]
 	private GameObject timerGameObject;
 		
+	public static event Action CountDownFinish = delegate{ };
+
 	private void Start()
 	{	
 		timerGameObject.SetActive(false);
 	}
 
-	public void StartCountDown()
+	private void OnEnable()
+	{
+		LevelTransitionManager.StartCountdown += OnCountDownStart;
+	}
+
+	private void OnDisable()
+	{
+		LevelTransitionManager.StartCountdown -= OnCountDownStart;
+	}
+
+	public void OnCountDownStart()
 	{		
+		PhotonView photonView = PhotonView.Get(this);
+		photonView.RPC("StartCountDown", PhotonTargets.All);
+	}
+
+	[PunRPC]
+	private void StartCountDown()
+	{
 		StartCoroutine(CountDownStart());
 	}
 
@@ -60,5 +79,7 @@ public class SpriteTimer : MonoBehaviour
 
 			yield return null;
 		}
+
+		CountDownFinish();
 	}
 }
