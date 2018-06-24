@@ -52,7 +52,7 @@ public class RoomPlayer : MonoBehaviour
 	
 	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
 	{
-		if (eventcode != PhotonEventList.NewPlayerJoin)
+		if (eventcode != (byte)EventCodes.NewPlayerJoin)
 			return;
 		
 		// Send RPC to newplayer to sync local player's ready status

@@ -45,7 +45,7 @@ public class LevelTransitionManager : MonoBehaviour
 
 	private void OnReadyPressed(byte eventcode, object content, int senderid)
 	{
-		if (eventcode != PhotonEventList.ReadyPress)
+		if (eventcode != (byte)EventCodes.ReadyPress)
 			return;
 
 		if (roomPlayers.Count > 1 && CheckIfAllReady())

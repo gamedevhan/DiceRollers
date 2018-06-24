@@ -71,7 +71,7 @@ public class RoomPlayerUI : MonoBehaviour
 
 	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
 	{
-		if (eventcode != PhotonEventList.NewPlayerJoin)
+		if (eventcode != (byte)EventCodes.NewPlayerJoin)
 			return;
 
 		// Send RPC to newplayer to sync local player's name UI text
@@ -98,7 +98,7 @@ public class RoomPlayerUI : MonoBehaviour
 		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);
 
 		// master client has to be the last one pressing ready. Publish PhotonEvent that only masterclient listens.
-		PhotonNetwork.RaiseEvent(PhotonEventList.ReadyPress, null, true, null);		
+		PhotonNetwork.RaiseEvent((byte)EventCodes.ReadyPress, null, true, null);		
 	}
 
 	[PunRPC]
