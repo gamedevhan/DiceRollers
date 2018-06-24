@@ -16,6 +16,9 @@ public class LevelTransitionManager : MonoBehaviour
 	public Character SelectedCharacter; // For local player
 	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>(); // This is causing duplicates and many issues
 	
+	[SerializeField]
+	private Transform roomManager;
+
 	public static LevelTransitionManager Instance = null;
 
 	private void Awake()
@@ -32,27 +35,29 @@ public class LevelTransitionManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnReadyPressed;
-		SpriteTimer.CountDownFinish += OnCountDownFinish;
+		RoomPlayer.PlayerIsReady += OnPlayerReady;
+		CountDownTimer.CountDownFinish += OnCountDownFinish;
 	}
 
 	private void OnDisable()
-	{
-		PhotonNetwork.OnEventCall -= OnReadyPressed;
-		SpriteTimer.CountDownFinish -= OnCountDownFinish;
+	{	
+		RoomPlayer.PlayerIsReady -= OnPlayerReady;
+		CountDownTimer.CountDownFinish -= OnCountDownFinish;
 	}
 
-	private void OnReadyPressed(byte eventcode, object content, int senderid)
+	private void OnPlayerReady()
 	{
-		if (eventcode != (byte)EventCodes.ReadyPress)
-			return;
-
 		if (roomPlayers.Count > 1 && CheckIfAllReady())
 		{
 			Debug.Log("Masterclient will load level");
+			
+			PhotonView roomManagerView = PhotonView.Get(roomManager);
 
-			// Publish Photon event, All players disable UI buttons, Start CountDown
-			PhotonNetwork.RaiseEvent((byte)EventCodes.CountDownStart, null, true, null);
+			// Start CountDown, when count down finish master client load level
+			roomManagerView.RPC("StartCountDown", PhotonTargets.All);
+
+			// Disable buttons
+			roomManagerView.RPC("SetActive", PhotonTargets.All, false);
 
 			if (PhotonNetwork.isMasterClient)
 			{

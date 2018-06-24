@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class SpriteTimer : MonoBehaviour
+public class CountDownTimer : MonoBehaviour
 {
 	public bool HideAfterFinish = true;
 	public float TimeLeft = 10f;
@@ -21,27 +21,7 @@ public class SpriteTimer : MonoBehaviour
 	{	
 		timerGameObject.SetActive(false);
 	}
-
-	private void OnEnable()
-	{
-		PhotonNetwork.OnEventCall += OnCountDownStart;
-	}
-
-	private void OnDisable()
-	{
-		PhotonNetwork.OnEventCall -= OnCountDownStart;
-	}
-
-	public void OnCountDownStart(byte eventcode, object content, int senderid)
-	{
-		if (eventcode != (byte)EventCodes.CountDownStart)
-			return;
-
-		StartCountDown();
-		//PhotonView photonView = PhotonView.Get(this);
-		//photonView.RPC("StartCountDown", PhotonTargets.All);
-	}
-
+	
 	[PunRPC]
 	private void StartCountDown()
 	{

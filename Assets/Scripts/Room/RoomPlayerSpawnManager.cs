@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RoomPlayerSpawnManager : Photon.PunBehaviour
 {	
@@ -15,6 +16,7 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	[SerializeField]
 	private GameObject roomPlayerPrefab;
 	
+	public static event Action NewPlayerJoin = delegate{ };
 	public static RoomPlayerSpawnManager Instance { get; private set; }	
 	
 	#region Unity CallBacks
@@ -111,8 +113,8 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 				
 		roomPlayerGameObject.GetComponent<RoomPlayer>().ApplyPhotonPlayer(PhotonNetwork.player);
 		
-		// Raise Event so other players already in the room can send RPC to new player so their current character selected, player name, ready status synced
-		PhotonNetwork.RaiseEvent((byte)EventCodes.NewPlayerJoin, null, true, null);
+		// Send RPC so other players already in the room can send RPC to new player so their current character selected, player name, ready status synced		
+		photonView.RPC("SendRoomPlayerStatus", PhotonTargets.Others);
 
 		// Send RPC to other players to let spawnPoint[indexToSpawn] is occupied
 		photonView.RPC("SyncSpawnPointInfo", PhotonTargets.All, indexToSpawn, viewID, playerID);
@@ -123,5 +125,11 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 	{
 		spawnPoints[spawnedPointIndex].IsOccupied = true;		
 		spawnPoints[spawnedPointIndex].PlayerID = playerID;
+	}
+
+	[PunRPC]
+	private void SendRoomPlayerStatus()
+	{
+		NewPlayerJoin();
 	}
 }

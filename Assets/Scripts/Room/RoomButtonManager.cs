@@ -9,23 +9,9 @@ public class RoomButtonManager : MonoBehaviour
 	public delegate void ReadyPressedEvent();
 	public static event ReadyPressedEvent ReadyPressed;
 	
-	private void OnEnable()
-	{
-		PhotonNetwork.OnEventCall += OnStartCountDown;
-	}
-
-	private void OnDisable()
-	{
-		PhotonNetwork.OnEventCall -= OnStartCountDown;
-	}
-
 	public void OnReadyPressed()
-	{	
-		// Publish local Event
+	{			
 		ReadyPressed();
-
-		// Publish PhotonEvent
-		PhotonNetwork.RaiseEvent((byte)EventCodes.ReadyPress, null, true, null);	
 	}
 		
 	public void OnLeavePressed()
@@ -36,11 +22,9 @@ public class RoomButtonManager : MonoBehaviour
 		SceneManager.LoadScene("01 Lobby");
 	}
 
-	private void OnStartCountDown(byte eventcode, object content, int senderid)
+	[PunRPC]
+	private void SetActive(bool value)
 	{
-		if (eventcode != (byte)EventCodes.CountDownStart)
-			return;
-
-		roomUIButtons.SetActive(false);
+		roomUIButtons.SetActive(value);
 	}
 }

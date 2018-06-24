@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class RoomPlayer : MonoBehaviour
 {		
@@ -8,6 +9,8 @@ public class RoomPlayer : MonoBehaviour
 	public PhotonPlayer PhotonPlayer { get; private set; }
 	public PhotonView PhotonView { get; private set; }
 		
+	public static event Action PlayerIsReady = delegate { };
+
 	private RoomPlayerUI roomPlayerUI;
 
 	#region Unity Methods
@@ -28,13 +31,13 @@ public class RoomPlayer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
+		RoomPlayerSpawnManager.NewPlayerJoin += OnNewPlayerJoined;
 		LevelTransitionManager.Instance.roomPlayers.Add(this);
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
+		RoomPlayerSpawnManager.NewPlayerJoin -= OnNewPlayerJoined;
 		LevelTransitionManager.Instance.roomPlayers.Remove(this);
 	}
 	
@@ -50,18 +53,16 @@ public class RoomPlayer : MonoBehaviour
 		PhotonView.RPC("DisplayPlayerName", PhotonTargets.All, PlayerName);
 	}
 	
-	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
-	{
-		if (eventcode != (byte)EventCodes.NewPlayerJoin)
-			return;
-		
+	private void OnNewPlayerJoined()
+	{		
 		// Send RPC to newplayer to sync local player's ready status
-		PhotonView.RPC("SyncReadyStatus", PhotonPlayer.Find(senderid), IsReady);
+		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, IsReady);
 	}
 
 	[PunRPC]
 	private void SyncReadyStatus(bool isReady)
 	{
 		IsReady = isReady;
+		PlayerIsReady();
 	}
 }

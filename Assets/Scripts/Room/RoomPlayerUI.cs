@@ -43,13 +43,13 @@ public class RoomPlayerUI : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnNewPlayerJoined;
+		RoomPlayerSpawnManager.NewPlayerJoin += OnNewPlayerJoined;
 		RoomButtonManager.ReadyPressed += OnReadyButtonPressed;
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnNewPlayerJoined;
+		RoomPlayerSpawnManager.NewPlayerJoin -= OnNewPlayerJoined;
 		RoomButtonManager.ReadyPressed -= OnReadyButtonPressed;
 	}
 
@@ -69,14 +69,11 @@ public class RoomPlayerUI : MonoBehaviour
 
 	#endregion
 
-	private void OnNewPlayerJoined(byte eventcode, object content, int senderid)
+	private void OnNewPlayerJoined()
 	{
-		if (eventcode != (byte)EventCodes.NewPlayerJoin)
-			return;
-
 		// Send RPC to newplayer to sync local player's name UI text
-		PhotonView.RPC("SyncReadyIcon", PhotonPlayer.Find(senderid), roomPlayer.IsReady);
-		PhotonView.RPC("DisplayPlayerName", PhotonPlayer.Find(senderid), PlayerName);
+		PhotonView.RPC("SyncReadyIcon", PhotonTargets.Others, roomPlayer.IsReady);
+		PhotonView.RPC("DisplayPlayerName", PhotonTargets.Others, PlayerName);
 	}
 		
 	private void OnReadyButtonPressed()
@@ -95,7 +92,7 @@ public class RoomPlayerUI : MonoBehaviour
 		}
 		
 		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, roomPlayer.IsReady);
-		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);
+		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);		
 	}
 
 	[PunRPC]
