@@ -39,6 +39,9 @@ public class RoomCharacter : MonoBehaviour
 
 	private void OnReadyButtonPressed()
 	{
+		if (!photonView.isMine)
+			return;
+		
 		switch (characters[currentCharacterIndex].name)
 		{
 			case "Ai":
