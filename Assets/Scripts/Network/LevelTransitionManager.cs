@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum Character
 {
-	None,
 	Ai,
 	UnityChan,
 	Riko,
@@ -13,8 +12,8 @@ public enum Character
 
 public class LevelTransitionManager : MonoBehaviour
 {	
-	public Character SelectedCharacter; // For local player
-	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>(); // This is causing duplicates and many issues
+	public Character SelectedCharacter; // For local player, Issue: if other user ready first and masterclient ready second to start, masterclient's selectedchar set to others
+	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
 	
 	[SerializeField]
 	private Transform roomManager;

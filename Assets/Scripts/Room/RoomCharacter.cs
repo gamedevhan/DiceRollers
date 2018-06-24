@@ -53,8 +53,6 @@ public class RoomCharacter : MonoBehaviour
 			case "Yuji":
 				LevelTransitionManager.Instance.SelectedCharacter = Character.Yuji;
 				break;
-			default:
-				break;
 		}
 	}
 
