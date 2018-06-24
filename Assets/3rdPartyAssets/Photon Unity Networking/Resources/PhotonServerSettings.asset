@@ -47,4 +47,6 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - SendLoadedPlayerID
+  - SyncLoadedPlayerIDs
   DisableAutoOpenWizard: 1
