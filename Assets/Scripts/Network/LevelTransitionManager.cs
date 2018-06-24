@@ -14,16 +14,15 @@ public enum Character
 public class LevelTransitionManager : MonoBehaviour
 {	
 	public Character SelectedCharacter; // For local player
-	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>();
-		
-	public static event Action StartCountdown = delegate{ };
+	public List<RoomPlayer> roomPlayers = new List<RoomPlayer>(); // This is causing duplicates and many issues
+	
 	public static LevelTransitionManager Instance = null;
 
 	private void Awake()
 	{
 		if (Instance == null)
 		{
-			Instance = this;			
+			Instance = this;
 		}
 		else
 		{
@@ -52,12 +51,12 @@ public class LevelTransitionManager : MonoBehaviour
 		{
 			Debug.Log("Masterclient will load level");
 
-			// Publish event to disable UI buttons
-			StartCountdown();
+			// Publish Photon event, All players disable UI buttons, Start CountDown
+			PhotonNetwork.RaiseEvent((byte)EventCodes.CountDownStart, null, true, null);
 
 			if (PhotonNetwork.isMasterClient)
-			{	
-				PhotonNetwork.room.IsOpen = false;				
+			{
+				PhotonNetwork.room.IsOpen = false;
 			}
 		}
 	}

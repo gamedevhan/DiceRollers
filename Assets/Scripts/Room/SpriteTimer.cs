@@ -24,18 +24,22 @@ public class SpriteTimer : MonoBehaviour
 
 	private void OnEnable()
 	{
-		LevelTransitionManager.StartCountdown += OnCountDownStart;
+		PhotonNetwork.OnEventCall += OnCountDownStart;
 	}
 
 	private void OnDisable()
 	{
-		LevelTransitionManager.StartCountdown -= OnCountDownStart;
+		PhotonNetwork.OnEventCall -= OnCountDownStart;
 	}
 
-	public void OnCountDownStart()
-	{		
-		PhotonView photonView = PhotonView.Get(this);
-		photonView.RPC("StartCountDown", PhotonTargets.All);
+	public void OnCountDownStart(byte eventcode, object content, int senderid)
+	{
+		if (eventcode != (byte)EventCodes.CountDownStart)
+			return;
+
+		StartCountDown();
+		//PhotonView photonView = PhotonView.Get(this);
+		//photonView.RPC("StartCountDown", PhotonTargets.All);
 	}
 
 	[PunRPC]

@@ -55,7 +55,7 @@ public class RoomCharacter : MonoBehaviour
 				break;
 			default:
 				break;
-		}		
+		}
 	}
 
 	[PunRPC]

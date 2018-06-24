@@ -13,7 +13,7 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	}
 
 	private void SpawnGamePlayer()
-	{		
+	{
 		string characterName = LevelTransitionManager.Instance.SelectedCharacter.ToString();
 		Debug.Log(characterName);
 		PhotonNetwork.Instantiate(characterName, startTile.position, Quaternion.identity, 0);

@@ -11,29 +11,36 @@ public class RoomButtonManager : MonoBehaviour
 	
 	private void OnEnable()
 	{
-		LevelTransitionManager.StartCountdown += OnStartCountDown;
+		PhotonNetwork.OnEventCall += OnStartCountDown;
 	}
 
 	private void OnDisable()
 	{
-		LevelTransitionManager.StartCountdown -= OnStartCountDown;
+		PhotonNetwork.OnEventCall -= OnStartCountDown;
 	}
 
 	public void OnReadyPressed()
 	{	
+		// Publish local Event
 		ReadyPressed();
+
+		// Publish PhotonEvent
+		PhotonNetwork.RaiseEvent((byte)EventCodes.ReadyPress, null, true, null);	
 	}
 		
 	public void OnLeavePressed()
-	{	
+	{			
 		LevelTransitionManager.Instance.DestroyGameObject();
 		PhotonNetwork.LeaveRoom(false);
 		PhotonNetwork.JoinLobby();
 		SceneManager.LoadScene("01 Lobby");
 	}
 
-	private void OnStartCountDown()
+	private void OnStartCountDown(byte eventcode, object content, int senderid)
 	{
+		if (eventcode != (byte)EventCodes.CountDownStart)
+			return;
+
 		roomUIButtons.SetActive(false);
 	}
 }

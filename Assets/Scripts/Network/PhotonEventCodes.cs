@@ -1,5 +1,6 @@
 ﻿enum EventCodes : byte
 {
 	NewPlayerJoin,
-	ReadyPress
+	ReadyPress,
+	CountDownStart
 }

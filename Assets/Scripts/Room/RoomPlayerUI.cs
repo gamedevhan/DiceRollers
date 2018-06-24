@@ -96,9 +96,6 @@ public class RoomPlayerUI : MonoBehaviour
 		
 		PhotonView.RPC("SyncReadyStatus", PhotonTargets.Others, roomPlayer.IsReady);
 		PhotonView.RPC("SyncReadyIcon", PhotonTargets.All, roomPlayer.IsReady);
-
-		// Publish PhotonEvent that only masterclient listens.
-		PhotonNetwork.RaiseEvent((byte)EventCodes.ReadyPress, null, true, null);		
 	}
 
 	[PunRPC]
