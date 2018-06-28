@@ -63,15 +63,17 @@ public class TurnManager : MonoBehaviour
 			shuffledPlayerIDs[i] = playerIDs[i];
 		}
 
+		CurrentPlayerTurnID = playerIDs[0];
+
 		// Send RPC to clients to sync shuffled playerIDs
 		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);
 		RaiseEventOptions eventOptions = new RaiseEventOptions { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, null, true, eventOptions);		
+		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentPlayerTurnID, true, eventOptions);
 	}
 		
 	private void ShufflePlayerIDs() // Shuffle using Fisher-Yates algorithm
 	{
-		for (int i = playerIDs.Count; i > 0; i--)
+		for (int i = playerIDs.Count - 1; i > 0; i--)
 		{
 			int random = Random.Range(0, i);
 			int temp = playerIDs[i];

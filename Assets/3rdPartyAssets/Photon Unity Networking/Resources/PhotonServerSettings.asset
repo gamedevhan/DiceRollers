@@ -41,15 +41,13 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - SendCurrentCharacterIndex
-  - SendLoadedPlayerID
   - SendRoomPlayerStatus
   - SendSpawnPointInfo
   - SetActive
   - StartCountDown
-  - SyncLoadedPlayerIDs
   - SyncOtherPlayerCharacter
+  - SyncPlayerIDs
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
-  - SyncPlayerIDs
   DisableAutoOpenWizard: 1
