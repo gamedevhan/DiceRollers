@@ -16,5 +16,8 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	{
 		string characterName = LevelTransitionManager.Instance.SelectedCharacter.ToString();		
 		PhotonNetwork.Instantiate(characterName, startTile.position, Quaternion.identity, 0);
+
+		RaiseEventOptions eventOptions = new RaiseEventOptions { CachingOption = EventCaching.AddToRoomCache, Receivers = ReceiverGroup.All };		
+		PhotonNetwork.RaiseEvent(PhotonEventCode.PlayerLoaded, null, true, eventOptions);
 	}
 }

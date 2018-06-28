@@ -7,11 +7,13 @@ public class TurnManager : MonoBehaviour
 	private List<int> playerIDs = new List<int>();
 	private PhotonView photonView;
 	
+	public int CurrentPlayerTurnID { get; private set; }
+
 	private void Awake()
 	{
 		if (Instance == null)
 		{
-			Instance = this;			
+			Instance = this;
 		}
 		else
 		{
@@ -21,82 +23,69 @@ public class TurnManager : MonoBehaviour
 		photonView = PhotonView.Get(this);
 	}
 
-	private void Start()
+	private void OnEnable()
 	{
-		playerIDs.Add(PhotonNetwork.player.ID); // Register localPlayer
-		photonView.RPC("SendLoadedPlayerID", PhotonTargets.Others, PhotonNetwork.player.ID); // Request loadedplayerlist to others
+		PhotonNetwork.OnEventCall += OnPlayerLoad;
 	}
 
-	[PunRPC]
-	private void SendLoadedPlayerID(int senderID)
-	{	
-		int[] playerIDInfo = new int[playerIDs.Count];
-
-		for (int i = 0; i < playerIDInfo.Length; i++)
-		{
-			playerIDInfo[i] = playerIDs[i];
-		}
-
-		photonView.RPC("SyncLoadedPlayerIDs", PhotonPlayer.Find(senderID), playerIDInfo);
-
-		for (int i = 0; i < playerIDs.Count; i++)
-		{
-			if (playerIDs[i] == senderID)
-			{
-				break;
-			}
-			else
-			{
-				playerIDs.Add(senderID);
-			}			
-		}
-
-		CheckIfEveryoneHasLoaded();
+	private void OnDisable()
+	{
+		PhotonNetwork.OnEventCall -= OnPlayerLoad;
 	}
 
-	[PunRPC]
-	private void SyncLoadedPlayerIDs(int[] playerIDInfo)
+	private void OnPlayerLoad(byte eventcode, object content, int senderid)
 	{
-		for (int i = 0; i < playerIDInfo.Length; i++)
-		{
-			if (!HasRegistered(playerIDInfo[i]))
-			{
-				playerIDs.Add(playerIDInfo[i]);
-			}
-		}
+		if (eventcode != PhotonEventCode.PlayerLoaded)
+			return;
 
-		CheckIfEveryoneHasLoaded();
-	}
+		playerIDs.Add(senderid);
 
-	private bool HasRegistered(int playerID)
-	{
-		for (int i = 0; i < playerIDs.Count; i++)
+		if (PhotonNetwork.isMasterClient)
 		{
-			if (playerIDs[i] == playerID)
+			// Check if all players are loaded
+			if (playerIDs.Count == PhotonNetwork.playerList.Length)
 			{				
-				return true;
+				StartMatch();			
 			}
 		}
-
-		return false;
-	}
-
-	private void CheckIfEveryoneHasLoaded()
-	{
-		if (!PhotonNetwork.isMasterClient)
-			return;		
 		
-		if (playerIDs.Count == PhotonNetwork.playerList.Length)
+	}
+		
+	private void StartMatch()
+	{
+		// ShufflePlayerIDs for random turn order
+		ShufflePlayerIDs();
+
+		int[] shuffledPlayerIDs = new int[playerIDs.Count];
+
+		for (int i = 0; i < playerIDs.Count; i++)
 		{
-			Debug.Log("Everyone is loaded!");
-			ShufflePlayerIDs();
-			// Send RPC to clients to sync
-			// Start game
+			shuffledPlayerIDs[i] = playerIDs[i];
+		}
+
+		// Send RPC to clients to sync shuffled playerIDs
+		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);
+		RaiseEventOptions eventOptions = new RaiseEventOptions { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, null, true, eventOptions);		
+	}
+		
+	private void ShufflePlayerIDs() // Shuffle using Fisher-Yates algorithm
+	{
+		for (int i = playerIDs.Count; i > 0; i--)
+		{
+			int random = Random.Range(0, i);
+			int temp = playerIDs[i];
+			playerIDs[i] = playerIDs[random];
+			playerIDs[random] = temp;
 		}
 	}
 
-	private void ShufflePlayerIDs()
+	[PunRPC]
+	private void SyncPlayerIDs(int[] shuffledIDs)
 	{
-		
+		for (int i = 0; i < shuffledIDs.Length; i++)
+		{
+			playerIDs[i] = shuffledIDs[i];
+		}
 	}
 }
