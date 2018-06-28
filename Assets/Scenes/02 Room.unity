@@ -447,7 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HideAfterFinish: 1
   TimeLeft: 5
-  TimerActivateThreshold: 0.99
+  TimerActivateThreshold: 0.9
   countDownTimer: {fileID: 1288155151}
   FinishText: Game Start!
   timerGameObject: {fileID: 1288155149}

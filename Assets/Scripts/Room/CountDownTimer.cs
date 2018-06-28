@@ -5,8 +5,8 @@ using UnityEngine;
 public class CountDownTimer : MonoBehaviour
 {
 	public bool HideAfterFinish = true;
-	public float TimeLeft = 10f;
-	public float TimerActivateThreshold = 0.99f;
+	public float TimeLeft = 5f;
+	public float TimerActivateThreshold = 0.9f;
 	public UILabel countDownTimer;	
 	public string FinishText = "Game Start!";
 
