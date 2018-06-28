@@ -122,8 +122,9 @@ GameObject:
   m_Component:
   - component: {fileID: 27568388}
   - component: {fileID: 27568389}
-  - component: {fileID: 27568391}
   - component: {fileID: 27568392}
+  - component: {fileID: 27568393}
+  - component: {fileID: 27568391}
   - component: {fileID: 27568390}
   m_Layer: 0
   m_Name: GameManager
@@ -206,6 +207,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RollButton: {fileID: 1296730398}
+--- !u!114 &27568393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27568387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69e8d6aa070f847408a54c35d4affe94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &78764787
 Prefab:
   m_ObjectHideFlags: 0
@@ -994,12 +1006,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 737463368}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7cb7ef11aa75f748a7f5b6c96fa5904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentCharacter: {fileID: 0}
 --- !u!1 &851230944
 GameObject:
   m_ObjectHideFlags: 0
