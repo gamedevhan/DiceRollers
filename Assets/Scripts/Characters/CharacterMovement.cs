@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterMovement : MonoBehaviour
+public class CharacterMovement : Photon.PunBehaviour
 {
 	private const float lerpThreshold = 0.05f;
 
@@ -37,7 +37,10 @@ public class CharacterMovement : MonoBehaviour
 
 	// This method listens to DiceRolled event
 	private void OnDiceRolled()
-	{	
+	{
+		if (!photonView.isMine)
+			return;
+
 		StartCoroutine(Move());
 		IsMovingForward = true;
 		tilesToMove = Dice.DiceResult;
