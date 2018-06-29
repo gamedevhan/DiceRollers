@@ -41,9 +41,7 @@ public class CharacterMovement : Photon.PunBehaviour
 		if (!photonView.isMine)
 			return;
 
-		StartCoroutine(Move());
-		IsMovingForward = true;
-		tilesToMove = Dice.DiceResult;
+		//photonView.RPC("MoveCharacter")
 	}
 
 	// This method listens to TileEntered event
@@ -60,6 +58,11 @@ public class CharacterMovement : Photon.PunBehaviour
 			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
 			if (specialTile != null)
 				StartCoroutine(specialTile.SpecialTileEffect());
+			else // TurnEnd. Update currentTurnPlayer, then begin turn
+			{
+				RaiseEventOptions eventOptions = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.MasterClient };
+				PhotonNetwork.RaiseEvent(PhotonEventCode.TurnEnd, null, true, eventOptions);
+			}	
 		}
 	}
 
@@ -106,12 +109,11 @@ public class CharacterMovement : Photon.PunBehaviour
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}
 
-	// For testing
-	public void ResetPosition()
+	[PunRPC]
+	private void MoveCharacter()
 	{
-		transform.position = new Vector3(0, 0, 0);		
-		CurrentTile = TileManager.Instance.Tiles[0];
-		NextTile = TileManager.Instance.Tiles[1];
-		transform.LookAt(NextTile);
+		StartCoroutine(Move());
+		IsMovingForward = true;
+		tilesToMove = Dice.DiceResult;
 	}
 }

@@ -8,6 +8,7 @@ public class TurnManager : MonoBehaviour
 	private PhotonView photonView;
 	
 	public int CurrentTurnPlayerID { get; private set; }
+	private RaiseEventOptions turnBeginEventOptions = new RaiseEventOptions { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
 
 	private void Awake()
 	{
@@ -26,11 +27,13 @@ public class TurnManager : MonoBehaviour
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnPlayerLoad;
+		PhotonNetwork.OnEventCall += OnTurnEnd;
 	}
 
 	private void OnDisable()
 	{
 		PhotonNetwork.OnEventCall -= OnPlayerLoad;
+		PhotonNetwork.OnEventCall -= OnTurnEnd;
 	}
 
 	private void OnPlayerLoad(byte eventcode, object content, int senderid)
@@ -48,9 +51,22 @@ public class TurnManager : MonoBehaviour
 				StartMatch();			
 			}
 		}
-		
 	}
+	
+	private void OnTurnEnd(byte eventcode, object content, int senderid)
+	{
+		if (eventcode != PhotonEventCode.TurnEnd)
+			return;
 		
+		int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);		
+		CurrentTurnPlayerID = ( currentTurnPlayerIndex == playerIDs.Count - 1 ) ? playerIDs[0] : playerIDs[currentTurnPlayerIndex + 1];
+
+		if (PhotonNetwork.isMasterClient)
+		{
+			PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnBeginEventOptions);
+		}
+	}
+
 	private void StartMatch()
 	{
 		// ShufflePlayerIDs for random turn order
@@ -66,9 +82,8 @@ public class TurnManager : MonoBehaviour
 		CurrentTurnPlayerID = playerIDs[0];
 
 		// Send RPC to clients to sync shuffled playerIDs
-		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);
-		RaiseEventOptions eventOptions = new RaiseEventOptions { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
-		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, eventOptions);
+		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);		
+		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnBeginEventOptions);
 	}
 		
 	private void ShufflePlayerIDs() // Shuffle using Fisher-Yates algorithm

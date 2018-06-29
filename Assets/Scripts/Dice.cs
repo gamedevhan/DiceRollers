@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Dice : MonoBehaviour
 {	
-	public static int DiceResult;
+	public static int DiceResult; // Why is this static?
 
 	[SerializeField] private Vector3 forceMin;
 	[SerializeField] private Vector3 forceMax;	
@@ -17,6 +17,20 @@ public class Dice : MonoBehaviour
 	public delegate void DiceRollEvent();
 	public static event DiceRollEvent DiceRolled;
 	
+	public static Dice Instance = null;
+
+	private void Awake()
+	{
+		if (Instance != this)
+		{
+			Destroy(gameObject);
+		}
+		else
+		{
+			Instance = this;
+		}
+	}
+
 	private void Start()
 	{			
 		mainCamera = Camera.main;		
@@ -28,7 +42,7 @@ public class Dice : MonoBehaviour
 		rigidBody.isKinematic = true;		
 	}
 	
-	private IEnumerator Roll()
+	public IEnumerator Roll()
 	{		
 		rigidBody.isKinematic = false;
 		meshRenderer.enabled = true;
@@ -92,11 +106,5 @@ public class Dice : MonoBehaviour
 		meshRenderer.enabled = false;		
 		transform.position = mainCamera.transform.position + offsetFromCamera;
 		transform.rotation = Quaternion.identity;
-	}
-
-	// For testing
-	public void RollButton()
-	{
-		StartCoroutine(Roll());
 	}
 }
