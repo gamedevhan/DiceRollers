@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameUIManager : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject RollButton;
 
-	public static GameUIManager Instance = null;
+	public static event Action RollButtonPress = delegate{ };
+	public static GameUIManager Instance = null;	
 
 	private void Awake()
 	{
-		if (Instance != this)
+		if (Instance == null)
 		{
-			Destroy(gameObject);
+			Instance = this;			
 		}
 		else
 		{
-			Instance = this;
+			Destroy(gameObject);
 		}
 	}
 
@@ -30,9 +32,9 @@ public class GameUIManager : MonoBehaviour
 	}
 
 	public void Roll()
-	{
-		StartCoroutine(Dice.Instance.Roll());
+	{		
 		RollButton.SetActive(false);
+		RollButtonPress();
 	}
 
 	private void OnTurnBegin(byte eventcode, object content, int senderid)

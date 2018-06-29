@@ -61,6 +61,7 @@ public class LevelTransitionManager : MonoBehaviour
 			if (PhotonNetwork.isMasterClient)
 			{
 				PhotonNetwork.room.IsOpen = false;
+				PhotonNetwork.room.IsVisible = false;
 			}
 		}
 	}

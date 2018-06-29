@@ -50,4 +50,6 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - MoveCharacter
+  - Roll
   DisableAutoOpenWizard: 1

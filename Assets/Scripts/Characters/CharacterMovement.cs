@@ -19,13 +19,13 @@ public class CharacterMovement : Photon.PunBehaviour
 
 	private void OnEnable()
 	{
-		Dice.DiceRolled += OnDiceRolled;
+		//Dice.DiceRolled += OnDiceRolled;
 		Tile.TileEntered += OnTileEntered;
 	}
 
 	private void OnDisable()
 	{
-		Dice.DiceRolled -= OnDiceRolled;
+		//Dice.DiceRolled -= OnDiceRolled;
 		Tile.TileEntered -= OnTileEntered;
 	}
 
@@ -114,6 +114,6 @@ public class CharacterMovement : Photon.PunBehaviour
 	{
 		StartCoroutine(Move());
 		IsMovingForward = true;
-		tilesToMove = Dice.DiceResult;
+		//tilesToMove = Dice.Instance.DiceResult;
 	}
 }

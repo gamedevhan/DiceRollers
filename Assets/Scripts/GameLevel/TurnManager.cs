@@ -18,7 +18,7 @@ public class TurnManager : MonoBehaviour
 		}
 		else
 		{
-			Destroy(gameObject);
+			Destroy(this);
 		}
 
 		photonView = PhotonView.Get(this);
