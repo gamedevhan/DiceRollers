@@ -19,13 +19,13 @@ public class CharacterMovement : Photon.PunBehaviour
 
 	private void OnEnable()
 	{
-		//Dice.DiceRolled += OnDiceRolled;
+		Dice.DiceRoll += OnDiceRolled;
 		Tile.TileEntered += OnTileEntered;
 	}
 
 	private void OnDisable()
 	{
-		//Dice.DiceRolled -= OnDiceRolled;
+		Dice.DiceRoll -= OnDiceRolled;
 		Tile.TileEntered -= OnTileEntered;
 	}
 
@@ -36,12 +36,13 @@ public class CharacterMovement : Photon.PunBehaviour
 	}
 
 	// This method listens to DiceRolled event
-	private void OnDiceRolled()
+	private void OnDiceRolled(int diceResult)
 	{
 		if (!photonView.isMine)
 			return;
-
-		//photonView.RPC("MoveCharacter")
+		
+		int characterToMoveViewId = photonView.viewID;
+		photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult, characterToMoveViewId);
 	}
 
 	// This method listens to TileEntered event
@@ -69,9 +70,8 @@ public class CharacterMovement : Photon.PunBehaviour
 	public IEnumerator Move()
 	{	
 		transform.LookAt(NextTile);
-		Debug.Log(name + " Start lerping");
 
-		// Lerp
+		// Lerp		
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
 		IsMoving = true;
@@ -85,8 +85,7 @@ public class CharacterMovement : Photon.PunBehaviour
 		}
 
 		// Snap to the destination when distance between transform.position <= lerpThreshold
-		transform.position = NextTile.position;
-		Debug.Log(name + " Reached next tile.");
+		transform.position = NextTile.position;		
 
 		// Update tilesToMove
 		if (IsMovingForward)
@@ -104,16 +103,17 @@ public class CharacterMovement : Photon.PunBehaviour
 		else
 			Debug.LogError("There is a logic error with updating NextTile");
 		
-		Debug.Log("<b><color=green> Current tile Index is: </color>" + CurrentTile.GetComponent<Tile>().index + "<color=green>, Next tile Index is: </color>" + NextTile.GetComponent<Tile>().index + "</b>");
-
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}
 
 	[PunRPC]
-	private void MoveCharacter()
+	private void MoveCharacter(int diceResult, int characterToMoveViewID)
 	{
-		StartCoroutine(Move());
+		if (photonView.viewID != characterToMoveViewID)
+			return;
+
+		tilesToMove = diceResult;
 		IsMovingForward = true;
-		//tilesToMove = Dice.Instance.DiceResult;
+		StartCoroutine(Move());
 	}
 }

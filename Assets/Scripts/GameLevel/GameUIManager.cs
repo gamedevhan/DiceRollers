@@ -31,22 +31,29 @@ public class GameUIManager : MonoBehaviour
 		PhotonNetwork.OnEventCall -= OnTurnBegin;
 	}
 
-	public void Roll()
+	private void Start()
+	{
+		RollButton.SetActive(false);
+	}
+
+	public void OnRollButtonPressed()
 	{		
 		RollButton.SetActive(false);
 		RollButtonPress();
 	}
 
-	private void OnTurnBegin(byte eventcode, object content, int senderid)
+	private void OnTurnBegin(byte eventcode, object currentTurnPlayerID, int senderid)
 	{
 		if (eventcode != PhotonEventCode.TurnBegin)
 			return;
 
-		if ((int)content != PhotonNetwork.player.ID && RollButton.activeInHierarchy)
+		Debug.Log("Turn began! CurrentTurn player's ID is: " + currentTurnPlayerID);
+
+		if (PhotonNetwork.player.ID != (int)currentTurnPlayerID) // Not local player's turn
 		{
 			RollButton.SetActive(false);
 		}
-		else if (!RollButton.activeInHierarchy)
+		else if (!RollButton.activeInHierarchy) // local player's turn
 		{
 			RollButton.SetActive(true);
 		}
