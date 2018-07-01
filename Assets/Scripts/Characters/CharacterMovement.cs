@@ -19,13 +19,13 @@ public class CharacterMovement : Photon.PunBehaviour
 
 	private void OnEnable()
 	{
-		Dice.DiceRoll += OnDiceRolled;
+		Dice.DiceRollEvent += OnDiceRolled;
 		Tile.TileEntered += OnTileEntered;
 	}
 
 	private void OnDisable()
 	{
-		Dice.DiceRoll -= OnDiceRolled;
+		Dice.DiceRollEvent -= OnDiceRolled;
 		Tile.TileEntered -= OnTileEntered;
 	}
 
@@ -38,11 +38,11 @@ public class CharacterMovement : Photon.PunBehaviour
 	// This method listens to DiceRolled event
 	private void OnDiceRolled(int diceResult)
 	{
-		if (!photonView.isMine)
-			return;
-		
-		int characterToMoveViewId = photonView.viewID;
-		photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult, characterToMoveViewId);
+		if (photonView.isMine)
+		{
+			int movingCharacterViewID = photonView.viewID;
+			photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult, movingCharacterViewID);
+		}
 	}
 
 	// This method listens to TileEntered event
@@ -107,11 +107,11 @@ public class CharacterMovement : Photon.PunBehaviour
 	}
 
 	[PunRPC]
-	private void MoveCharacter(int diceResult, int characterToMoveViewID)
+	private void MoveCharacter(int diceResult, int movingCharacterViewID)
 	{
-		if (photonView.viewID != characterToMoveViewID)
+		if (photonView.viewID != movingCharacterViewID)
 			return;
-
+		
 		tilesToMove = diceResult;
 		IsMovingForward = true;
 		StartCoroutine(Move());

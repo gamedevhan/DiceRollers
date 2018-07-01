@@ -52,4 +52,5 @@ MonoBehaviour:
   - SyncSpawnPointInfo
   - MoveCharacter
   - Roll
+  - PlayRollAnimation
   DisableAutoOpenWizard: 1

@@ -14,7 +14,7 @@ public class GamePlayerSpawnManager : MonoBehaviour
 
 	private void SpawnGamePlayer()
 	{
-		string characterName = LevelTransitionManager.Instance.SelectedCharacter.ToString();		
+		string characterName = LevelTransitionManager.Instance.SelectedCharacter.ToString();
 		GameObject playerCharacter = PhotonNetwork.Instantiate(characterName, startTile.position, Quaternion.identity, 0);
 		PhotonView characterPhotonView = PhotonView.Get(playerCharacter);
 

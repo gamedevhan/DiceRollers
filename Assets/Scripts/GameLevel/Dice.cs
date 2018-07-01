@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 public class Dice : Photon.MonoBehaviour
@@ -8,7 +9,7 @@ public class Dice : Photon.MonoBehaviour
 	private MeshRenderer meshRenderer;
 	private Animator animator;
 
-	public static event Action<int> DiceRoll = delegate(int diceResult) { };
+	public static event Action<int> DiceRollEvent = delegate(int diceResult) { };
 
 	private void Awake()
 	{
@@ -29,17 +30,22 @@ public class Dice : Photon.MonoBehaviour
 
 	private void OnRollButtonPressed()
 	{
+		StartCoroutine(Roll());
+	}
+
+	private IEnumerator Roll()
+	{
 		DiceResult = UnityEngine.Random.Range(1, 7);
-		photonView.RPC("Roll", PhotonTargets.All, DiceResult);
+		photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
+
+		yield return new WaitForSeconds(1f);		
+		DiceRollEvent(DiceResult);
 	}
 
 	[PunRPC]
-	private void Roll(int diceResult)
+	private void PlayRollAnimation(int diceResult)
 	{	
 		meshRenderer.enabled = true;
-
-		// TODO: Make this coroutine so Diceroll event get published after animation finished playing
-		animator.Play("Dice" + diceResult);		
-		DiceRoll(diceResult);
+		animator.Play("Dice" + diceResult);				
 	}
 }
