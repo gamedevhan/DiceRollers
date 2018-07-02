@@ -6,7 +6,7 @@ public class CharacterMovement : Photon.PunBehaviour
 	private const float lerpThreshold = 0.05f;
 
 	public int tilesToMove = 0;
-	public bool IsMoving = false;
+	public bool ShouldPlayMoveAnim = false;
 	public bool IsMovingForward = true;
 	
 	public float Speed = 1.0F;
@@ -52,15 +52,19 @@ public class CharacterMovement : Photon.PunBehaviour
 			StartCoroutine(Move());
 		else if (tilesToMove == 0) // Otherwise, stop moving
 		{				
-			IsMoving = false;
+			ShouldPlayMoveAnim = false;
 			IsMovingForward = true;
 			
-			// SpecialTileEffect
+			// Check if current tile is a specialTile
 			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
 			if (specialTile != null)
 				StartCoroutine(specialTile.SpecialTileEffect());
-			else // TurnEnd. Update currentTurnPlayer, then begin turn
+			else // no move left, current tile is not special tile. End turn
 			{
+				if (PhotonNetwork.player.ID != TurnManager.Instance.CurrentTurnPlayerID)
+					return;
+
+				Debug.Log("My turn is over");
 				RaiseEventOptions eventOptions = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.MasterClient };
 				PhotonNetwork.RaiseEvent(PhotonEventCode.TurnEnd, null, true, eventOptions);
 			}	
@@ -71,10 +75,10 @@ public class CharacterMovement : Photon.PunBehaviour
 	{	
 		transform.LookAt(NextTile);
 
-		// Lerp		
+		#region lerp to next tile
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
-		IsMoving = true;
+		ShouldPlayMoveAnim = true;
 		
 		while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
 		{
@@ -85,7 +89,8 @@ public class CharacterMovement : Photon.PunBehaviour
 		}
 
 		// Snap to the destination when distance between transform.position <= lerpThreshold
-		transform.position = NextTile.position;		
+		transform.position = NextTile.position;
+		#endregion
 
 		// Update tilesToMove
 		if (IsMovingForward)
@@ -98,10 +103,8 @@ public class CharacterMovement : Photon.PunBehaviour
 			
 		if (tilesToMove >= 0)
 			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index + 1];
-		else if (tilesToMove < 0)
-			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];		
 		else
-			Debug.LogError("There is a logic error with updating NextTile");
+			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];				
 		
 		NextTile.GetComponent<Tile>().OnCharacterEnter();
 	}

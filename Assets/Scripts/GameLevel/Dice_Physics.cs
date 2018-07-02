@@ -95,7 +95,7 @@ public class Dice_Physics : Photon.MonoBehaviour
 	private IEnumerator ResetDice()
 	{
 		CharacterMovement characterMovement = FindObjectOfType<CharacterMovement>();
-		while (characterMovement.IsMoving)
+		while (characterMovement.ShouldPlayMoveAnim)
 		{
 			yield return null;
 		}

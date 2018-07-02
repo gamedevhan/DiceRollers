@@ -36,7 +36,7 @@ public class TurnManager : MonoBehaviour
 		PhotonNetwork.OnEventCall -= OnTurnEnd;
 	}
 
-	private void OnPlayerLoad(byte eventcode, object content, int senderid)
+	private void OnPlayerLoad(byte eventcode, object senderCharacterPhotonViewID, int senderid)
 	{
 		if (eventcode != PhotonEventCode.PlayerLoaded)
 			return;
@@ -48,7 +48,7 @@ public class TurnManager : MonoBehaviour
 			// Check if all players are loaded
 			if (playerIDs.Count == PhotonNetwork.playerList.Length)
 			{				
-				StartMatch();			
+				StartMatch();
 			}
 		}
 	}
@@ -70,7 +70,7 @@ public class TurnManager : MonoBehaviour
 	private void StartMatch()
 	{
 		// ShufflePlayerIDs for random turn order
-		ShufflePlayerIDs();
+		RandomizeTurnOrder();
 
 		int[] shuffledPlayerIDs = new int[playerIDs.Count];
 
@@ -86,7 +86,8 @@ public class TurnManager : MonoBehaviour
 		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnBeginEventOptions);
 	}
 		
-	private void ShufflePlayerIDs() // Shuffle using Fisher-Yates algorithm
+	// Shuffle playerIDs using Fisher-Yates algorithm. Problem: When there are only 2 players, masterclient will always be the second.
+	private void RandomizeTurnOrder()
 	{
 		for (int i = playerIDs.Count - 1; i > 0; i--)
 		{
