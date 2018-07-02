@@ -6,4 +6,9 @@ public static class DebugUtility
     {
         Debug.Log("<b><color=" + color + ">" + text + "</color></b>");
     }
+
+	public static void Log(int value, string color = "green")
+	{
+		Debug.Log("<b><color=" + color + ">" + value + "</color></b>");
+	}
 }

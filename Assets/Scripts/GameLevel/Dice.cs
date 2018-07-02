@@ -8,44 +8,53 @@ public class Dice : Photon.MonoBehaviour
 
 	private MeshRenderer meshRenderer;
 	private Animator animator;
+	private Vector3 offSetFromCamera;
 
 	public static event Action<int> DiceRollEvent = delegate(int diceResult) { };
 
 	private void Awake()
-	{
+	{		
 		meshRenderer = GetComponent<MeshRenderer>();
-		animator = GetComponent<Animator>();
-		meshRenderer.enabled = false;
+		animator = GetComponent<Animator>();		
 	}
-
+	
 	private void OnEnable()
 	{
 		GameUIManager.RollButtonPress += OnRollButtonPressed;
 	}
 
-	private void OnDestroy()
+	private void OnDisable()
 	{
 		GameUIManager.RollButtonPress -= OnRollButtonPressed;
 	}
 
-	private void OnRollButtonPressed()
+	private void Start()
 	{
+		meshRenderer.enabled = false;
+		offSetFromCamera = Camera.main.transform.position - transform.position;
+	}
+
+	private void OnRollButtonPressed()
+	{		
+		transform.position = Camera.main.transform.position - offSetFromCamera;
 		StartCoroutine(Roll());
 	}
 
 	private IEnumerator Roll()
 	{
 		DiceResult = UnityEngine.Random.Range(1, 7);
+		DebugUtility.Log(DiceResult);
 		photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
 
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(2f);
 		DiceRollEvent(DiceResult);
+		meshRenderer.enabled = false;
 	}
 
 	[PunRPC]
 	private void PlayRollAnimation(int diceResult)
 	{	
 		meshRenderer.enabled = true;
-		animator.Play("Dice" + diceResult);				
+		animator.Play("Dice" + diceResult);	
 	}
 }
