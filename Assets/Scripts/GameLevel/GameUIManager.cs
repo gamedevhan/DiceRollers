@@ -1,21 +1,23 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class GameUIManager : MonoBehaviour
 {
 	[SerializeField]
 	private GameObject RollButton;
 
-	public static GameUIManager Instance = null;
+	public static event Action RollButtonPress = delegate{ };
+	public static GameUIManager Instance = null;	
 
 	private void Awake()
 	{
-		if (Instance != this)
+		if (Instance == null)
 		{
-			Destroy(gameObject);
+			Instance = this;			
 		}
 		else
 		{
-			Instance = this;
+			Destroy(gameObject);
 		}
 	}
 
@@ -29,22 +31,29 @@ public class GameUIManager : MonoBehaviour
 		PhotonNetwork.OnEventCall -= OnTurnBegin;
 	}
 
-	public void Roll()
+	private void Start()
 	{
-		StartCoroutine(Dice.Instance.Roll());
 		RollButton.SetActive(false);
 	}
 
-	private void OnTurnBegin(byte eventcode, object content, int senderid)
+	public void OnRollButtonPressed()
+	{		
+		RollButton.SetActive(false);
+		RollButtonPress();
+	}
+
+	private void OnTurnBegin(byte eventcode, object currentTurnPlayerID, int senderid)
 	{
 		if (eventcode != PhotonEventCode.TurnBegin)
 			return;
 
-		if ((int)content != PhotonNetwork.player.ID && RollButton.activeInHierarchy)
+		Debug.Log("Turn began! CurrentTurn player's ID is: " + currentTurnPlayerID);
+
+		if (PhotonNetwork.player.ID != (int)currentTurnPlayerID) // Not local player's turn
 		{
 			RollButton.SetActive(false);
 		}
-		else if (!RollButton.activeInHierarchy)
+		else if (!RollButton.activeInHierarchy) // local player's turn
 		{
 			RollButton.SetActive(true);
 		}

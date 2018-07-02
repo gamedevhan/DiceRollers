@@ -34,6 +34,7 @@ public class CameraFollow : MonoBehaviour
 			return;
 
 		int currentTurnCharacterViewID = PlayerCharacterManager.Instance.CharacterPhotonViewID[(int)currentTurnPlayerID];
+		Debug.Log(currentTurnCharacterViewID + "'s turn");
 		currentCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 	}
 }

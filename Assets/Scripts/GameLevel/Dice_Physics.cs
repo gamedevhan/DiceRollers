@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class Dice : MonoBehaviour
+public class Dice_Physics : Photon.MonoBehaviour
 {	
-	public static int DiceResult; // Why is this static?
+	public int DiceResult { get; private set; }
 
 	[SerializeField] private Vector3 forceMin;
 	[SerializeField] private Vector3 forceMax;	
@@ -17,17 +17,17 @@ public class Dice : MonoBehaviour
 	public delegate void DiceRollEvent();
 	public static event DiceRollEvent DiceRolled;
 	
-	public static Dice Instance = null;
+	public static Dice_Physics Instance = null;
 
 	private void Awake()
 	{
-		if (Instance != this)
+		if (Instance == null)
 		{
-			Destroy(gameObject);
+			Instance = this;			
 		}
 		else
 		{
-			Instance = this;
+			Destroy(gameObject);
 		}
 	}
 
@@ -39,9 +39,9 @@ public class Dice : MonoBehaviour
 
 		transform.position = mainCamera.transform.position + offsetFromCamera;
 		meshRenderer.enabled = false;
-		rigidBody.isKinematic = true;		
+		rigidBody.isKinematic = true;
 	}
-	
+		
 	public IEnumerator Roll()
 	{		
 		rigidBody.isKinematic = false;
@@ -95,7 +95,7 @@ public class Dice : MonoBehaviour
 	private IEnumerator ResetDice()
 	{
 		CharacterMovement characterMovement = FindObjectOfType<CharacterMovement>();
-		while (characterMovement.IsMoving)
+		while (characterMovement.ShouldPlayMoveAnim)
 		{
 			yield return null;
 		}

@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacterManager : MonoBehaviour
 {
-	// Key = playerID, Value = characterPhotonViewID controlled by local player
+	// Key = playerID, Value = characterPhotonViewID controlled by local player	
 	public Dictionary<int, int> CharacterPhotonViewID = new Dictionary<int, int>();
 
 	public static PlayerCharacterManager Instance = null;
@@ -36,6 +35,11 @@ public class PlayerCharacterManager : MonoBehaviour
 		if (eventcode != PhotonEventCode.PlayerLoaded)
 			return;
 
-		CharacterPhotonViewID.Add(senderid, (int)senderCharacterPhotonViewID);
+		int keyViewID = (int)senderCharacterPhotonViewID;
+
+		if (CharacterPhotonViewID.ContainsKey(keyViewID))
+			return;
+
+		CharacterPhotonViewID.Add(senderid, keyViewID);
 	}
 }
