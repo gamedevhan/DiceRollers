@@ -21,8 +21,8 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 
 		yield return new WaitForSeconds(FxDelay);
 				
-		character.tilesToMove += amount;
-		Debug.Log("Entered MoveTile, Tiles to Move: " + character.tilesToMove);
+		character.TilesToMove += amount;
+		Debug.Log("Entered MoveTile, Tiles to Move: " + character.TilesToMove);
 		
 		Move();
 	}
@@ -38,15 +38,13 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 	}
 
 	private void MoveForward()
-	{
-		character.IsMovingForward = true;
-		StartCoroutine(character.Move());
+	{		
+		character.Move();
 	}
 
 	private void MoveBackWard()
 	{	
-		character.IsMovingForward = false;
 		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
-		StartCoroutine(character.Move());
+		character.Move();
 	}
 }

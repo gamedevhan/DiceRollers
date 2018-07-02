@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class DebugColor
+public static class DebugUtility
 {
 	public static void Log(string text, string color = "green")
     {

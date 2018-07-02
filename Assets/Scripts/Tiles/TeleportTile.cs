@@ -26,6 +26,6 @@ public class TeleportTile : MonoBehaviour, ISpecialTile
 		character.CurrentTile = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index];
 		character.NextTile = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index + 1];
 
-		character.CurrentTile.GetComponent<Tile>().OnCharacterEnter();
+		character.CurrentTile.GetComponent<Tile>().OnCharacterEnter(0, character.photonView.viewID);
 	}
 }

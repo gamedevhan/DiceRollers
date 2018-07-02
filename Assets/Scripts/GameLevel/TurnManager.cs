@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class TurnManager : MonoBehaviour
-{
-	public static TurnManager Instance = null;
+{	
 	private List<int> playerIDs = new List<int>();
 	private PhotonView photonView;
 	
-	public int CurrentTurnPlayerID { get; private set; }
-	private RaiseEventOptions turnBeginEventOptions = new RaiseEventOptions { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.All };
+	public static int CurrentTurnPlayerID { get; private set; }	
+	public static TurnManager Instance;
+	private RaiseEventOptions turnEventOptions = new RaiseEventOptions();
 
 	private void Awake()
 	{
@@ -26,14 +27,12 @@ public class TurnManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		PhotonNetwork.OnEventCall += OnPlayerLoad;
-		PhotonNetwork.OnEventCall += OnTurnEnd;
+		PhotonNetwork.OnEventCall += OnPlayerLoad;		
 	}
 
 	private void OnDisable()
 	{
-		PhotonNetwork.OnEventCall -= OnPlayerLoad;
-		PhotonNetwork.OnEventCall -= OnTurnEnd;
+		PhotonNetwork.OnEventCall -= OnPlayerLoad;		
 	}
 
 	private void OnPlayerLoad(byte eventcode, object senderCharacterPhotonViewID, int senderid)
@@ -48,26 +47,36 @@ public class TurnManager : MonoBehaviour
 			// Check if all players are loaded
 			if (playerIDs.Count == PhotonNetwork.playerList.Length)
 			{				
-				StartMatch();
+				StartCoroutine(StartMatch());
 			}
 		}
 	}
-	
-	private void OnTurnEnd(byte eventcode, object content, int senderid)
+
+	public void TurnBegin()
+	{		
+		turnEventOptions.CachingOption = EventCaching.DoNotCache;
+		turnEventOptions.Receivers = ReceiverGroup.All;
+		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnEventOptions);
+	}
+
+	public void TurnEnd()
 	{
-		if (eventcode != PhotonEventCode.TurnEnd)
-			return;
-		
-		int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);		
+		photonView.RPC("OnTurnEnd", PhotonTargets.All);
+	}
+	
+	[PunRPC]
+	private void OnTurnEnd()
+	{	
+		int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);
 		CurrentTurnPlayerID = ( currentTurnPlayerIndex == playerIDs.Count - 1 ) ? playerIDs[0] : playerIDs[currentTurnPlayerIndex + 1];
 
 		if (PhotonNetwork.isMasterClient)
 		{
-			PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnBeginEventOptions);
+			TurnBegin();
 		}
 	}
 
-	private void StartMatch()
+	private IEnumerator StartMatch()
 	{
 		// ShufflePlayerIDs for random turn order
 		RandomizeTurnOrder();
@@ -82,8 +91,13 @@ public class TurnManager : MonoBehaviour
 		CurrentTurnPlayerID = playerIDs[0];
 
 		// Send RPC to clients to sync shuffled playerIDs
-		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);		
-		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnBeginEventOptions);
+		photonView.RPC("SyncPlayerIDs", PhotonTargets.Others, shuffledPlayerIDs);
+				
+		// TODO: Text -> Game Start!
+		yield return new WaitForSeconds(1f);
+		// TODO: Hide Text
+
+		TurnBegin();
 	}
 		
 	// Shuffle playerIDs using Fisher-Yates algorithm. Problem: When there are only 2 players, masterclient will always be the second.

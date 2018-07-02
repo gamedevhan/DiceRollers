@@ -3,30 +3,26 @@ using UnityEngine;
 
 public class CharacterMovement : Photon.PunBehaviour
 {
-	private const float lerpThreshold = 0.05f;
-
-	public int tilesToMove = 0;
-	public bool ShouldPlayMoveAnim = false;
-	public bool IsMovingForward = true;
-	
-	public float Speed = 1.0F;
-		
+	public int TilesToMove;
+	public bool ShouldPlayMoveAnim = false;		
+	public float Speed = 1.0F;		
 	public Transform CurrentTile;
 	public Transform NextTile;
 	
+	private const float lerpThreshold = 0.05f;
 	private float startTime;
 	private float journeyLength;
 
 	private void OnEnable()
 	{
 		Dice.DiceRollEvent += OnDiceRolled;
-		Tile.TileEntered += OnTileEntered;
+		Tile.TileEntered += OnTileEnter;
 	}
 
 	private void OnDisable()
 	{
 		Dice.DiceRollEvent -= OnDiceRolled;
-		Tile.TileEntered -= OnTileEntered;
+		Tile.TileEntered -= OnTileEnter;
 	}
 
 	private void Start()
@@ -39,47 +35,55 @@ public class CharacterMovement : Photon.PunBehaviour
 	private void OnDiceRolled(int diceResult)
 	{
 		if (photonView.isMine)
+		{			
+			photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult);
+		}
+	}
+
+	[PunRPC]
+	private void MoveCharacter(int moveLeft)
+	{		
+		TilesToMove = moveLeft;
+		DebugUtility.Log("Moving! tilestoMove = " + TilesToMove);
+		Move();
+	}
+
+	public void Move()
+	{
+		if (TilesToMove > 0)
 		{
-			int movingCharacterViewID = photonView.viewID;
-			photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult, movingCharacterViewID);
+			MoveForward();
+		}
+		else if (TilesToMove < 0)
+		{
+			MoveBackward();
+		}
+		else
+		{
+			Debug.LogError("Somethig's wrong. Trying to move, but TilesToMove = 0");
 		}
 	}
 
-	// This method listens to TileEntered event
-	private void OnTileEntered()
-	{	
-		if (tilesToMove != 0) // Call Move() again if there is still tiles to move
-			StartCoroutine(Move());
-		else if (tilesToMove == 0) // Otherwise, stop moving
-		{				
-			ShouldPlayMoveAnim = false;
-			IsMovingForward = true;
-			
-			// Check if current tile is a specialTile
-			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
-			if (specialTile != null)
-				StartCoroutine(specialTile.SpecialTileEffect());
-			else // no move left, current tile is not special tile. End turn
-			{
-				if (PhotonNetwork.player.ID != TurnManager.Instance.CurrentTurnPlayerID)
-					return;
-
-				Debug.Log("My turn is over");
-				RaiseEventOptions eventOptions = new RaiseEventOptions() { CachingOption = EventCaching.DoNotCache, Receivers = ReceiverGroup.MasterClient };
-				PhotonNetwork.RaiseEvent(PhotonEventCode.TurnEnd, null, true, eventOptions);
-			}	
-		}
+	private void MoveForward()
+	{			
+		TilesToMove--;		
+		StartCoroutine(MoveToNextTile(TilesToMove));
 	}
-
-	public IEnumerator Move()
-	{	
+	
+	private void MoveBackward()
+	{		
+		TilesToMove++;		
+		StartCoroutine(MoveToNextTile(TilesToMove));
+	}
+		
+	private IEnumerator MoveToNextTile(int tilesToMove)
+	{
 		transform.LookAt(NextTile);
-
-		#region lerp to next tile
+		
 		startTime = Time.time;
 		journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
 		ShouldPlayMoveAnim = true;
-		
+
 		while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
 		{
 			float distCovered = (Time.time - startTime) * Speed;
@@ -87,36 +91,58 @@ public class CharacterMovement : Photon.PunBehaviour
 			transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
 			yield return null;
 		}
-
-		// Snap to the destination when distance between transform.position <= lerpThreshold
-		transform.position = NextTile.position;
-		#endregion
-
-		// Update tilesToMove
-		if (IsMovingForward)
-			tilesToMove--;
-		else
-			tilesToMove++;
 				
-		// Update CurrentTile and NextTile
-		CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-			
-		if (tilesToMove >= 0)
-			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index + 1];
-		else
-			NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];				
-		
-		NextTile.GetComponent<Tile>().OnCharacterEnter();
+		transform.position = NextTile.position;
+		CurrentTile.GetComponent<Tile>().OnCharacterEnter(TilesToMove, photonView.viewID);
 	}
 
-	[PunRPC]
-	private void MoveCharacter(int diceResult, int movingCharacterViewID)
+	private void OnTileEnter(int tilesToMove, int currentTurnCharacterViewID)
 	{
-		if (photonView.viewID != movingCharacterViewID)
+		if (photonView.viewID != currentTurnCharacterViewID)
 			return;
-		
-		tilesToMove = diceResult;
-		IsMovingForward = true;
-		StartCoroutine(Move());
+
+		if (tilesToMove > 0)
+		{
+			CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
+			if (NextTile.GetComponent<Tile>().index < TileManager.Instance.Tiles.Count - 1)
+			{
+				NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index + 1];
+			}
+			else
+			{
+				DebugUtility.Log("NextTile is the last tile, it's better be the goal!");
+			}
+
+			MoveForward();
+		}
+		else if (tilesToMove < 0)
+		{
+			CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
+			if (NextTile.GetComponent<Tile>().index > 0)
+			{
+				NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];
+			}
+			else
+			{
+				DebugUtility.Log("Next tile is start tile no more going back!");
+			}
+			
+			MoveBackward();
+		}
+		else
+		{
+			ShouldPlayMoveAnim = false;
+
+			// No move left. Check if this tile is special tile. If not, end turn.
+			ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
+			if (specialTile != null)
+			{
+				specialTile.SpecialTileEffect();
+			}
+			else
+			{
+				TurnManager.Instance.TurnEnd();
+			}
+		}
 	}
 }

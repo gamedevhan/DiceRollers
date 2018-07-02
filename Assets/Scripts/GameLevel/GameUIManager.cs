@@ -6,20 +6,20 @@ public class GameUIManager : MonoBehaviour
 	[SerializeField]
 	private GameObject RollButton;
 
-	public static event Action RollButtonPress = delegate{ };
-	public static GameUIManager Instance = null;	
+	public static event Action RollButtonPress = delegate{ };	
+	public static GameUIManager Instance;	
 
 	private void Awake()
 	{
 		if (Instance == null)
 		{
-			Instance = this;			
+			Instance = this;
 		}
 		else
 		{
-			Destroy(gameObject);
+			Destroy(this);
 		}
-	}
+	}	
 
 	private void OnEnable()
 	{

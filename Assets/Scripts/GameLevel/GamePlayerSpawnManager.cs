@@ -6,6 +6,20 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	[SerializeField]
 	private Transform startTile;
 	
+	public static GamePlayerSpawnManager Instance;	
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
+
 	// Use this for initialization
 	void Start()
 	{

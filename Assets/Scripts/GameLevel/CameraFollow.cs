@@ -5,6 +5,9 @@ public class CameraFollow : MonoBehaviour
 	private Transform currentCharacter;	
 	private Vector3 offset;
 
+	[SerializeField]
+	private PlayerCharacterManager playerCharacterManager;
+
 	private void Start()
 	{
 		offset = transform.position;
@@ -32,9 +35,8 @@ public class CameraFollow : MonoBehaviour
 	{
 		if (eventcode != PhotonEventCode.TurnBegin)
 			return;
-
-		int currentTurnCharacterViewID = PlayerCharacterManager.Instance.CharacterPhotonViewID[(int)currentTurnPlayerID];
-		Debug.Log(currentTurnCharacterViewID + "'s turn");
+		
+		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[(int)currentTurnPlayerID];		
 		currentCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 	}
 }

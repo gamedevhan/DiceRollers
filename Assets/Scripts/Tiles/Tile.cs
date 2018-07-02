@@ -1,16 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Tile : MonoBehaviour
 {
 	public int index;
 
-	// This event needs to be raised when character finish lerping
-	public delegate void EnterTileEvent();
-	public static event EnterTileEvent TileEntered;
-	
-	public void OnCharacterEnter()
+	// This event needs to be raised when character finish lerping	
+	public static event Action<int, int> TileEntered = delegate { };
+
+	public void OnCharacterEnter(int tilesToMove, int characterViewID)
 	{
 		if (TileEntered != null)
-			TileEntered();
-	}	
+			TileEntered(tilesToMove, characterViewID);
+	}
 }

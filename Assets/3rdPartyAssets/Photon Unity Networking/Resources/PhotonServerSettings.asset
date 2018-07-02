@@ -33,8 +33,11 @@ MonoBehaviour:
   - DisplayPlayerName
   - DisplayPreviousCharacter
   - InstantiateRpc
+  - MoveCharacter
   - OnSpawnPointsInfoReceived
+  - OnTurnEnd
   - PickupItemInit
+  - PlayRollAnimation
   - PunPickup
   - PunPickupSimple
   - PunRespawn
@@ -50,7 +53,4 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
-  - MoveCharacter
-  - Roll
-  - PlayRollAnimation
   DisableAutoOpenWizard: 1

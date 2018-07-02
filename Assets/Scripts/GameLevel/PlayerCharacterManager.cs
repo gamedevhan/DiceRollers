@@ -4,9 +4,9 @@ using UnityEngine;
 public class PlayerCharacterManager : MonoBehaviour
 {
 	// Key = playerID, Value = characterPhotonViewID controlled by local player	
-	public Dictionary<int, int> CharacterPhotonViewID = new Dictionary<int, int>();
+	public Dictionary<int, int> CharacterPhotonViewID = new Dictionary<int, int>();	
 
-	public static PlayerCharacterManager Instance = null;
+	public static PlayerCharacterManager Instance;	
 
 	private void Awake()
 	{
@@ -16,7 +16,7 @@ public class PlayerCharacterManager : MonoBehaviour
 		}
 		else
 		{
-			Destroy(gameObject);
+			Destroy(this);
 		}
 	}
 
