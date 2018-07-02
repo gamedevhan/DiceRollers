@@ -141,7 +141,10 @@ public class CharacterMovement : Photon.PunBehaviour
 			}
 			else
 			{
-				TurnManager.Instance.TurnEnd();
+				if (PhotonNetwork.isMasterClient)
+				{
+					TurnManager.Instance.TurnEnd();
+				}
 			}
 		}
 	}

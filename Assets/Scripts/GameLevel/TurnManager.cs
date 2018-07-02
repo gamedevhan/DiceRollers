@@ -6,10 +6,11 @@ public class TurnManager : MonoBehaviour
 {	
 	private List<int> playerIDs = new List<int>();
 	private PhotonView photonView;
-	
-	public static int CurrentTurnPlayerID { get; private set; }	
-	public static TurnManager Instance;
 	private RaiseEventOptions turnEventOptions = new RaiseEventOptions();
+	
+	public int CurrentTurnPlayerID { get; private set; }
+
+	public static TurnManager Instance;
 
 	private void Awake()
 	{
@@ -54,6 +55,7 @@ public class TurnManager : MonoBehaviour
 
 	public void TurnBegin()
 	{		
+		DebugUtility.Log(CurrentTurnPlayerID + "'s turn");
 		turnEventOptions.CachingOption = EventCaching.DoNotCache;
 		turnEventOptions.Receivers = ReceiverGroup.All;
 		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnEventOptions);
