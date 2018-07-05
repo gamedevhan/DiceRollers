@@ -35,9 +35,10 @@ public class Dice : Photon.MonoBehaviour
 	}
 
 	private void OnRollButtonPressed()
-	{		
-		transform.position = Camera.main.transform.position - offSetFromCamera;
-		StartCoroutine(Roll());
+	{
+        // TODO: Move this line to somewhere else
+        // transform.position = Camera.main.transform.position - offSetFromCamera; 
+        StartCoroutine(Roll());
 	}
 
 	private IEnumerator Roll()
@@ -48,7 +49,8 @@ public class Dice : Photon.MonoBehaviour
 
 		yield return new WaitForSeconds(2f);
 		DiceRollEvent(DiceResult);
-		meshRenderer.enabled = false;
+        yield return new WaitForSeconds(1f);
+        meshRenderer.enabled = false;
 	}
 
 	[PunRPC]
