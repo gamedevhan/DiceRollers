@@ -33,16 +33,6 @@ public class GameManager : MonoBehaviour
 		TurnManager = GetComponent<TurnManager>();
 	}
 
-	private void OnEnable()
-	{	
-		TurnManager.TurnBegan += OnTurnBegin;
-	}
-
-	private void OnDisable()
-	{
-		TurnManager.TurnBegan -= OnTurnBegin;
-	}
-
 	private void Start()
 	{
 		rollButton.gameObject.SetActive(false);
@@ -55,13 +45,18 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(dice.Roll());
 	}
 
-	private void OnTurnBegin()
+	public void OnTurnBegin()
 	{
 		int currentTurnPlayerID = TurnManager.CurrentTurnPlayerID;
 		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[currentTurnPlayerID];
+        Transform currentTurnCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 
-		cameraController.FollowTarget = PhotonView.Find(currentTurnCharacterViewID).transform;
-		dice.Reset();
+        DebugUtility.Log(currentTurnPlayerID + "'s turn");
+
+        cameraController.FollowTarget = currentTurnCharacter;
+
+        dice.Reset(currentTurnCharacter);
+        
 		if (PhotonNetwork.player.ID == currentTurnPlayerID)
 		{
 			rollButton.gameObject.SetActive(true);

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,7 +207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7cb7ef11aa75f748a7f5b6c96fa5904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FollowTarget: {fileID: 0}
 --- !u!114 &27568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1179,7 +1178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c74251755ec0f43860804d9db2319d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MeshRednderer: {fileID: 0}
 --- !u!114 &851230946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,7 +1256,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 851230944}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.9}
+  m_LocalPosition: {x: 0, y: 0.3, z: -1.9}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1927,7 +1925,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1296730398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -120, z: 0}
+  m_LocalPosition: {x: 0, y: -174, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1893803260}
@@ -2203,7 +2201,7 @@ Transform:
   m_GameObject: {fileID: 1355331194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.0049751243, y: 0.0049751243, z: 0.0049751243}
+  m_LocalScale: {x: 0.0039138943, y: 0.0039138943, z: 0.0039138943}
   m_Children:
   - {fileID: 852961143}
   - {fileID: 1296730399}

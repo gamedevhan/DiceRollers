@@ -5,10 +5,10 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
 	public int DiceResult { get; private set; }
-	public MeshRenderer MeshRednderer;
+	public MeshRenderer MeshRednderer { get; private set; }
 
 	private Animator animator;
-	private Vector3 offSetFromCamera;
+	private Vector3 offSet;
 	private PhotonView photonView;
 
 	public static event Action<int> DiceRollEvent = delegate(int diceResult) { };
@@ -23,7 +23,7 @@ public class Dice : MonoBehaviour
 	private void Start()
 	{
 		MeshRednderer.enabled = false;
-		offSetFromCamera = Camera.main.transform.position - transform.position;
+        offSet = transform.position;
 	}
 		
 	public IEnumerator Roll()
@@ -38,10 +38,11 @@ public class Dice : MonoBehaviour
         MeshRednderer.enabled = false;
 	}
 
-	public void Reset()
+	public void Reset(Transform currentTurnCharacter)
 	{
-		transform.position =  Camera.main.transform.position - offSetFromCamera;
-		transform.rotation = Quaternion.identity;
+        MeshRednderer.enabled = false;
+        transform.position = currentTurnCharacter.position + offSet;
+        transform.rotation = Quaternion.identity;
 	}
 
 	[PunRPC]

@@ -155,10 +155,7 @@ public class CharacterMovement : Photon.PunBehaviour
             }
             else
             {
-                if (PhotonNetwork.isMasterClient)
-                {
-					GameManager.Instance.TurnManager.TurnEnd();                    
-                }
+				GameManager.Instance.TurnManager.TurnEnd();             
             }
         }
     }
