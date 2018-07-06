@@ -53,4 +53,6 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - RpcTurnEnd
+  - RpcTurnBegin
   DisableAutoOpenWizard: 1

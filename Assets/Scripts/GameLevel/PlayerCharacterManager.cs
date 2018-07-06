@@ -5,21 +5,7 @@ public class PlayerCharacterManager : MonoBehaviour
 {
 	// Key = playerID, Value = characterPhotonViewID controlled by local player	
 	public Dictionary<int, int> CharacterPhotonViewID = new Dictionary<int, int>();	
-
-	public static PlayerCharacterManager Instance;	
-
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-	}
-
+	
 	private void OnEnable()
 	{
 		PhotonNetwork.OnEventCall += OnPlayerLoaded;

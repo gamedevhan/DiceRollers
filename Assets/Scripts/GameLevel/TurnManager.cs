@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,24 +7,13 @@ public class TurnManager : MonoBehaviour
 {	
 	private List<int> playerIDs = new List<int>();
 	private PhotonView photonView;
-	private RaiseEventOptions turnEventOptions = new RaiseEventOptions();
 	
 	public int CurrentTurnPlayerID { get; private set; }
-
-	public static TurnManager Instance;
+	public static Action TurnBegan = delegate { };
 
 	private void Awake()
 	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(this);
-		}
-
-		photonView = PhotonView.Get(this);
+		photonView = GetComponent<PhotonView>();
 	}
 
 	private void OnEnable()
@@ -56,18 +46,23 @@ public class TurnManager : MonoBehaviour
 	public void TurnBegin()
 	{		
 		DebugUtility.Log(CurrentTurnPlayerID + "'s turn");
-		turnEventOptions.CachingOption = EventCaching.DoNotCache;
-		turnEventOptions.Receivers = ReceiverGroup.All;
-		PhotonNetwork.RaiseEvent(PhotonEventCode.TurnBegin, CurrentTurnPlayerID, true, turnEventOptions);
+		photonView.RPC("RpcTurnBegin", PhotonTargets.All, CurrentTurnPlayerID);
 	}
 
 	public void TurnEnd()
 	{
-		photonView.RPC("OnTurnEnd", PhotonTargets.All);
+		photonView.RPC("RpcTurnEnd", PhotonTargets.All);
 	}
-	
+
 	[PunRPC]
-	private void OnTurnEnd()
+	private void RpcTurnBegin(int currentTurnPlayerID)
+	{
+		CurrentTurnPlayerID = currentTurnPlayerID;
+		TurnBegan();
+	}
+
+	[PunRPC]
+	private void RpcTurnEnd()
 	{	
 		int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);
 		CurrentTurnPlayerID = ( currentTurnPlayerIndex == playerIDs.Count - 1 ) ? playerIDs[0] : playerIDs[currentTurnPlayerIndex + 1];
@@ -107,7 +102,7 @@ public class TurnManager : MonoBehaviour
 	{
 		for (int i = playerIDs.Count - 1; i > 0; i--)
 		{
-			int random = Random.Range(0, i);
+			int random = UnityEngine.Random.Range(0, i);
 			int temp = playerIDs[i];
 			playerIDs[i] = playerIDs[random];
 			playerIDs[random] = temp;

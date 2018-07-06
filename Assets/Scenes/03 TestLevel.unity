@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657892, g: 0.4964128, b: 0.5748173, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -122,9 +122,10 @@ GameObject:
   m_Component:
   - component: {fileID: 27568388}
   - component: {fileID: 27568389}
-  - component: {fileID: 27568392}
   - component: {fileID: 27568393}
   - component: {fileID: 27568391}
+  - component: {fileID: 27568394}
+  - component: {fileID: 27568392}
   - component: {fileID: 27568390}
   m_Layer: 0
   m_Name: GameManager
@@ -173,7 +174,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -203,10 +204,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 27568387}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f823963df26df284a9749bca6c66ce9f, type: 3}
+  m_Script: {fileID: 11500000, guid: b7cb7ef11aa75f748a7f5b6c96fa5904, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RollButton: {fileID: 1296730398}
+  FollowTarget: {fileID: 0}
 --- !u!114 &27568393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +219,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e8d6aa070f847408a54c35d4affe94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &27568394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27568387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f6bd0786cd19b24ab7970d0277682fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rollButton: {fileID: 1296730400}
+  dice: {fileID: 851230945}
 --- !u!1001 &72352006
 Prefab:
   m_ObjectHideFlags: 0
@@ -999,7 +1013,6 @@ GameObject:
   - component: {fileID: 737463371}
   - component: {fileID: 737463370}
   - component: {fileID: 737463369}
-  - component: {fileID: 737463373}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1070,18 +1083,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
---- !u!114 &737463373
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 737463368}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7cb7ef11aa75f748a7f5b6c96fa5904, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerCharacterManager: {fileID: 27568393}
 --- !u!1001 &828116187
 Prefab:
   m_ObjectHideFlags: 0
@@ -1178,6 +1179,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c74251755ec0f43860804d9db2319d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MeshRednderer: {fileID: 0}
 --- !u!114 &851230946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1925,7 +1927,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1296730398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -157, z: 0}
+  m_LocalPosition: {x: 0, y: -120, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1893803260}
@@ -1957,8 +1959,8 @@ MonoBehaviour:
   disabledSprite2D: {fileID: 0}
   pixelSnap: 0
   onClick:
-  - mTarget: {fileID: 27568392}
-    mMethodName: OnRollButtonPressed
+  - mTarget: {fileID: 27568394}
+    mMethodName: OnRollButtonPress
     mParameters: []
     oneShot: 0
 --- !u!65 &1296730401
@@ -2201,7 +2203,7 @@ Transform:
   m_GameObject: {fileID: 1355331194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.004192872, y: 0.004192872, z: 0.004192872}
+  m_LocalScale: {x: 0.0049751243, y: 0.0049751243, z: 0.0049751243}
   m_Children:
   - {fileID: 852961143}
   - {fileID: 1296730399}
