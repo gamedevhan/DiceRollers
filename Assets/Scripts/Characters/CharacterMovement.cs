@@ -68,10 +68,12 @@ public class CharacterMovement : Photon.PunBehaviour
     
     private void UpdateTiles()
     {        
+		int currentTileIndex = new int();
         if (TilesToMove > 0) // Going Forward
         {
             CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-			if (!(CurrentTile.GetComponent<Tile>().index == TileManager.Instance.Tiles.Count - 1))
+			currentTileIndex = CurrentTile.GetComponent<Tile>().index;
+			if (currentTileIndex < TileManager.Instance.Tiles.Count - 1)
 			{
 				Move();	
 			}
@@ -83,15 +85,15 @@ public class CharacterMovement : Photon.PunBehaviour
         else if (TilesToMove < 0) // Going Backward
         {
             CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-			if (!(CurrentTile.GetComponent<Tile>().index == 0))
+			currentTileIndex = CurrentTile.GetComponent<Tile>().index;
+			if (currentTileIndex > 0)
 			{
 				Move();
 			}
 			else
 			{
 				DebugUtility.Log("On the First Tile!");
-			}
-			
+			}			
         }
         else
         {
