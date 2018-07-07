@@ -35,7 +35,6 @@ MonoBehaviour:
   - InstantiateRpc
   - MoveCharacter
   - OnSpawnPointsInfoReceived
-  - OnTurnEnd
   - PickupItemInit
   - PlayRollAnimation
   - PunPickup
@@ -43,6 +42,8 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - RpcTurnBegin
+  - RpcTurnEnd
   - SendCurrentCharacterIndex
   - SendRoomPlayerStatus
   - SendSpawnPointInfo
@@ -53,6 +54,4 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
-  - RpcTurnEnd
-  - RpcTurnBegin
   DisableAutoOpenWizard: 1

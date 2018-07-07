@@ -15,14 +15,12 @@ public class CharacterMovement : Photon.PunBehaviour
 
 	private void OnEnable()
 	{
-		Dice.DiceRollEvent += OnDiceRolled;
-		Tile.TileEntered += OnTileEnter;
+		Dice.DiceRollEvent += OnDiceRolled;		
 	}
 
 	private void OnDisable()
 	{
-		Dice.DiceRollEvent -= OnDiceRolled;
-		Tile.TileEntered -= OnTileEnter;
+		Dice.DiceRollEvent -= OnDiceRolled;		
 	}
 
 	private void Start()
@@ -45,64 +43,22 @@ public class CharacterMovement : Photon.PunBehaviour
 	{		
 		TilesToMove = moveLeft;
 		DebugUtility.Log("Moving! tilestoMove = " + TilesToMove);
-		StartCoroutine(Move());
+		Move();
 	}
 
-    public IEnumerator Move()
+    public void Move()
     {
         if (TilesToMove > 0)
         {
-            //MoveForward
-            transform.LookAt(NextTile);
-
-            #region Lerp
-
-            startTime = Time.time;
-            journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
-            ShouldPlayMoveAnim = true;
-
-            while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
-            {
-                float distCovered = (Time.time - startTime) * Speed;
-                float fracJourney = distCovered / journeyLength;
-                transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
-                yield return null;
-            }
-
-            transform.position = NextTile.position;
-
-            #endregion
-
-            TilesToMove--;
-                        
-            CurrentTile.GetComponent<Tile>().OnCharacterEnter(TilesToMove, photonView.viewID);
+			StartCoroutine(MoveToNextTile());
+            TilesToMove--;              
+			UpdateTiles();            
         }
         else if (TilesToMove < 0)
-        {
-            //MoveBackward
-            transform.LookAt(NextTile);
-
-            #region Lerp
-
-            startTime = Time.time;
-            journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
-            ShouldPlayMoveAnim = true;
-
-            while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
-            {
-                float distCovered = (Time.time - startTime) * Speed;
-                float fracJourney = distCovered / journeyLength;
-                transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
-                yield return null;
-            }
-
-            transform.position = NextTile.position;
-
-            #endregion
-
+        {            
+            StartCoroutine(MoveToNextTile());
             TilesToMove++;
-
-            CurrentTile.GetComponent<Tile>().OnCharacterEnter(TilesToMove, photonView.viewID);
+            UpdateTiles();
         }
         else
         {
@@ -110,38 +66,32 @@ public class CharacterMovement : Photon.PunBehaviour
         }
     }
     
-    private void OnTileEnter(int tilesToMove, int currentTurnCharacterViewID)
-    {
-        if (photonView.viewID != currentTurnCharacterViewID)
-            return;
-
-        if (tilesToMove > 0)
+    private void UpdateTiles()
+    {        
+        if (TilesToMove > 0) // Going Forward
         {
             CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-            if (NextTile.GetComponent<Tile>().index < TileManager.Instance.Tiles.Count - 1)
-            {
-                NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index + 1];
-            }
-            else
-            {
-                DebugUtility.Log("NextTile is the last tile, it's better be the goal!");
-            }
-
-            StartCoroutine(Move());
+			if (!(CurrentTile.GetComponent<Tile>().index == TileManager.Instance.Tiles.Count - 1))
+			{
+				Move();	
+			}
+			else
+			{
+				DebugUtility.Log("On the Last Tile!");
+			}
         }
-        else if (tilesToMove < 0)
+        else if (TilesToMove < 0) // Going Backward
         {
             CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-            if (NextTile.GetComponent<Tile>().index > 0)
-            {
-                NextTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index - 1];
-            }
-            else
-            {
-                DebugUtility.Log("Next tile is start tile no more going back!");
-            }
-
-            StartCoroutine(Move());
+			if (!(CurrentTile.GetComponent<Tile>().index == 0))
+			{
+				Move();
+			}
+			else
+			{
+				DebugUtility.Log("On the First Tile!");
+			}
+			
         }
         else
         {
@@ -155,8 +105,27 @@ public class CharacterMovement : Photon.PunBehaviour
             }
             else
             {
-				GameManager.Instance.TurnManager.TurnEnd();             
+				GameManager.Instance.TurnManager.TurnEnd();
             }
         }
     }
+
+	private IEnumerator MoveToNextTile()
+	{
+		transform.LookAt(NextTile);
+
+        startTime = Time.time;
+        journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
+        ShouldPlayMoveAnim = true;
+
+        while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
+        {
+            float distCovered = (Time.time - startTime) * Speed;
+            float fracJourney = distCovered / journeyLength;
+            transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
+            yield return null;
+        }
+
+        transform.position = NextTile.position;
+	}
 }
