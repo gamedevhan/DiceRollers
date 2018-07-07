@@ -43,60 +43,76 @@ public class CharacterMovement : Photon.PunBehaviour
 	{		
 		TilesToMove = moveLeft;
 		DebugUtility.Log("Moving! tilestoMove = " + TilesToMove);
-		Move();
+		StartCoroutine(Move());
 	}
 
-    public void Move()
-    {
-        if (TilesToMove > 0)
+	private IEnumerator Move()
+	{
+		transform.LookAt(NextTile);
+
+		#region Lerp
+		startTime = Time.time;
+        journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
+        ShouldPlayMoveAnim = true;
+
+        while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
         {
-			StartCoroutine(MoveToNextTile());
-            TilesToMove--;              
-			UpdateTiles();            
+            float distCovered = (Time.time - startTime) * Speed;
+            float fracJourney = distCovered / journeyLength;
+            transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
+            yield return null;
         }
-        else if (TilesToMove < 0)
-        {            
-            StartCoroutine(MoveToNextTile());
-            TilesToMove++;
-            UpdateTiles();
-        }
-        else
-        {
-            Debug.LogError("Somethig's wrong. Trying to move, but TilesToMove = 0");
-        }
-    }
-    
-    private void UpdateTiles()
-    {        
-		int currentTileIndex = new int();
+
+        transform.position = NextTile.position;
+
+		#endregion
+
+		if (TilesToMove > 0)
+		{
+			TilesToMove--;
+		}
+		else if (TilesToMove < 0)
+		{
+			TilesToMove++;
+		}
+
+		OnNextTileEnter();
+	}
+
+    private void OnNextTileEnter()
+    {		
         if (TilesToMove > 0) // Going Forward
         {
-            CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-			currentTileIndex = CurrentTile.GetComponent<Tile>().index;
-			if (currentTileIndex < TileManager.Instance.Tiles.Count - 1)
+			// Are we on the last tile?
+			if (NextTile.GetComponent<Tile>().index == TileManager.Instance.Tiles.Count - 1)
 			{
-				Move();	
+				DebugUtility.Log("On the Last Tile!");
 			}
 			else
 			{
-				DebugUtility.Log("On the Last Tile!");
+				CurrentTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index + 1];
+				NextTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index + 1];
+				Move();
 			}
         }
         else if (TilesToMove < 0) // Going Backward
         {
-            CurrentTile = TileManager.Instance.Tiles[NextTile.GetComponent<Tile>().index];
-			currentTileIndex = CurrentTile.GetComponent<Tile>().index;
-			if (currentTileIndex > 0)
+			// Are we on the first tile?
+			if (CurrentTile.GetComponent<Tile>().index == 1)
 			{
-				Move();
+				DebugUtility.Log("On the first Tile!");
 			}
 			else
 			{
-				DebugUtility.Log("On the First Tile!");
+				CurrentTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index - 1];
+				NextTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index - 1];
 			}			
         }
-        else
+        else // TilesToMove == 0
         {
+			// TODO: Need to check if tile we just stopped is first or last tile
+			// And update currentTile and NextTile
+
             ShouldPlayMoveAnim = false;
 
             // No move left. Check if this tile is special tile. If not, end turn.
@@ -111,23 +127,4 @@ public class CharacterMovement : Photon.PunBehaviour
             }
         }
     }
-
-	private IEnumerator MoveToNextTile()
-	{
-		transform.LookAt(NextTile);
-
-        startTime = Time.time;
-        journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
-        ShouldPlayMoveAnim = true;
-
-        while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
-        {
-            float distCovered = (Time.time - startTime) * Speed;
-            float fracJourney = distCovered / journeyLength;
-            transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
-            yield return null;
-        }
-
-        transform.position = NextTile.position;
-	}
 }
