@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 27568393}
   - component: {fileID: 27568391}
   - component: {fileID: 27568394}
+  - component: {fileID: 27568395}
   - component: {fileID: 27568392}
   - component: {fileID: 27568390}
   m_Layer: 0
@@ -228,8 +229,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6bd0786cd19b24ab7970d0277682fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rollButton: {fileID: 1296730400}
   dice: {fileID: 851230945}
+--- !u!114 &27568395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 27568387}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e1c183b1ac9f994db91a9221e5685d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RollButton: {fileID: 1296730400}
+  currentTurnPlayerLabel: {fileID: 1503519179}
 --- !u!1001 &80334112
 Prefab:
   m_ObjectHideFlags: 0
@@ -1664,7 +1677,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1296730398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -418, z: 0}
+  m_LocalPosition: {x: 0, y: -415, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1893803260}
@@ -2070,10 +2083,11 @@ Transform:
   m_GameObject: {fileID: 1355331194}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.002002002, y: 0.002002002, z: 0.002002002}
+  m_LocalScale: {x: 0.0020140987, y: 0.0020140987, z: 0.0020140987}
   m_Children:
   - {fileID: 852961143}
   - {fileID: 1296730399}
+  - {fileID: 1503519178}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2269,6 +2283,105 @@ Transform:
   m_PrefabParentObject: {fileID: 4253920194320232, guid: 3f4e1f6d7eba9f64686b72e7bf7cb0a8,
     type: 2}
   m_PrefabInternal: {fileID: 1437253073}
+--- !u!1 &1503519177
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1503519178}
+  - component: {fileID: 1503519179}
+  m_Layer: 8
+  m_Name: currentTurnPlayerLabel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1503519178
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1503519177}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 349, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1355331198}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1503519179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1503519177}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d0b5f3bbe925a408bd595c79d0bf63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftAnchor:
+    target: {fileID: 1355331198}
+    relative: 0.5
+    absolute: -400
+  rightAnchor:
+    target: {fileID: 1355331198}
+    relative: 0.5
+    absolute: 400
+  bottomAnchor:
+    target: {fileID: 1355331198}
+    relative: 0.5
+    absolute: 300
+  topAnchor:
+    target: {fileID: 1355331198}
+    relative: 1
+    absolute: -100
+  updateAnchors: 1
+  mColor: {r: 1, g: 1, b: 1, a: 1}
+  mPivot: 4
+  mWidth: 800
+  mHeight: 96
+  mDepth: 2
+  mMat: {fileID: 0}
+  autoResizeBoxCollider: 0
+  hideIfOffScreen: 0
+  keepAspectRatio: 0
+  aspectRatio: 2.1857924
+  keepCrispWhenShrunk: 1
+  mTrueTypeFont: {fileID: 4028824154787511821, guid: 0000000000000000d000000000000000,
+    type: 0}
+  mFont: {fileID: 0}
+  mText: CLARK KENT'S TURN
+  mFontSize: 40
+  mFontStyle: 0
+  mAlignment: 0
+  mEncoding: 1
+  mMaxLineCount: 0
+  mEffectStyle: 0
+  mEffectColor: {r: 0, g: 0, b: 0, a: 1}
+  mSymbols: 1
+  mEffectDistance: {x: 1, y: 1}
+  mOverflow: 0
+  mApplyGradient: 1
+  mGradientTop: {r: 1, g: 1, b: 1, a: 1}
+  mGradientBottom: {r: 0.7, g: 0.7, b: 0.7, a: 1}
+  mSpacingX: 0
+  mSpacingY: 0
+  mUseFloatSpacing: 0
+  mFloatSpacingX: 0
+  mFloatSpacingY: 0
+  mOverflowEllipsis: 0
+  mOverflowWidth: 0
+  mOverflowHeight: 0
+  mModifier: 0
+  mShrinkToFit: 0
+  mMaxLineWidth: 0
+  mMaxLineHeight: 0
+  mLineWidth: 0
+  mMultiline: 1
 --- !u!1001 &1587680911
 Prefab:
   m_ObjectHideFlags: 0
