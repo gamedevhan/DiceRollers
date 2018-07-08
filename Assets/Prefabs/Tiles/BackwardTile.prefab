@@ -96,7 +96,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b77ed9e3dc884428e866888c2afc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amount: -3
+  moveFX: {fileID: 100014, guid: 54d0c49d87986664c800de1f55be9587, type: 2}
+  moveAmount: -3
 --- !u!114 &114908937964017940
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -4,17 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(Tile))]
 public class MoveTile : MonoBehaviour, ISpecialTile
 {
-	private const float FxDelay = 1f;
+	private float fxDelay = 1f;
     
-	[SerializeField] private int amount;
+    [SerializeField] private GameObject moveFX;
+
+    [SerializeField] private int moveAmount;
     
 	public IEnumerator OnSpecialTileEnter(CharacterMovement character)
 	{
-		// TODO: Play FX
-
-		yield return new WaitForSeconds(FxDelay);
-				
-		character.TilesToMove += amount;
+        Vector3 fxPosition = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
+        Instantiate(moveFX, fxPosition, moveFX.transform.rotation, null);
+        yield return new WaitForSeconds(fxDelay);
+     			
+		character.TilesToMove += moveAmount;
 		Debug.Log("Entered MoveTile, Tiles to Move: " + character.TilesToMove);
 
         Move(character);
@@ -22,9 +24,9 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 
 	private void Move(CharacterMovement character)
 	{
-		if (amount > 0)
+		if (moveAmount > 0)
 			MoveForward(character);
-		else if (amount < 0)		
+		else if (moveAmount < 0)		
 			MoveBackWard(character);
 		else
 			Debug.Log("Check the inspector, amount is probably set to 0");

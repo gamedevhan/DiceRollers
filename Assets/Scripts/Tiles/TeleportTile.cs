@@ -4,19 +4,43 @@ using UnityEngine;
 [RequireComponent(typeof(Tile))]
 public class TeleportTile : MonoBehaviour, ISpecialTile
 {
-	private const float FxDelay = 1f;
-	[SerializeField] private Transform destination;    
+	private float startFxDelay = 0.5f;
+    private float endFXDelay = 0.5f;
 
-	public IEnumerator OnSpecialTileEnter(CharacterMovement character)
+    [SerializeField] private GameObject startFX;
+    [SerializeField] private GameObject endFX;
+    [SerializeField] private Transform destination;
+
+    private void Start()
+    {
+        startFxDelay = startFX.GetComponent<ParticleSystem>().main.duration;
+        endFXDelay = startFX.GetComponent<ParticleSystem>().main.duration;
+    }
+
+    public IEnumerator OnSpecialTileEnter(CharacterMovement character)
 	{
-		// TODO: Play FX
+        GameObject characterModel = character.transform.GetChild(0).gameObject;
 
-		yield return new WaitForSeconds(FxDelay);
+        // Teleport Begins
+        Vector3 fxPosition = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
+        Instantiate(startFX, fxPosition, startFX.transform.rotation, null);
+		yield return new WaitForSeconds(startFxDelay);
+        characterModel.SetActive(false);
+        
+        character.transform.position = destination.position;
 
-		character.transform.position = destination.position;
+        yield return new WaitForSeconds(1f); // For cosmetic purpose. TODO: camera smooth follow
 
-		// Update CurrentTile and NextTile
+        // Update CurrentTile and NextTile
 		character.CurrentTile = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index];
 		character.NextTile = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index + 1];
-	}
+
+        // Telport Ends
+        fxPosition = character.CurrentTile.transform.position;
+        Instantiate(endFX, fxPosition, endFX.transform.rotation, null);
+        yield return new WaitForSeconds(endFXDelay);
+        characterModel.SetActive(true);
+
+        GameManager.Instance.TurnManager.TurnEnd();
+    }
 }
