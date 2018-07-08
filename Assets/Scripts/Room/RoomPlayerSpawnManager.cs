@@ -23,7 +23,14 @@ public class RoomPlayerSpawnManager : Photon.PunBehaviour
 
 	private void Awake()
 	{
-		Instance = this;
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(this);
+        }
 	}
 
 	private void Start()

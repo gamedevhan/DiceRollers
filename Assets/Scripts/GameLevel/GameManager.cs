@@ -6,15 +6,13 @@ public class GameManager : MonoBehaviour
 {
 	public TurnManager TurnManager { get; private set; }
 
-	[SerializeField]
-	private UIButton rollButton;
-
-	private PlayerCharacterManager playerCharacterManager;
-	private CameraController cameraController;
-
-	[SerializeField]
-	private Dice dice;
-
+    [SerializeField]
+    private Dice dice;
+    private PlayerCharacterManager playerCharacterManager;
+    private GameLevelUIManager gameLevelUIManager;
+    private CameraController cameraController;
+    private PhotonView photonView;
+        
 	public static GameManager Instance = null;
 
 	private void Awake()
@@ -27,20 +25,17 @@ public class GameManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
-
+        
 		playerCharacterManager = GetComponent<PlayerCharacterManager>();
+        gameLevelUIManager = GetComponent<GameLevelUIManager>();
 		cameraController = GetComponent<CameraController>();		
 		TurnManager = GetComponent<TurnManager>();
+        photonView = GetComponent<PhotonView>();
 	}
-
-	private void Start()
-	{
-		rollButton.gameObject.SetActive(false);
-	}
-
+    
 	public void OnRollButtonPress()
 	{
-		rollButton.gameObject.SetActive(false);
+        gameLevelUIManager.DeactivateRollButton();
 		dice.MeshRednderer.enabled = true;
 		StartCoroutine(dice.Roll());
 	}
@@ -51,15 +46,15 @@ public class GameManager : MonoBehaviour
 		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[currentTurnPlayerID];
         Transform currentTurnCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 
-        DebugUtility.Log(currentTurnPlayerID + "'s turn");
+        string currentTurnPlayerName = PhotonPlayer.Find(currentTurnPlayerID).NickName;
+        photonView.RPC("RpcCurrentTurnPlayerLabel", PhotonTargets.All, currentTurnPlayerName);        
 
         cameraController.FollowTarget = currentTurnCharacter;
-
         dice.Reset(currentTurnCharacter);
         
 		if (PhotonNetwork.player.ID == currentTurnPlayerID)
 		{
-			rollButton.gameObject.SetActive(true);
-		}
+            gameLevelUIManager.ActivateRollButton();
+        }
 	}
 }
