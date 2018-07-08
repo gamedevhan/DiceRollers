@@ -15,7 +15,7 @@ public class CharacterMovement : Photon.PunBehaviour
 
 	private void OnEnable()
 	{
-		Dice.DiceRollEvent += OnDiceRolled;		
+		Dice.DiceRollEvent += OnDiceRolled;
 	}
 
 	private void OnDisable()
@@ -46,7 +46,7 @@ public class CharacterMovement : Photon.PunBehaviour
 		StartCoroutine(Move());
 	}
 
-	private IEnumerator Move()
+	public IEnumerator Move()
 	{
 		transform.LookAt(NextTile);
 
@@ -80,50 +80,67 @@ public class CharacterMovement : Photon.PunBehaviour
 	}
 
     private void OnNextTileEnter()
-    {		
+    {
+        int enteredTileIndex = NextTile.GetComponent<Tile>().index;
+        
         if (TilesToMove > 0) // Going Forward
         {
-			// Are we on the last tile?
-			if (NextTile.GetComponent<Tile>().index == TileManager.Instance.Tiles.Count - 1)
+            // Are we on the last tile?
+            if (enteredTileIndex == TileManager.Instance.Tiles.Count - 1)
 			{
-				DebugUtility.Log("On the Last Tile!");
+				DebugUtility.Log("On the Last Tile, You win!");
 			}
 			else
 			{
-				CurrentTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index + 1];
-				NextTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index + 1];
-				Move();
+				CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
+				NextTile = TileManager.Instance.Tiles[enteredTileIndex + 1];
+                StartCoroutine(Move());
 			}
         }
         else if (TilesToMove < 0) // Going Backward
-        {
+        {            
 			// Are we on the first tile?
-			if (CurrentTile.GetComponent<Tile>().index == 1)
+			if (enteredTileIndex == 0)
 			{
 				DebugUtility.Log("On the first Tile!");
-			}
+                TilesToMove = 0;
+                GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
+            }
 			else
 			{
-				CurrentTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index - 1];
-				NextTile = TileManager.Instance.Tiles[CurrentTile.GetComponent<Tile>().index - 1];
-			}			
+				CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
+				NextTile = TileManager.Instance.Tiles[enteredTileIndex - 1];
+                StartCoroutine(Move());
+            }			
         }
-        else // TilesToMove == 0
-        {
-			// TODO: Need to check if tile we just stopped is first or last tile
-			// And update currentTile and NextTile
-
-            ShouldPlayMoveAnim = false;
-
-            // No move left. Check if this tile is special tile. If not, end turn.
-            ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
-            if (specialTile != null)
+        else // TilesToMove == 0, No more moves left
+        {            
+            if (enteredTileIndex == TileManager.Instance.Tiles.Count - 1)
             {
-                specialTile.SpecialTileEffect();
+                DebugUtility.Log("On the Last Tile, You win!");
+            }            
+            else if (enteredTileIndex == 0)
+            {
+                DebugUtility.Log("On the first Tile!");
+                GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
             }
             else
             {
-				GameManager.Instance.TurnManager.TurnEnd();
+                CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
+                NextTile = TileManager.Instance.Tiles[enteredTileIndex + 1];
+
+                ShouldPlayMoveAnim = false;
+
+                // No move left. Check if this tile is special tile. If not, end turn.
+                ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
+                if (specialTile != null)
+                {
+                    specialTile.SpecialTileEffect();
+                }
+                else
+                {
+                    GameManager.Instance.TurnManager.TurnEnd();
+                }
             }
         }
     }

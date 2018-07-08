@@ -38,13 +38,13 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 	}
 
 	private void MoveForward()
-	{		
-		character.Move();
+    { 
+		StartCoroutine(character.Move());
 	}
 
 	private void MoveBackWard()
 	{	
 		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
-		character.Move();
-	}
+        StartCoroutine(character.Move());
+    }
 }
