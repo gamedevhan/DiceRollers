@@ -5,16 +5,9 @@ using UnityEngine;
 public class TeleportTile : MonoBehaviour, ISpecialTile
 {
 	private const float FxDelay = 1f;
-	[SerializeField] private Transform destination;
+	[SerializeField] private Transform destination;    
 
-	private CharacterMovement character;
-
-	private void Start()
-	{
-		character = FindObjectOfType<CharacterMovement>();
-	}
-
-	public IEnumerator SpecialTileEffect()
+	public IEnumerator OnSpecialTileEnter(CharacterMovement character)
 	{
 		// TODO: Play FX
 

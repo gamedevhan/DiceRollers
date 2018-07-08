@@ -3,10 +3,9 @@ using UnityEngine;
 
 public class GamePlayerSpawnManager : MonoBehaviour
 {
-	[SerializeField]
-	private Transform startTile;
-	
-	public static GamePlayerSpawnManager Instance;	
+    private Transform startTile;
+
+    public static GamePlayerSpawnManager Instance;	
 
 	private void Awake()
 	{
@@ -23,7 +22,8 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		SpawnGamePlayer();
+        startTile = TileManager.Instance.Tiles[0];
+        SpawnGamePlayer();
 	}
 
 	private void SpawnGamePlayer()

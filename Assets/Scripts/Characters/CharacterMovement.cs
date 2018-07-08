@@ -135,7 +135,7 @@ public class CharacterMovement : Photon.PunBehaviour
                 ISpecialTile specialTile = CurrentTile.GetComponent<ISpecialTile>();
                 if (specialTile != null)
                 {
-                    specialTile.SpecialTileEffect();
+                    StartCoroutine(specialTile.OnSpecialTileEnter(this));
                 }
                 else
                 {

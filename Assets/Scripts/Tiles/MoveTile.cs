@@ -5,17 +5,10 @@ using UnityEngine;
 public class MoveTile : MonoBehaviour, ISpecialTile
 {
 	private const float FxDelay = 1f;
-
-	private CharacterMovement character;
-
+    
 	[SerializeField] private int amount;
-
-	private void Start()
-	{
-		character = FindObjectOfType<CharacterMovement>();	
-	}
-
-	public IEnumerator SpecialTileEffect()
+    
+	public IEnumerator OnSpecialTileEnter(CharacterMovement character)
 	{
 		// TODO: Play FX
 
@@ -23,26 +16,26 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 				
 		character.TilesToMove += amount;
 		Debug.Log("Entered MoveTile, Tiles to Move: " + character.TilesToMove);
-		
-		Move();
+
+        Move(character);
 	}
 
-	private void Move()
+	private void Move(CharacterMovement character)
 	{
 		if (amount > 0)
-			MoveForward();
+			MoveForward(character);
 		else if (amount < 0)		
-			MoveBackWard();	
+			MoveBackWard(character);
 		else
 			Debug.Log("Check the inspector, amount is probably set to 0");
 	}
 
-	private void MoveForward()
+	private void MoveForward(CharacterMovement character)
     { 
 		StartCoroutine(character.Move());
 	}
 
-	private void MoveBackWard()
+	private void MoveBackWard(CharacterMovement character)
 	{	
 		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
         StartCoroutine(character.Move());

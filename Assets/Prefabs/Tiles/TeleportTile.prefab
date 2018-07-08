@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 4666435121136034}
   - component: {fileID: 33213455476241326}
   - component: {fileID: 23808647467092704}
+  - component: {fileID: 114050751909760598}
+  - component: {fileID: 114949941436198192}
   m_Layer: 0
   m_Name: TeleportTile
   m_TagString: Untagged
@@ -83,3 +85,27 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1280765877542768}
   m_Mesh: {fileID: 4300234, guid: 87b751928235ced49a4a5bee39a873cc, type: 3}
+--- !u!114 &114050751909760598
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280765877542768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52dcb2fd9c2a4e74abca4a96e8f85150, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+--- !u!114 &114949941436198192
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1280765877542768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea2b8b74f0c759546993ed935f9b68eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destination: {fileID: 0}
