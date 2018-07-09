@@ -16,8 +16,8 @@ public class MoveTile : MonoBehaviour, ISpecialTile
         Instantiate(moveFX, fxPosition, moveFX.transform.rotation, null);
         yield return new WaitForSeconds(fxDelay);
      			
-		character.TilesToMove += moveAmount;
-		Debug.Log("Entered MoveTile, Tiles to Move: " + character.TilesToMove);
+		character.MoveLeft += moveAmount;
+		Debug.Log("Entered MoveTile, Tiles to Move: " + character.MoveLeft);
 
         Move(character);
 	}

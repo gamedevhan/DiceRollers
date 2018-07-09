@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class CharacterMovement : Photon.PunBehaviour
 {
-	public int TilesToMove;
+	public int MoveLeft;
 	public bool ShouldPlayMoveAnim = false;		
 	public float Speed = 1.0F;		
 	public Transform CurrentTile;
@@ -41,8 +41,8 @@ public class CharacterMovement : Photon.PunBehaviour
 	[PunRPC]
 	private void MoveCharacter(int moveLeft)
 	{		
-		TilesToMove = moveLeft;
-		DebugUtility.Log("Moving! tilestoMove = " + TilesToMove);
+		MoveLeft = moveLeft;
+		DebugUtility.Log("Moving! tilestoMove = " + MoveLeft);
 		StartCoroutine(Move());
 	}
 
@@ -67,13 +67,13 @@ public class CharacterMovement : Photon.PunBehaviour
 
 		#endregion
 
-		if (TilesToMove > 0)
+		if (MoveLeft > 0)
 		{
-			TilesToMove--;
+			MoveLeft--;
 		}
-		else if (TilesToMove < 0)
+		else if (MoveLeft < 0)
 		{
-			TilesToMove++;
+			MoveLeft++;
 		}
 
 		OnNextTileEnter();
@@ -83,7 +83,7 @@ public class CharacterMovement : Photon.PunBehaviour
     {
         int enteredTileIndex = NextTile.GetComponent<Tile>().index;
         
-        if (TilesToMove > 0) // Going Forward
+        if (MoveLeft > 0) // Going Forward
         {
             // Are we on the last tile?
             if (enteredTileIndex == TileManager.Instance.Tiles.Count - 1)
@@ -97,13 +97,13 @@ public class CharacterMovement : Photon.PunBehaviour
                 StartCoroutine(Move());
 			}
         }
-        else if (TilesToMove < 0) // Going Backward
+        else if (MoveLeft < 0) // Going Backward
         {            
 			// Are we on the first tile?
 			if (enteredTileIndex == 0)
 			{
 				DebugUtility.Log("On the first Tile!");
-                TilesToMove = 0;
+                MoveLeft = 0;
                 GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
             }
 			else
