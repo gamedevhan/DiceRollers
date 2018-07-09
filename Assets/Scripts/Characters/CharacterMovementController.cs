@@ -81,32 +81,30 @@ public class CharacterMovementController : MonoBehaviour
 		{
 			MoveLeft++;
 		}
-				
-		OnNextTileEnter();
+
+		NextTile.GetComponent<Tile>().OnCharacterEnter(this);
 	}
 
-    private void OnNextTileEnter()
-    {
-        int enteredTileIndex = NextTile.GetComponent<Tile>().index;
-        
+    public void OnTileEnter(int tileIndex)
+    {   
         if (MoveLeft > 0) // Going Forward
         {
             // Are we on the last tile?
-            if (enteredTileIndex == TileManager.Instance.Tiles.Count - 1)
+            if (tileIndex == TileManager.Instance.Tiles.Count - 1)
 			{
 				DebugUtility.Log("On the Last Tile, You win!");
 			}
 			else
 			{
-				CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
-				NextTile = TileManager.Instance.Tiles[enteredTileIndex + 1];
+				CurrentTile = TileManager.Instance.Tiles[tileIndex];
+				NextTile = TileManager.Instance.Tiles[tileIndex + 1];
                 StartCoroutine(Move());
 			}
         }
         else if (MoveLeft < 0) // Going Backward
         {            
 			// Are we on the first tile?
-			if (enteredTileIndex == 0)
+			if (tileIndex == 0)
 			{
 				DebugUtility.Log("On the first Tile!");
                 MoveLeft = 0;
@@ -114,26 +112,26 @@ public class CharacterMovementController : MonoBehaviour
             }
 			else
 			{
-				CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
-				NextTile = TileManager.Instance.Tiles[enteredTileIndex - 1];
+				CurrentTile = TileManager.Instance.Tiles[tileIndex];
+				NextTile = TileManager.Instance.Tiles[tileIndex - 1];
                 StartCoroutine(Move());
             }			
         }
         else // TilesToMove == 0, No more moves left
         {            
-            if (enteredTileIndex == TileManager.Instance.Tiles.Count - 1)
+            if (tileIndex == TileManager.Instance.Tiles.Count - 1)
             {
                 DebugUtility.Log("On the Last Tile, You win!");
             }            
-            else if (enteredTileIndex == 0)
+            else if (tileIndex == 0)
             {
                 DebugUtility.Log("On the first Tile!");
                 GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
             }
             else
             {
-                CurrentTile = TileManager.Instance.Tiles[enteredTileIndex];
-                NextTile = TileManager.Instance.Tiles[enteredTileIndex + 1];
+                CurrentTile = TileManager.Instance.Tiles[tileIndex];
+                NextTile = TileManager.Instance.Tiles[tileIndex + 1];
 
                 ShouldPlayMoveAnim = false;
 
