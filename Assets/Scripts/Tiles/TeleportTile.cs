@@ -40,6 +40,7 @@ public class TeleportTile : MonoBehaviour, ISpecialTile
         Instantiate(endFX, fxPosition, endFX.transform.rotation, null);
         yield return new WaitForSeconds(endFXDelay);
         characterModel.SetActive(true);
+        yield return new WaitForSeconds(1f);
 
         GameManager.Instance.TurnManager.TurnEnd();
     }
