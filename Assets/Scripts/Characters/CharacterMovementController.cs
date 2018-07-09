@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class CharacterMovement : Photon.PunBehaviour
+public class CharacterMovementController : MonoBehaviour
 {
 	public int MoveLeft;
 	public bool ShouldPlayMoveAnim = false;		
@@ -12,6 +12,12 @@ public class CharacterMovement : Photon.PunBehaviour
 	private const float lerpThreshold = 0.05f;
 	private float startTime;
 	private float journeyLength;
+	private PhotonView photonView;
+
+	private void Awake()
+	{
+		photonView = GetComponent<PhotonView>();
+	}
 
 	private void OnEnable()
 	{
@@ -75,7 +81,7 @@ public class CharacterMovement : Photon.PunBehaviour
 		{
 			MoveLeft++;
 		}
-
+				
 		OnNextTileEnter();
 	}
 
