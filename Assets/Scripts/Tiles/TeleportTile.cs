@@ -23,6 +23,7 @@ public class TeleportTile : Tile, ISpecialTile
 
         if (character.MoveLeft == 0)
         {
+            character.ShouldPlayMoveAnim = false;
             SpecialTileBehaviour(character);
         }
         else
@@ -52,23 +53,7 @@ public class TeleportTile : Tile, ISpecialTile
                     character.NextTile = TileManager.Instance.Tiles[index - 1];
                     StartCoroutine(character.Move());
                 }
-            }
-            else // if (character.Movleft == 0)
-            {
-                character.ShouldPlayMoveAnim = false;
-
-                if (index == 0)
-                {
-                    DebugUtility.Log("On the first Tile!");
-                    GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
-                }
-                else
-                {
-                    character.CurrentTile = TileManager.Instance.Tiles[index];
-                    character.NextTile = TileManager.Instance.Tiles[index + 1];
-                    GameManager.Instance.TurnManager.TurnEnd();
-                }
-            }
+            }            
         }
     }
 
