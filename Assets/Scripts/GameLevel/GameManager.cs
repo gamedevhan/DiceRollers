@@ -57,4 +57,9 @@ public class GameManager : MonoBehaviour
             gameLevelUIManager.ActivateRollButton();
         }
 	}
+
+    public void GameOver()
+    {
+        DebugUtility.Log("Game Over!");
+    }
 }

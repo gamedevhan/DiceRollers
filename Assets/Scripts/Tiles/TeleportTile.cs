@@ -1,8 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Tile))]
-public class TeleportTile : MonoBehaviour, ISpecialTile
+public class TeleportTile : Tile, ISpecialTile
 {
 	private float startFxDelay = 0.5f;
     private float endFXDelay = 0.5f;
@@ -11,13 +10,69 @@ public class TeleportTile : MonoBehaviour, ISpecialTile
     [SerializeField] private GameObject endFX;
     [SerializeField] private Transform destination;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         startFxDelay = startFX.GetComponent<ParticleSystem>().main.duration;
         endFXDelay = startFX.GetComponent<ParticleSystem>().main.duration;
     }
 
-    public IEnumerator OnSpecialTileEnter(CharacterMovementController character)
+    public override void OnCharacterEnter(CharacterMovementController character)
+    {
+        base.OnCharacterEnter(character);
+
+        if (character.MoveLeft == 0)
+        {
+            SpecialTileBehaviour(character);
+        }
+        else
+        {
+            if (character.MoveLeft > 0) // character is moving forward
+            {
+                // Are we on the last tile?
+                if (!isEndTile)
+                {
+                    character.CurrentTile = TileManager.Instance.Tiles[index];
+                    character.NextTile = TileManager.Instance.Tiles[index + 1];
+                    StartCoroutine(character.Move());
+                }
+            }
+            else if (character.MoveLeft < 0) // character is moving forward
+            {
+                // Are we on the first tile?
+                if (index == 0)
+                {
+                    DebugUtility.Log("On the first Tile!");
+                    character.MoveLeft = 0;
+                    GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
+                }
+                else
+                {
+                    character.CurrentTile = TileManager.Instance.Tiles[index];
+                    character.NextTile = TileManager.Instance.Tiles[index - 1];
+                    StartCoroutine(character.Move());
+                }
+            }
+            else // if (character.Movleft == 0)
+            {
+                character.ShouldPlayMoveAnim = false;
+
+                if (index == 0)
+                {
+                    DebugUtility.Log("On the first Tile!");
+                    GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
+                }
+                else
+                {
+                    character.CurrentTile = TileManager.Instance.Tiles[index];
+                    character.NextTile = TileManager.Instance.Tiles[index + 1];
+                    GameManager.Instance.TurnManager.TurnEnd();
+                }
+            }
+        }
+    }
+
+    public IEnumerator SpecialTileBehaviour(CharacterMovementController character)
 	{
         GameObject characterModel = character.transform.GetChild(0).gameObject;
 

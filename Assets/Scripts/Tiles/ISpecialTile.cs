@@ -2,5 +2,5 @@
 
 public interface ISpecialTile
 {
-	IEnumerator OnSpecialTileEnter(CharacterMovementController character);
+	IEnumerator SpecialTileBehaviour(CharacterMovementController character);
 }

@@ -21,7 +21,6 @@ GameObject:
   - component: {fileID: 4945144798761878}
   - component: {fileID: 33359593799607822}
   - component: {fileID: 23380703851054302}
-  - component: {fileID: 114829733444858800}
   - component: {fileID: 114901368763683464}
   m_Layer: 0
   m_Name: ForwardTile
@@ -85,18 +84,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1535586436432280}
   m_Mesh: {fileID: 4300230, guid: 87b751928235ced49a4a5bee39a873cc, type: 3}
---- !u!114 &114829733444858800
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1535586436432280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 52dcb2fd9c2a4e74abca4a96e8f85150, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  index: 0
 --- !u!114 &114901368763683464
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -108,5 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32b77ed9e3dc884428e866888c2afc8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  index: 0
   moveFX: {fileID: 100010, guid: ef3af0abebed5804bba052fb3acbde76, type: 2}
   moveAmount: 4
