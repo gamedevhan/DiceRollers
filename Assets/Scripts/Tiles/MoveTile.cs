@@ -20,6 +20,8 @@ public class MoveTile : Tile, ISpecialTile
 
         if (character.MoveLeft == 0)
         {
+            character.CurrentTile = TileManager.Instance.Tiles[index];
+            character.NextTile = TileManager.Instance.Tiles[index + 1];
             character.ShouldPlayMoveAnim = false;
             SpecialTileBehaviour(character);
         }
@@ -68,17 +70,17 @@ public class MoveTile : Tile, ISpecialTile
     
 	private void Move(CharacterMovementController character)
 	{
-		if (moveAmount > 0)
+		if (character.MoveLeft > 0)
 			MoveForward(character);
-		else if (moveAmount < 0)		
+		else if (character.MoveLeft < 0)		
 			MoveBackWard(character);
 		else
 			Debug.Log("Check the inspector, amount is probably set to 0");
 	}
 
 	private void MoveForward(CharacterMovementController character)
-    { 
-		StartCoroutine(character.Move());
+    {        
+        StartCoroutine(character.Move());
 	}
 
 	private void MoveBackWard(CharacterMovementController character)
