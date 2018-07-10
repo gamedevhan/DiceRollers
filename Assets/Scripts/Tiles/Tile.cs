@@ -19,11 +19,5 @@ public abstract class Tile : MonoBehaviour
         }
     }
 
-    public virtual void OnCharacterEnter(CharacterMovementController character)
-    {
-        if (isEndTile)
-        {
-            GameManager.Instance.GameOver();
-        }
-    }
+    public abstract void OnCharacterEnter(CharacterMovementController character);
 }
