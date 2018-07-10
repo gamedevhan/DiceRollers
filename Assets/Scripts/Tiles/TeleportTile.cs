@@ -17,7 +17,7 @@ public class TeleportTile : MonoBehaviour, ISpecialTile
         endFXDelay = startFX.GetComponent<ParticleSystem>().main.duration;
     }
 
-    public IEnumerator OnSpecialTileEnter(CharacterMovement character)
+    public IEnumerator OnSpecialTileEnter(CharacterMovementController character)
 	{
         GameObject characterModel = character.transform.GetChild(0).gameObject;
 

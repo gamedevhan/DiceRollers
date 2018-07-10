@@ -10,19 +10,19 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 
     [SerializeField] private int moveAmount;
     
-	public IEnumerator OnSpecialTileEnter(CharacterMovement character)
+	public IEnumerator OnSpecialTileEnter(CharacterMovementController character)
 	{
         Vector3 fxPosition = new Vector3(transform.position.x, transform.position.y + 1f, transform.position.z);
         Instantiate(moveFX, fxPosition, moveFX.transform.rotation, null);
         yield return new WaitForSeconds(fxDelay);
      			
-		character.TilesToMove += moveAmount;
-		Debug.Log("Entered MoveTile, Tiles to Move: " + character.TilesToMove);
+		character.MoveLeft += moveAmount;
+		Debug.Log("Entered MoveTile, Tiles to Move: " + character.MoveLeft);
 
         Move(character);
 	}
 
-	private void Move(CharacterMovement character)
+	private void Move(CharacterMovementController character)
 	{
 		if (moveAmount > 0)
 			MoveForward(character);
@@ -32,12 +32,12 @@ public class MoveTile : MonoBehaviour, ISpecialTile
 			Debug.Log("Check the inspector, amount is probably set to 0");
 	}
 
-	private void MoveForward(CharacterMovement character)
+	private void MoveForward(CharacterMovementController character)
     { 
 		StartCoroutine(character.Move());
 	}
 
-	private void MoveBackWard(CharacterMovement character)
+	private void MoveBackWard(CharacterMovementController character)
 	{	
 		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
         StartCoroutine(character.Move());
