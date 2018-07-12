@@ -9,45 +9,74 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1280765877542768}
+  m_RootGameObject: {fileID: 1443669901123812}
   m_IsPrefabParent: 1
---- !u!1 &1280765877542768
+--- !u!1 &1056830044921696
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4666435121136034}
-  - component: {fileID: 33213455476241326}
-  - component: {fileID: 23808647467092704}
-  - component: {fileID: 114949941436198192}
+  - component: {fileID: 4531444849365704}
+  - component: {fileID: 33791070172970944}
+  - component: {fileID: 23888113347783258}
+  - component: {fileID: 114049318591752662}
   m_Layer: 0
-  m_Name: TeleportTile
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4666435121136034
+--- !u!1 &1443669901123812
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4568814864861654}
+  m_Layer: 0
+  m_Name: Arrow
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4531444849365704
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280765877542768}
+  m_GameObject: {fileID: 1056830044921696}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalScale: {x: 0.2144309, y: 0.0501518, z: 0.543806}
+  m_Children: []
+  m_Father: {fileID: 4568814864861654}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4568814864861654
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1443669901123812}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 1, z: 2}
-  m_Children: []
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4531444849365704}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!23 &23808647467092704
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23888113347783258
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280765877542768}
+  m_GameObject: {fileID: 1056830044921696}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -57,7 +86,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: e4684a765ffa43d4caa4ec942f89f91d, type: 2}
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -77,24 +106,21 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33213455476241326
+--- !u!33 &33791070172970944
 MeshFilter:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280765877542768}
-  m_Mesh: {fileID: 4300234, guid: 87b751928235ced49a4a5bee39a873cc, type: 3}
---- !u!114 &114949941436198192
+  m_GameObject: {fileID: 1056830044921696}
+  m_Mesh: {fileID: 4300000, guid: 5c30e540cabe08346b59f7fdf47daf44, type: 3}
+--- !u!114 &114049318591752662
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1280765877542768}
+  m_GameObject: {fileID: 1056830044921696}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea2b8b74f0c759546993ed935f9b68eb, type: 3}
+  m_Script: {fileID: 11500000, guid: 11f31ed8c8af0b54e8a45787343845a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startFX: {fileID: 100002, guid: 1c9e221d7cca55c47b0736250f3d4047, type: 2}
-  endFX: {fileID: 100006, guid: 4b96e0d8d9e130042b36e3d4a2a647d6, type: 2}
-  destinationTile: {fileID: 0}
