@@ -48,7 +48,7 @@ public class MoveTile : Tile, ISpecialTile
 
 	private void MoveBackWard(CharacterMovementController character)
 	{	
-		character.TileAfterMove = TileManager.Instance.Tiles[character.TileBeforeMove.GetComponent<Tile>().index - 1].GetComponent<Tile>();
+		character.TileAfterMove = TileManager.Instance.Tiles[character.TileBeforeMove.index - 1];
         StartCoroutine(character.Move());
     }
 }

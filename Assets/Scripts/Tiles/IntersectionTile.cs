@@ -1,9 +1,10 @@
-﻿public class IntersectionTile : Tile
+﻿using UnityEngine;
+
+public class IntersectionTile : Tile
 {
-	protected override void Start()
-	{
-		base.Start();
-	}
+	[SerializeField]	
+	private GameObject[] arrows;
+	private Tile[] neighbourTiles;			
 
 	public override void OnCharacterEnter(CharacterMovementController character)
 	{

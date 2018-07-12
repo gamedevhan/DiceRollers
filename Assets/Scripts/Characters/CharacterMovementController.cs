@@ -32,8 +32,8 @@ public class CharacterMovementController : MonoBehaviour
 
 	private void Start()
 	{		
-		TileBeforeMove = TileManager.Instance.Tiles[0].GetComponent<Tile>();
-		TileAfterMove = TileManager.Instance.Tiles[1].GetComponent<Tile>();
+		TileBeforeMove = TileManager.Instance.Tiles[0];
+		TileAfterMove = TileManager.Instance.Tiles[1];
 	}
 
 	// This method listens to DiceRolled event
@@ -83,6 +83,6 @@ public class CharacterMovementController : MonoBehaviour
 			MoveLeft++;
 		}
 
-		TileAfterMove.GetComponent<Tile>().OnCharacterEnter(this);
+		TileAfterMove.OnCharacterEnter(this);
 	}
 }

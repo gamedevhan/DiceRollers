@@ -8,7 +8,7 @@ public class TeleportTile : Tile, ISpecialTile
 
     [SerializeField] private GameObject startFX;
     [SerializeField] private GameObject endFX;
-    [SerializeField] private Transform destination;
+    [SerializeField] private Tile destinationTile;
 
     protected override void Start()
     {
@@ -32,13 +32,13 @@ public class TeleportTile : Tile, ISpecialTile
 		yield return new WaitForSeconds(startFxDelay);
         characterModel.SetActive(false);
         
-        character.transform.position = destination.position;
+        character.transform.position = destinationTile.transform.position;
 
         yield return new WaitForSeconds(1f); // For cosmetic purpose. TODO: camera smooth follow
 
         // Update CurrentTile and NextTile
-		character.TileBeforeMove = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index].GetComponent<Tile>();
-		character.TileAfterMove = TileManager.Instance.Tiles[destination.GetComponent<Tile>().index + 1].GetComponent<Tile>();
+		character.TileBeforeMove = TileManager.Instance.Tiles[destinationTile.index];
+		character.TileAfterMove = TileManager.Instance.Tiles[destinationTile.index + 1];
 
         // Telport Ends
         fxPosition = character.TileBeforeMove.transform.position;

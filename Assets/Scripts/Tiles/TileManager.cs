@@ -5,7 +5,7 @@ public class TileManager : MonoBehaviour
 {
 	public static TileManager Instance { get; private set; }
 
-	public List<Transform> Tiles = new List<Transform>();
+	public List<Tile> Tiles = new List<Tile>();
 
 	private void Awake()
 	{
@@ -20,9 +20,10 @@ public class TileManager : MonoBehaviour
 	private void PopulateTileList()
 	{
 		int i = 0;
-		foreach (Transform tile in transform)
+		foreach (Transform tileTransform in transform)
 		{
-			tile.GetComponent<Tile>().index = i;
+			Tile tile = tileTransform.GetComponent<Tile>();
+			tile.index = i;
 			Tiles.Add(tile);
 			i++;
 		}

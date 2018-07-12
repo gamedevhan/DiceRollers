@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GamePlayerSpawnManager : MonoBehaviour
 {
-    private Transform startTile;
+    private Tile startTile;
 
     public static GamePlayerSpawnManager Instance;
 
@@ -29,7 +29,7 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	private void SpawnGamePlayer()
 	{
 		string characterName = LevelTransitionManager.Instance.SelectedCharacter.ToString();
-        GameObject playerCharacter = PhotonNetwork.Instantiate(characterName, startTile.position, Quaternion.Euler(0, 180, 0), 0);
+        GameObject playerCharacter = PhotonNetwork.Instantiate(characterName, startTile.transform.position, Quaternion.Euler(0, 180, 0), 0);
 		PhotonView characterPhotonView = PhotonView.Get(playerCharacter);
 				
 		RaiseEventOptions eventOptions = new RaiseEventOptions { CachingOption = EventCaching.AddToRoomCache, Receivers = ReceiverGroup.All };		
