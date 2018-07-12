@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+
 
 public abstract class Tile : MonoBehaviour
 {
@@ -6,6 +9,27 @@ public abstract class Tile : MonoBehaviour
 
 	protected Tile previousTile;
 	protected Tile nextTile;
+	protected List<Tile> neighbourTiles = new List<Tile>();
+
+	protected const float neighbourDistanceThreshold = 3.4f;
+
+	protected virtual void Start()
+	{
+		Tile[] tiles = FindObjectsOfType<Tile>();
+		float distanceFromThisTile = new float();		
+		foreach (var tile in tiles)
+		{
+			distanceFromThisTile = Vector3.Distance(transform.position, tile.transform.position);
+			if (distanceFromThisTile <= neighbourDistanceThreshold && tile != this)
+			{
+				neighbourTiles.Add(tile);
+			}
+		}
+
+		neighbourTiles = neighbourTiles.OrderBy(x => x.index).ToList();
+		previousTile = neighbourTiles[0];
+		nextTile = neighbourTiles[neighbourTiles.Count - 1];
+	}
 
     public virtual void OnCharacterEnter(CharacterMovementController character)
 	{

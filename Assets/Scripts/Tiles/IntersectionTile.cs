@@ -3,8 +3,7 @@
 public class IntersectionTile : Tile
 {
 	[SerializeField]	
-	private GameObject[] arrows;
-	private Tile[] neighbourTiles;			
+	private GameObject[] arrows;	
 
 	public override void OnCharacterEnter(CharacterMovementController character)
 	{

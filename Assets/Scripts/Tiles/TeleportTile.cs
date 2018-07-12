@@ -10,12 +10,12 @@ public class TeleportTile : Tile, ISpecialTile
     [SerializeField] private GameObject endFX;
     [SerializeField] private Tile destinationTile;
 
-    protected override void Start()
-    {
-        base.Start();
-        startFxDelay = startFX.GetComponent<ParticleSystem>().main.duration;
+	protected override void Start()
+	{
+		base.Start();
+		startFxDelay = startFX.GetComponent<ParticleSystem>().main.duration;
         endFXDelay = startFX.GetComponent<ParticleSystem>().main.duration;
-    }
+	}
 
     public override void OnCharacterEnter(CharacterMovementController character)
     {

@@ -8,9 +8,9 @@ public class MoveTile : Tile, ISpecialTile
     [SerializeField] private GameObject moveFX;
     [SerializeField] private int moveAmount;
 
-    protected override void Start()
-    {
-        base.Start();
+	protected override void Start()
+	{
+		base.Start();
         fxDelay = moveFX.GetComponent<ParticleSystem>().main.duration;        
     }
 
