@@ -13,11 +13,12 @@ public class CharacterMovementController : MonoBehaviour
 	private const float lerpThreshold = 0.05f;
 	private float startTime;
 	private float journeyLength;
-	private PhotonView photonView;
+	
+	public PhotonView PhotonView { get; private set; }
 
 	private void Awake()
 	{
-		photonView = GetComponent<PhotonView>();
+		PhotonView = GetComponent<PhotonView>();
 	}
 
 	private void OnEnable()
@@ -39,9 +40,9 @@ public class CharacterMovementController : MonoBehaviour
 	// This method listens to DiceRolled event
 	private void OnDiceRolled(int diceResult)
 	{
-		if (photonView.isMine)
+		if (PhotonView.isMine)
 		{			
-			photonView.RPC("MoveCharacter", PhotonTargets.All, diceResult);
+			PhotonView.RPC("MoveCharacter", PhotonTargets.All, diceResult);
 		}
 	}
 

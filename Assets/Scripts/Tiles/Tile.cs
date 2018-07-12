@@ -7,6 +7,9 @@ public abstract class Tile : MonoBehaviour
     protected bool isStartTile;
     protected bool isEndTile;
 
+	protected Tile previousTile;
+	protected Tile nextTile;
+
     protected virtual void Start()
     {
         if (index == 0)
