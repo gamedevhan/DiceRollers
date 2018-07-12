@@ -4,34 +4,13 @@ public abstract class Tile : MonoBehaviour
 {
 	public int index;
 
-    protected bool isStartTile;
-    protected bool isEndTile;
-
 	protected Tile previousTile;
 	protected Tile nextTile;
-
-    protected virtual void Start()
-    {
-        if (index == 0)
-        {
-            isStartTile = true;
-        }
-        else if (index == TileManager.Instance.Tiles.Count - 1)
-        {
-            isEndTile = true;            
-        }
-    }
 
     public virtual void OnCharacterEnter(CharacterMovementController character)
 	{
 		if (character.MoveLeft > 0) // character is moving forward
-        {
-            // Are we on the last tile?
-            if (isEndTile)
-            {
-                GameManager.Instance.GameOver();
-            }
-            else
+        {         
             {
                 character.TileBeforeMove = TileManager.Instance.Tiles[index];
                 character.TileAfterMove = TileManager.Instance.Tiles[index + 1];
@@ -39,19 +18,10 @@ public abstract class Tile : MonoBehaviour
             }
         }
         else if (character.MoveLeft < 0) // character is moving backward
-        {
-            // Are we on the first tile?
-            if (isStartTile)
-            {
-                character.MoveLeft = 0;
-                GameManager.Instance.TurnManager.TurnEnd(); // Moved backward and reached start tile, end turn
-            }
-            else
-            {
-                character.TileBeforeMove = TileManager.Instance.Tiles[index];
-                character.TileAfterMove = TileManager.Instance.Tiles[index - 1];
-                StartCoroutine(character.Move());
-            }
+        {                  
+            character.TileBeforeMove = TileManager.Instance.Tiles[index];
+            character.TileAfterMove = TileManager.Instance.Tiles[index - 1];
+            StartCoroutine(character.Move());         
         }
         else // if (character.MoveLeft == 0)
         {

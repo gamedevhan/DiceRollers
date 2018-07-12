@@ -4,7 +4,8 @@
 	{
 		character.MoveLeft = 0;
 		character.ShouldPlayMoveAnim = false;
+		
 		string ownerNickName = character.PhotonView.owner.NickName;
-		DebugUtility.Log(ownerNickName + " Win!");
+		GameManager.Instance.GameOver(ownerNickName);		
 	}
 }

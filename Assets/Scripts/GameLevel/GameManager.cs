@@ -58,8 +58,8 @@ public class GameManager : MonoBehaviour
         }
 	}
 
-    public void GameOver()
+    public void GameOver(string winnerNickName)
     {
-        DebugUtility.Log("Game Over!");
+        DebugUtility.Log(winnerNickName + " Win!");
     }
 }

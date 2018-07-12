@@ -5,6 +5,7 @@
 		character.MoveLeft = 0;
 		character.ShouldPlayMoveAnim = false;
 		character.TileBeforeMove = this;
-		character.TileAfterMove = nextTile;		
+		character.TileAfterMove = nextTile;
+		GameManager.Instance.TurnManager.TurnEnd();
 	}
 }
