@@ -48,8 +48,7 @@ public class CharacterMovementController : MonoBehaviour
 	[PunRPC]
 	private void MoveCharacter(int moveLeft)
 	{		
-		MoveLeft = moveLeft;
-		DebugUtility.Log("Moving! tilestoMove = " + MoveLeft);
+		MoveLeft = moveLeft;		
 		StartCoroutine(Move());
 	}
 

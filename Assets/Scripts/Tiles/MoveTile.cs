@@ -25,8 +25,7 @@ public class MoveTile : Tile, ISpecialTile
         Instantiate(moveFX, fxPosition, moveFX.transform.rotation, null);
         yield return new WaitForSeconds(fxDelay);
      			
-		character.MoveLeft += moveAmount;
-		Debug.Log("Entered MoveTile, Tiles to Move: " + character.MoveLeft);
+		character.MoveLeft += moveAmount;		
 
         Move(character);
 	}
@@ -38,7 +37,7 @@ public class MoveTile : Tile, ISpecialTile
 		else if (character.MoveLeft < 0)		
 			MoveBackWard(character);
 		else
-			Debug.Log("Check the inspector, amount is probably set to 0");
+			Debug.LogError("Check the inspector, amount is probably set to 0");
 	}
 
 	private void MoveForward(CharacterMovementController character)

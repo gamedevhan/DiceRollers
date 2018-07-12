@@ -29,7 +29,7 @@ public class Dice : MonoBehaviour
 	public IEnumerator Roll()
 	{
 		DiceResult = UnityEngine.Random.Range(1, 7);
-		DebugUtility.Log(DiceResult);
+		DebugUtility.Log("Rolling! Result is: " + DiceResult);
 		photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
 
 		yield return new WaitForSeconds(1f);
