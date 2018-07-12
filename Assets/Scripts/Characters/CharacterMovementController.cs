@@ -5,10 +5,11 @@ public class CharacterMovementController : MonoBehaviour
 {
 	public int MoveLeft;
 	public bool ShouldPlayMoveAnim = false;		
-	public float Speed = 1.0F;		
-	public Transform CurrentTile;
-	public Transform NextTile;
+	public float Speed = 1.0F;
 	
+	public Tile TileBeforeMove;
+	public Tile TileAfterMove;
+
 	private const float lerpThreshold = 0.05f;
 	private float startTime;
 	private float journeyLength;
@@ -31,8 +32,8 @@ public class CharacterMovementController : MonoBehaviour
 
 	private void Start()
 	{		
-		CurrentTile = TileManager.Instance.Tiles[0];
-		NextTile = TileManager.Instance.Tiles[1];	
+		TileBeforeMove = TileManager.Instance.Tiles[0].GetComponent<Tile>();
+		TileAfterMove = TileManager.Instance.Tiles[1].GetComponent<Tile>();
 	}
 
 	// This method listens to DiceRolled event
@@ -54,22 +55,22 @@ public class CharacterMovementController : MonoBehaviour
 
 	public IEnumerator Move()
 	{
-		transform.LookAt(NextTile);
+		transform.LookAt(TileAfterMove.transform);
 
 		#region Lerp
 		startTime = Time.time;
-        journeyLength = Vector3.Distance(CurrentTile.position, NextTile.position);
+        journeyLength = Vector3.Distance(TileBeforeMove.transform.position, TileAfterMove.transform.position);
         ShouldPlayMoveAnim = true;
 
-        while (Vector3.Distance(transform.position, NextTile.position) > lerpThreshold)
+        while (Vector3.Distance(transform.position, TileAfterMove.transform.position) > lerpThreshold)
         {
             float distCovered = (Time.time - startTime) * Speed;
             float fracJourney = distCovered / journeyLength;
-            transform.position = Vector3.Lerp(CurrentTile.position, NextTile.position, fracJourney);
+            transform.position = Vector3.Lerp(TileBeforeMove.transform.position, TileAfterMove.transform.position, fracJourney);
             yield return null;
         }
 
-        transform.position = NextTile.position;
+        transform.position = TileAfterMove.transform.position;
 
 		#endregion
 
@@ -82,6 +83,6 @@ public class CharacterMovementController : MonoBehaviour
 			MoveLeft++;
 		}
 
-		NextTile.GetComponent<Tile>().OnCharacterEnter(this);
+		TileAfterMove.GetComponent<Tile>().OnCharacterEnter(this);
 	}
 }

@@ -16,7 +16,7 @@ public class MoveTile : Tile, ISpecialTile
 
     public override void OnCharacterEnter(CharacterMovementController character)
     {
-        base.OnCharacterEnter(character);        
+        base.OnCharacterEnter(character);
     }
 
     public IEnumerator SpecialTileBehaviour(CharacterMovementController character)
@@ -48,7 +48,7 @@ public class MoveTile : Tile, ISpecialTile
 
 	private void MoveBackWard(CharacterMovementController character)
 	{	
-		character.NextTile = TileManager.Instance.Tiles[character.CurrentTile.GetComponent<Tile>().index - 1];
+		character.TileAfterMove = TileManager.Instance.Tiles[character.TileBeforeMove.GetComponent<Tile>().index - 1].GetComponent<Tile>();
         StartCoroutine(character.Move());
     }
 }

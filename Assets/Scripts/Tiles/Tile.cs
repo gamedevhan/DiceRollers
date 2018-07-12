@@ -30,8 +30,8 @@ public abstract class Tile : MonoBehaviour
             }
             else
             {
-                character.CurrentTile = TileManager.Instance.Tiles[index];
-                character.NextTile = TileManager.Instance.Tiles[index + 1];
+                character.TileBeforeMove = TileManager.Instance.Tiles[index].GetComponent<Tile>();
+                character.TileAfterMove = TileManager.Instance.Tiles[index + 1].GetComponent<Tile>();
                 StartCoroutine(character.Move());
             }
         }
@@ -45,15 +45,15 @@ public abstract class Tile : MonoBehaviour
             }
             else
             {
-                character.CurrentTile = TileManager.Instance.Tiles[index];
-                character.NextTile = TileManager.Instance.Tiles[index - 1];
+                character.TileBeforeMove = TileManager.Instance.Tiles[index].GetComponent<Tile>();
+                character.TileAfterMove = TileManager.Instance.Tiles[index - 1].GetComponent<Tile>();
                 StartCoroutine(character.Move());
             }
         }
         else // if (character.MoveLeft == 0)
         {
-            character.CurrentTile = TileManager.Instance.Tiles[index];
-            character.NextTile = TileManager.Instance.Tiles[index + 1];
+            character.TileBeforeMove = TileManager.Instance.Tiles[index].GetComponent<Tile>();
+            character.TileAfterMove = TileManager.Instance.Tiles[index + 1].GetComponent<Tile>();
             character.ShouldPlayMoveAnim = false;
 
 			ISpecialTile specialTile = GetComponent<ISpecialTile>();
