@@ -33,8 +33,8 @@ public class CharacterMovementController : MonoBehaviour
 
 	private void Start()
 	{		
-		TileBeforeMove = TileManager.Instance.Tiles[0];
-		TileAfterMove = TileManager.Instance.Tiles[1];
+		TileBeforeMove = GamePlayerSpawnManager.Instance.startTile;
+		TileAfterMove = TileBeforeMove.NextTile;
 	}
 
 	// This method listens to DiceRolled event

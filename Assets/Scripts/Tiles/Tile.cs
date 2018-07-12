@@ -2,16 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class Tile : MonoBehaviour
+public class Tile : MonoBehaviour
 {
-	public int index;
-
-	protected Tile previousTile;
-	protected Tile nextTile;
 	protected List<Tile> neighbourTiles = new List<Tile>();
-
 	protected const float neighbourDistanceThreshold = 3.4f;
+
+	public int Index { get; set; }
+	public Tile PreviousTile { get; private set; }
+	public Tile NextTile { get; private set; }
 
 	protected virtual void Start()
 	{
@@ -25,10 +23,10 @@ public abstract class Tile : MonoBehaviour
 				neighbourTiles.Add(tile);
 			}
 		}
-
-		neighbourTiles = neighbourTiles.OrderBy(x => x.index).ToList();
-		previousTile = neighbourTiles[0];
-		nextTile = neighbourTiles[neighbourTiles.Count - 1];
+				
+		neighbourTiles = neighbourTiles.OrderBy(x => x.Index).ToList();
+		PreviousTile = neighbourTiles[0];
+		NextTile = neighbourTiles[neighbourTiles.Count - 1];
 	}
 
     public virtual void OnCharacterEnter(CharacterMovementController character)
@@ -36,21 +34,21 @@ public abstract class Tile : MonoBehaviour
 		if (character.MoveLeft > 0) // character is moving forward
         {         
             {
-                character.TileBeforeMove = TileManager.Instance.Tiles[index];
-                character.TileAfterMove = TileManager.Instance.Tiles[index + 1];
+                character.TileBeforeMove = this;
+                character.TileAfterMove = NextTile;
                 StartCoroutine(character.Move());
             }
         }
         else if (character.MoveLeft < 0) // character is moving backward
         {                  
-            character.TileBeforeMove = TileManager.Instance.Tiles[index];
-            character.TileAfterMove = TileManager.Instance.Tiles[index - 1];
+            character.TileBeforeMove = this;
+            character.TileAfterMove = PreviousTile;
             StartCoroutine(character.Move());         
         }
         else // if (character.MoveLeft == 0)
         {
-            character.TileBeforeMove = TileManager.Instance.Tiles[index];
-            character.TileAfterMove = TileManager.Instance.Tiles[index + 1];
+            character.TileBeforeMove = this;
+            character.TileAfterMove = NextTile;
             character.ShouldPlayMoveAnim = false;
 
 			ISpecialTile specialTile = GetComponent<ISpecialTile>();

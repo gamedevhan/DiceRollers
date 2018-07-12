@@ -5,8 +5,6 @@ public class TileManager : MonoBehaviour
 {
 	public static TileManager Instance { get; private set; }
 
-	public List<Tile> Tiles = new List<Tile>();
-
 	private void Awake()
 	{
 		if (Instance == null)
@@ -14,17 +12,16 @@ public class TileManager : MonoBehaviour
 		else
 			Destroy(gameObject);
 
-		PopulateTileList();
+		InitializeTileIndex();
 	}
 
-	private void PopulateTileList()
+	private void InitializeTileIndex()
 	{
-		int i = 0;
+		int i = 0;		
 		foreach (Transform tileTransform in transform)
-		{
+		{			
 			Tile tile = tileTransform.GetComponent<Tile>();
-			tile.index = i;
-			Tiles.Add(tile);
+			tile.Index = i;			
 			i++;
 		}
 	}

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4253920194320232}
   - component: {fileID: 33326826955934388}
   - component: {fileID: 23394882496908140}
-  - component: {fileID: 114583384362336288}
+  - component: {fileID: 114663443673398608}
   m_Layer: 0
   m_Name: NomalTile
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1819357849211732}
   m_Mesh: {fileID: 4300244, guid: 87b751928235ced49a4a5bee39a873cc, type: 3}
---- !u!114 &114583384362336288
+--- !u!114 &114663443673398608
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -92,7 +92,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1819357849211732}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5eb76ce5a4f9dbb4795e7a3fd904a3f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 52dcb2fd9c2a4e74abca4a96e8f85150, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  index: 0

@@ -37,8 +37,8 @@ public class TeleportTile : Tile, ISpecialTile
         yield return new WaitForSeconds(1f); // For cosmetic purpose. TODO: camera smooth follow
 
         // Update CurrentTile and NextTile
-		character.TileBeforeMove = TileManager.Instance.Tiles[destinationTile.index];
-		character.TileAfterMove = TileManager.Instance.Tiles[destinationTile.index + 1];
+		character.TileBeforeMove = destinationTile;
+		character.TileAfterMove = destinationTile.NextTile;
 
         // Telport Ends
         fxPosition = character.TileBeforeMove.transform.position;

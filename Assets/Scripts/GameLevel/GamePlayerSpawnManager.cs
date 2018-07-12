@@ -3,9 +3,8 @@ using UnityEngine;
 
 public class GamePlayerSpawnManager : MonoBehaviour
 {
-    private Tile startTile;
-
-    public static GamePlayerSpawnManager Instance;
+    public Tile startTile { get; private set; }
+    public static GamePlayerSpawnManager Instance { get; private set; }
 
 	private void Awake()
 	{
@@ -22,7 +21,7 @@ public class GamePlayerSpawnManager : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-        startTile = TileManager.Instance.Tiles[0];
+        startTile = FindObjectOfType<StartTile>() as Tile;
         SpawnGamePlayer();
 	}
 
