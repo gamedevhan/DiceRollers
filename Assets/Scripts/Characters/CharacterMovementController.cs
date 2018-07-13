@@ -49,7 +49,7 @@ public class CharacterMovementController : MonoBehaviour
 	[PunRPC]
 	private void MoveCharacter(int moveLeft)
 	{		
-		MoveLeft = moveLeft;		
+		MoveLeft = moveLeft;
 		StartCoroutine(Move());
 	}
 

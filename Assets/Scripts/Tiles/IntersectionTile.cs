@@ -6,7 +6,8 @@ public class IntersectionTile : Tile
 	[SerializeField]
 	private GameObject arrowPrefab;	
 	private List<Tile> nextTiles = new List<Tile>();
-	private Dictionary<Arrow, Tile> direction = new Dictionary<Arrow, Tile>();
+	private Dictionary<Arrow, Tile> selectedTile = new Dictionary<Arrow, Tile>();
+    private CharacterMovementController enteredCharacter;
 
 	protected override void Start()
 	{
@@ -16,7 +17,7 @@ public class IntersectionTile : Tile
 			nextTiles.Add(neighbourTiles[i]);
 			GameObject arrowGameObject = Instantiate(arrowPrefab, transform);
 			Arrow arrow = arrowGameObject.GetComponent<Arrow>();
-			direction.Add(arrow, neighbourTiles[i]);
+			selectedTile.Add(arrow, neighbourTiles[i]);
 
 			Vector3 arrowPosition = new Vector3((neighbourTiles[i].transform.position.x + transform.position.x) / 2, 0, (neighbourTiles[i].transform.position.z + transform.position.z) / 2);
 			arrow.transform.position = arrowPosition;
@@ -28,9 +29,51 @@ public class IntersectionTile : Tile
 
 	public override void OnCharacterEnter(CharacterMovementController character)
 	{
-		foreach (Arrow arrow in direction.Keys)
-		{
-			arrow.MeshRenderer.enabled = true;
-		}
+        enteredCharacter = character;
+        enteredCharacter.TileBeforeMove = this;
+
+        if (enteredCharacter.MoveLeft < 0)
+        {
+            enteredCharacter.TileAfterMove = PreviousTile;
+            StartCoroutine(enteredCharacter.Move());
+        }
+        else
+        {
+            enteredCharacter.ShouldPlayMoveAnim = false;
+
+            foreach (Arrow arrow in selectedTile.Keys)
+            {
+                arrow.MeshRenderer.enabled = true;
+                if (PhotonNetwork.player.ID == GameManager.Instance.TurnManager.CurrentTurnPlayerID)
+                {
+                    if (!arrow.Collider.enabled)
+                    {
+                        arrow.Collider.enabled = true;
+                    }
+                }
+                else
+                {
+                    if (arrow.Collider.enabled)
+                    {
+                        arrow.Collider.enabled = false;
+                    }
+                }
+            }
+        }
 	}
+    
+    public void OnArrowPress(Arrow arrow)
+    {
+        NextTile = selectedTile[arrow];
+        enteredCharacter.TileAfterMove = NextTile;
+        
+        if (enteredCharacter.MoveLeft > 0)
+        {
+            enteredCharacter.PhotonView.RPC("MoveCharacter", PhotonTargets.All, enteredCharacter.MoveLeft);
+        }
+        else
+        {
+            GameManager.Instance.TurnManager.TurnEnd();
+        }
+    }
 }

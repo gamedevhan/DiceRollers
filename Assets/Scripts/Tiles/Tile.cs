@@ -8,8 +8,8 @@ public class Tile : MonoBehaviour
 	protected const float neighbourDistanceThreshold = 3.4f;
 
 	public int Index { get; set; }
-	public Tile PreviousTile { get; private set; }
-	public Tile NextTile { get; private set; }
+	public Tile PreviousTile { get; protected set; }
+	public Tile NextTile { get; protected set; }
 
 	protected virtual void Start()
 	{

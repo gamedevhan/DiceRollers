@@ -55,4 +55,5 @@ MonoBehaviour:
   - SyncReadyStatus
   - SyncSpawnPointInfo
   - RpcCurrentTurnPlayerLabel
+  - OnArrowPress
   DisableAutoOpenWizard: 1
