@@ -4,6 +4,7 @@ using UnityEngine;
 public class Arrow : MonoBehaviour
 {
 	public MeshRenderer MeshRenderer { get; private set; }
+	private const int blinkCount = 3;
 
 	private void Awake()
 	{
@@ -16,19 +17,21 @@ public class Arrow : MonoBehaviour
 		transform.LookAt(targetPosition);
 	}
 
-	public Arrow OnArrowPressed()
+	private void OnMouseDown()
 	{
 		StartCoroutine(Blink());
-		return this;
 	}
-
+	
 	public IEnumerator Blink()
 	{		
-		MeshRenderer.enabled = false;
-		yield return new WaitForSeconds(0.25f);
-		MeshRenderer.enabled = true;
-		yield return new WaitForSeconds(0.25f);
-		MeshRenderer.enabled = false;
-		yield return new WaitForSeconds(0.25f);
+		for (int i = 0; i < blinkCount; i++)
+		{
+			MeshRenderer.enabled = false;
+			yield return new WaitForSeconds(0.25f);
+			MeshRenderer.enabled = true;
+			yield return new WaitForSeconds(0.25f);
+			MeshRenderer.enabled = false;
+			yield return new WaitForSeconds(0.25f);
+		}		
 	}
 }
