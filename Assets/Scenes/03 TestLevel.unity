@@ -359,8 +359,8 @@ Transform:
   - {fileID: 189993752}
   - {fileID: 932180619}
   - {fileID: 1758604149}
-  - {fileID: 609626668}
   - {fileID: 638593330}
+  - {fileID: 609626668}
   m_Father: {fileID: 1788893807}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -586,6 +586,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 166137007}
     m_Modifications:
+    - target: {fileID: 114655119252372008, guid: ef83f1e2eb69df94fb7515e0c006bcdd,
+        type: 2}
+      propertyPath: ObservedComponents.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4523193042464504, guid: ef83f1e2eb69df94fb7515e0c006bcdd, type: 2}
       propertyPath: m_LocalPosition.x
       value: 7.2
@@ -621,6 +626,16 @@ Prefab:
     - target: {fileID: 4523193042464504, guid: ef83f1e2eb69df94fb7515e0c006bcdd, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 114655119252372008, guid: ef83f1e2eb69df94fb7515e0c006bcdd,
+        type: 2}
+      propertyPath: instantiationId
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114655119252372008, guid: ef83f1e2eb69df94fb7515e0c006bcdd,
+        type: 2}
+      propertyPath: viewIdField
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: ef83f1e2eb69df94fb7515e0c006bcdd, type: 2}
@@ -926,7 +941,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4203121416249972, guid: b7ace4e31a83b6b4996f231ab8cbf1bb, type: 2}
       propertyPath: m_RootOrder
-      value: 32
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 4203121416249972, guid: b7ace4e31a83b6b4996f231ab8cbf1bb, type: 2}
       propertyPath: m_LocalScale.x

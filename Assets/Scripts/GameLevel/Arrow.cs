@@ -12,7 +12,7 @@ public class Arrow : MonoBehaviour
     private void Awake()
 	{
 		MeshRenderer = GetComponentInChildren<MeshRenderer>();
-		MeshRenderer.enabled = false;
+		//MeshRenderer.enabled = false;
 
         intersectionTile = GetComponentInParent<IntersectionTile>();
         Collider = GetComponent<BoxCollider>();
