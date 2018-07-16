@@ -3,8 +3,7 @@ using UnityEngine;
 
 public class CharacterMovementController : MonoBehaviour
 {
-	public int MoveLeft;
-	public bool ShouldPlayMoveAnim = false;		
+	public int MoveLeft;	
 	public float Speed = 1.0F;
 	
 	public Tile TileBeforeMove;
@@ -41,12 +40,13 @@ public class CharacterMovementController : MonoBehaviour
 	private void OnDiceRolled(int diceResult)
 	{
 		if (PhotonView.isMine)
-		{			
-			PhotonView.RPC("MoveCharacter", PhotonTargets.All, diceResult);
+		{
+            MoveCharacter(diceResult);
+			//PhotonView.RPC("MoveCharacter", PhotonTargets.All, diceResult);
 		}
 	}
 
-	[PunRPC]
+	//[PunRPC]
 	private void MoveCharacter(int moveLeft)
 	{		
 		MoveLeft = moveLeft;		
@@ -56,11 +56,11 @@ public class CharacterMovementController : MonoBehaviour
 	public IEnumerator Move()
 	{
 		transform.LookAt(TileAfterMove.transform);
+        GetComponent<CharacterAnimationController>().IsWalking = true;
 
-		#region Lerp
-		startTime = Time.time;
+        #region Lerp
+        startTime = Time.time;
         journeyLength = Vector3.Distance(TileBeforeMove.transform.position, TileAfterMove.transform.position);
-        ShouldPlayMoveAnim = true;
 
         while (Vector3.Distance(transform.position, TileAfterMove.transform.position) > lerpThreshold)
         {

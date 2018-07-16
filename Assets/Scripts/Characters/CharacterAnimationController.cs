@@ -3,17 +3,16 @@
 [RequireComponent(typeof(CharacterMovementController))]
 public class CharacterAnimationController : MonoBehaviour
 {
-	private CharacterMovementController character;
+    public bool IsWalking = false;	
 	private Animator animator;
-
+    
 	private void Start()
-	{
-		character = GetComponent<CharacterMovementController>();
+	{		
 		animator = GetComponent<Animator>();
 	}
 
 	private void Update()
 	{
-		animator.SetBool("isMoving", character.ShouldPlayMoveAnim);
+		animator.SetBool("isWalking", IsWalking);
 	}
 }

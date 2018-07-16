@@ -2369,6 +2369,8 @@ GameObject:
   - component: {fileID: 114054714392949162}
   - component: {fileID: 114420670951644840}
   - component: {fileID: 114484653969948120}
+  - component: {fileID: 114023225576416978}
+  - component: {fileID: 114219973985586664}
   m_Layer: 0
   m_Name: Yuji
   m_TagString: Untagged
@@ -7572,7 +7574,7 @@ Animator:
   m_GameObject: {fileID: 1601343066928210}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: eab93cf3b9ea12247960e0cbe53333db, type: 3}
-  m_Controller: {fileID: 9100000, guid: eb3ff9f4c33b19f47a8cf36052d815b5, type: 2}
+  m_Controller: {fileID: 9100000, guid: 6816584d2aaf56d41840a5ef9cf16f1b, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -7634,6 +7636,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e9c3b94e3dc64ea82f6e29062b3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114023225576416978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601343066928210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 0
+    Name: isWalking
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &114026830004991590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7763,12 +7785,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad4d92532c7a7d745bfe34232dd5e76a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilesToMove: 0
-  IsMoving: 0
-  IsMovingForward: 1
+  MoveLeft: 0
+  ShouldPlayMoveAnim: 0
   Speed: 1
-  CurrentTile: {fileID: 0}
-  NextTile: {fileID: 0}
+  TileBeforeMove: {fileID: 0}
+  TileAfterMove: {fileID: 0}
 --- !u!114 &114057423014912392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8302,6 +8323,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e9c3b94e3dc64ea82f6e29062b3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114219973985586664
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601343066928210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 4
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 10
+    InterpolateMoveTowardsAcceleration: 2
+    InterpolateMoveTowardsDeceleration: 2
+    InterpolateSpeedCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: -1
+        value: 0
+        inSlope: 0
+        outSlope: Infinity
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 1
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 4
+        value: 4
+        inSlope: 1
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+    DrawErrorGizmo: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!114 &114225959863813724
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8885,6 +8983,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsWalking: 0
 --- !u!114 &114423335689048550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9101,12 +9200,13 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 0
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: 114023225576416978}
+  - {fileID: 114219973985586664}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

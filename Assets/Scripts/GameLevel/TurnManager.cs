@@ -48,29 +48,23 @@ public class TurnManager : MonoBehaviour
 	}
 
 	public void TurnEnd()
-	{
-        int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);
-        CurrentTurnPlayerID = (currentTurnPlayerIndex == playerIDs.Count - 1) ? playerIDs[0] : playerIDs[currentTurnPlayerIndex + 1];
-        if (PhotonNetwork.isMasterClient)
-        {
-            photonView.RPC("RpcTurnEnd", PhotonTargets.All);
-        }
+	{        
+        photonView.RPC("RpcTurnEnd", PhotonTargets.All);
 	}
 
 	[PunRPC]
 	private void RpcTurnBegin(int currentTurnPlayerID)
 	{
 		CurrentTurnPlayerID = currentTurnPlayerID;
-        GetComponent<GameManager>().OnTurnBegin();
+        GetComponent<GameManager>().OnTurnBegin(CurrentTurnPlayerID);
 	}
 
 	[PunRPC]
 	private void RpcTurnEnd()
 	{
-        if (!PhotonNetwork.isMasterClient)
-            return;
-
-        TurnBegin();		
+        int currentTurnPlayerIndex = playerIDs.IndexOf(CurrentTurnPlayerID);
+        CurrentTurnPlayerID = (currentTurnPlayerIndex == playerIDs.Count - 1) ? playerIDs[0] : playerIDs[currentTurnPlayerIndex + 1];
+        TurnBegin();
 	}
 
 	private IEnumerator StartMatch()

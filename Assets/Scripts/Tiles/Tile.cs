@@ -49,9 +49,9 @@ public class Tile : MonoBehaviour
         {
             character.TileBeforeMove = this;
             character.TileAfterMove = NextTile;
-            character.ShouldPlayMoveAnim = false;
+            character.GetComponent<CharacterAnimationController>().IsWalking = false;
 
-			ISpecialTile specialTile = GetComponent<ISpecialTile>();
+            ISpecialTile specialTile = GetComponent<ISpecialTile>();
 			if (specialTile != null)
 			{
 				StartCoroutine(specialTile.SpecialTileBehaviour(character));
