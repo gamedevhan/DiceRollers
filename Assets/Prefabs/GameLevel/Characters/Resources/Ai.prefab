@@ -1196,8 +1196,8 @@ GameObject:
   - component: {fileID: 114017427246232954}
   - component: {fileID: 114075857756229436}
   - component: {fileID: 114154992254169786}
+  - component: {fileID: 114065661704543574}
   - component: {fileID: 114250306963843748}
-  - component: {fileID: 114800593653138028}
   m_Layer: 0
   m_Name: Ai
   m_TagString: Untagged
@@ -6438,10 +6438,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveLeft: 0
-  ShouldPlayMoveAnim: 0
   Speed: 1.5
   TileBeforeMove: {fileID: 0}
   TileAfterMove: {fileID: 0}
+--- !u!114 &114065661704543574
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1359934304378674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: isWalking
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &114075857756229436
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6474,7 +6493,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114800593653138028}
+  - {fileID: 114065661704543574}
   - {fileID: 114250306963843748}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
@@ -6558,23 +6577,6 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
---- !u!114 &114800593653138028
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1359934304378674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters: []
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!137 &137162225353277606
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

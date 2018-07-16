@@ -2367,10 +2367,10 @@ GameObject:
   - component: {fileID: 4654496231236672}
   - component: {fileID: 95823781186240090}
   - component: {fileID: 114054714392949162}
-  - component: {fileID: 114420670951644840}
+  - component: {fileID: 114055365527476566}
   - component: {fileID: 114484653969948120}
-  - component: {fileID: 114023225576416978}
   - component: {fileID: 114219973985586664}
+  - component: {fileID: 114627468535311906}
   m_Layer: 0
   m_Name: Yuji
   m_TagString: Untagged
@@ -7636,26 +7636,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625e9c3b94e3dc64ea82f6e29062b3d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &114023225576416978
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1601343066928210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 0
-    Name: isWalking
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &114026830004991590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7786,10 +7766,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveLeft: 0
-  ShouldPlayMoveAnim: 0
   Speed: 1
   TileBeforeMove: {fileID: 0}
   TileAfterMove: {fileID: 0}
+--- !u!114 &114055365527476566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601343066928210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWalking: 0
 --- !u!114 &114057423014912392
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8972,18 +8963,6 @@ MonoBehaviour:
   sphereColliders: []
   capsuleColliders: []
   panelColliders: []
---- !u!114 &114420670951644840
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1601343066928210}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsWalking: 0
 --- !u!114 &114423335689048550
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9205,7 +9184,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114023225576416978}
+  - {fileID: 114627468535311906}
   - {fileID: 114219973985586664}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
@@ -9697,6 +9676,26 @@ MonoBehaviour:
   panelColliders:
   - {fileID: 114750551589620728}
   - {fileID: 114768330767925018}
+--- !u!114 &114627468535311906
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1601343066928210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 4
+    SynchronizeType: 1
+    Name: isWalking
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!114 &114637384362811176
 MonoBehaviour:
   m_ObjectHideFlags: 1

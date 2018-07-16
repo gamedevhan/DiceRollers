@@ -2027,9 +2027,9 @@ GameObject:
   - component: {fileID: 4464023122756672}
   - component: {fileID: 95771396163748676}
   - component: {fileID: 114518130361747278}
-  - component: {fileID: 114444351521137110}
+  - component: {fileID: 114082319107403596}
   - component: {fileID: 114131074956472030}
-  - component: {fileID: 114190876374832710}
+  - component: {fileID: 114332187690557552}
   - component: {fileID: 114042156249241354}
   m_Layer: 0
   m_Name: Riko
@@ -5868,6 +5868,18 @@ MonoBehaviour:
     InterpolateOption: 0
     InterpolateMoveTowardsSpeed: 1
     InterpolateLerpSpeed: 0
+--- !u!114 &114082319107403596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1683850460387538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsWalking: 0
 --- !u!114 &114131074956472030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5888,14 +5900,14 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114190876374832710}
+  - {fileID: 114332187690557552}
   - {fileID: 114042156249241354}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114190876374832710
+--- !u!114 &114332187690557552
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -5911,21 +5923,10 @@ MonoBehaviour:
   m_SynchronizeParameters:
   - Type: 4
     SynchronizeType: 1
-    Name: isMoving
+    Name: isWalking
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
---- !u!114 &114444351521137110
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1683850460387538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114518130361747278
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5938,7 +5939,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoveLeft: 0
-  ShouldPlayMoveAnim: 0
   Speed: 1.5
   TileBeforeMove: {fileID: 0}
   TileAfterMove: {fileID: 0}
