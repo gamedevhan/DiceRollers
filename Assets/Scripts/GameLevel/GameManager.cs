@@ -40,9 +40,8 @@ public class GameManager : MonoBehaviour
 		StartCoroutine(dice.Roll());
 	}
 
-	public void OnTurnBegin()
+	public void OnTurnBegin(int currentTurnPlayerID)
 	{
-		int currentTurnPlayerID = TurnManager.CurrentTurnPlayerID;
 		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[currentTurnPlayerID];
         Transform currentTurnCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 

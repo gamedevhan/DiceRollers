@@ -25,7 +25,7 @@ public class MoveTile : Tile, ISpecialTile
         Instantiate(moveFX, fxPosition, moveFX.transform.rotation, null);
         yield return new WaitForSeconds(fxDelay);
      			
-		character.MoveLeft += moveAmount;		
+		character.MoveLeft += moveAmount;
 
         Move(character);
 	}
