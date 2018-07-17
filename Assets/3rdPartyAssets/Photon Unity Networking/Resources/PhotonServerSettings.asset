@@ -34,7 +34,6 @@ MonoBehaviour:
   - DisplayPreviousCharacter
   - InitializeArrow
   - InstantiateRpc
-  - MoveCharacter
   - OnArrowPress
   - OnSpawnPointsInfoReceived
   - PickupItemInit
@@ -45,6 +44,7 @@ MonoBehaviour:
   - RequestForPickupItems
   - RequestForPickupTimes
   - RpcCurrentTurnPlayerLabel
+  - RpcSetWalkParameter
   - RpcTurnBegin
   - RpcTurnEnd
   - SendCurrentCharacterIndex

@@ -2,52 +2,70 @@
 using UnityEngine;
 
 public class Arrow : MonoBehaviour
-{    
-	public MeshRenderer MeshRenderer { get; private set; }
+{
+    public bool IsActive { get; private set; }
+    public MeshRenderer MeshRenderer { get; private set; }
     public BoxCollider Collider { get; private set; }
-    private IntersectionTile intersectionTile;
+    public IntersectionTile IntersectionTile { get; set; }
+    public PhotonView PhotonView { get; private set; }
+
+    private bool hasPressed = false;        
     private const int blinkCount = 3;
-    private PhotonView photonView;
 
     private void Awake()
-	{
-		MeshRenderer = GetComponentInChildren<MeshRenderer>();
-		//MeshRenderer.enabled = false;
+    {
+        MeshRenderer = GetComponentInChildren<MeshRenderer>();
+        Collider = GetComponent<BoxCollider>();        
+        PhotonView = GetComponent<PhotonView>();
+    }
 
-        intersectionTile = GetComponentInParent<IntersectionTile>();
-        Collider = GetComponent<BoxCollider>();
+    private void Start()
+    {
+        SetActivte(false);
+    }
 
-        photonView = GetComponent<PhotonView>();
-	}
+    private void OnMouseDown()
+    {
+        PhotonView.RPC("OnArrowPress", PhotonTargets.All, PhotonView.viewID);
+        StartCoroutine(WaitUntillPressThenUpdate());
+    }
 
-	public void LookatTarget(Vector3 targetPosition)
-	{
-		transform.LookAt(targetPosition);
-	}
-
-	private void OnMouseDown()
-	{
-        photonView.RPC("OnArrowPress", PhotonTargets.All);
-	}
+    public void SetActivte(bool isActive = true)
+    {
+        MeshRenderer.enabled = isActive;
+        Collider.enabled = isActive;
+        IsActive = isActive;
+    }
 
     [PunRPC]
-    public void OnArrowPress()
+    public void OnArrowPress(int photonViewID)
     {
-        StartCoroutine(ArrowPressCoroutine());
+        StartCoroutine(BlinkArrow(photonViewID));
     }
-	
-	public IEnumerator ArrowPressCoroutine()
-	{		
-		for (int i = 0; i < blinkCount; i++)
-		{
-			MeshRenderer.enabled = false;
-			yield return new WaitForSeconds(0.25f);
-			MeshRenderer.enabled = true;
-			yield return new WaitForSeconds(0.25f);
-			MeshRenderer.enabled = false;
-			yield return new WaitForSeconds(0.25f);
-		}
 
-        intersectionTile.OnArrowPress(this);
+    public IEnumerator BlinkArrow(int photonViewID)
+    {
+        for (int i = 0; i < blinkCount; i++)
+        {
+            MeshRenderer.enabled = false;
+            yield return new WaitForSeconds(0.25f);
+            MeshRenderer.enabled = true;
+            yield return new WaitForSeconds(0.25f);
+            MeshRenderer.enabled = false;
+            yield return new WaitForSeconds(0.25f);
+        }
+
+        hasPressed = true;
+    }
+
+    private IEnumerator WaitUntillPressThenUpdate()
+    {
+        while (!hasPressed)
+        {
+            yield return null;
+        }
+
+        IntersectionTile.OnArrowPress(this);
+        hasPressed = false;
     }
 }

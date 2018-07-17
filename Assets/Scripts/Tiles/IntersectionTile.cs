@@ -6,7 +6,7 @@ public class IntersectionTile : Tile
 	[SerializeField]
 	private GameObject arrowPrefab;	
 	private List<Tile> nextTiles = new List<Tile>();
-	private Dictionary<Arrow, Tile> selectedTile = new Dictionary<Arrow, Tile>();
+	private Dictionary<Arrow, Tile> arrowToTile = new Dictionary<Arrow, Tile>();
     private CharacterMovementController enteredCharacter;
 	private PhotonView photonView;
 
@@ -21,13 +21,18 @@ public class IntersectionTile : Tile
 		for (int i = 1; i < neighbourTiles.Count; i++)
 		{
 			nextTiles.Add(neighbourTiles[i]);
-			if (!PhotonNetwork.isMasterClient)
-				return;
-			
-			GameObject arrowGameObject = PhotonNetwork.InstantiateSceneObject(arrowPrefab.name, transform.position, Quaternion.identity, 0, null);
-			int arrowViewID = arrowGameObject.GetComponent<PhotonView>().viewID;
 
-			photonView.RPC("InitializeArrow", PhotonTargets.All, arrowViewID, i);
+            if (!PhotonNetwork.isMasterClient)
+            {
+                GameObject arrowGameObject = PhotonNetwork.InstantiateSceneObject(arrowPrefab.name, transform.position, Quaternion.identity, 0, null);
+                Arrow arrow = arrowGameObject.GetComponent<Arrow>();
+                arrow.IntersectionTile = this;
+                int arrowViewID = arrow.PhotonView.viewID;
+                photonView.RPC("InitializeArrow", PhotonTargets.All, arrowViewID, i);
+
+                // TODO: All players need to have populated dictionary, currently only masterClient has ditionary populated
+                arrowToTile.Add(arrow, neighbourTiles[i]);
+            }
 		}
 	}
 	
@@ -43,23 +48,23 @@ public class IntersectionTile : Tile
         }
         else
         {
-            enteredCharacter.ShouldPlayMoveAnim = false;
+            enteredCharacter.GetComponent<CharacterAnimationController>().PlayWalkAnimation(false);
 
-            foreach (Arrow arrow in selectedTile.Keys)
+            foreach (Arrow arrow in arrowToTile.Keys)
             {
                 arrow.MeshRenderer.enabled = true;
                 if (PhotonNetwork.player.ID == GameManager.Instance.TurnManager.CurrentTurnPlayerID)
                 {
-                    if (!arrow.Collider.enabled)
+                    if (!arrow.IsActive)
                     {
-                        arrow.Collider.enabled = true;
+                        arrow.SetActivte(true);
                     }
                 }
                 else
                 {
-                    if (arrow.Collider.enabled)
+                    if (arrow.IsActive)
                     {
-                        arrow.Collider.enabled = false;
+                        arrow.SetActivte(false);
                     }
                 }
             }
@@ -68,7 +73,7 @@ public class IntersectionTile : Tile
     
     public void OnArrowPress(Arrow arrow)
     {
-        NextTile = selectedTile[arrow];
+        NextTile = arrowToTile[arrow];
         enteredCharacter.TileAfterMove = NextTile;
         
         if (enteredCharacter.MoveLeft > 0)
@@ -76,8 +81,13 @@ public class IntersectionTile : Tile
             enteredCharacter.PhotonView.RPC("MoveCharacter", PhotonTargets.All, enteredCharacter.MoveLeft);
         }
         else
-        {
+        {            
             GameManager.Instance.TurnManager.TurnEnd();
+        }
+
+        foreach (Arrow item in arrowToTile.Keys)
+        {
+            item.SetActivte(false);
         }
     }
 
@@ -85,12 +95,12 @@ public class IntersectionTile : Tile
 	private void InitializeArrow(int arrowViewID, int indexOfNeighbourTile)
 	{
 		Arrow arrow = PhotonView.Find(arrowViewID).GetComponent<Arrow>();			
-		selectedTile.Add(arrow, neighbourTiles[indexOfNeighbourTile]);
+		arrowToTile.Add(arrow, neighbourTiles[indexOfNeighbourTile]);
 
 		Vector3 arrowPosition = new Vector3((neighbourTiles[indexOfNeighbourTile].transform.position.x + transform.position.x) / 2, 0, (neighbourTiles[indexOfNeighbourTile].transform.position.z + transform.position.z) / 2);
 		arrow.transform.position = arrowPosition;
 
 		Vector3 targetPosition = new Vector3(neighbourTiles[indexOfNeighbourTile].transform.position.x, transform.position.y, neighbourTiles[indexOfNeighbourTile].transform.position.z);
-		arrow.LookatTarget(targetPosition);
+		arrow.transform.LookAt(targetPosition);
 	}
 }
