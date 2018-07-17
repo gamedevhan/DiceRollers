@@ -54,4 +54,6 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - ToggleIsWalking
+  - RpcToggleIsWalking
   DisableAutoOpenWizard: 1

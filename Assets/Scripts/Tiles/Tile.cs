@@ -49,7 +49,7 @@ public class Tile : MonoBehaviour
         {
             character.TileBeforeMove = this;
             character.TileAfterMove = NextTile;
-            character.GetComponent<CharacterAnimationController>().IsWalking = false;
+            character.GetComponent<CharacterAnimationController>().PlayWalkAnimation(false);
 
             ISpecialTile specialTile = GetComponent<ISpecialTile>();
 			if (specialTile != null)

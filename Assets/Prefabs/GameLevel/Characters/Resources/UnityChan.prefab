@@ -994,7 +994,6 @@ GameObject:
   - component: {fileID: 114711559356974274}
   - component: {fileID: 114053444595371972}
   - component: {fileID: 114086073526729312}
-  - component: {fileID: 114351542963556362}
   m_Layer: 0
   m_Name: UnityChan
   m_TagString: Untagged
@@ -5121,7 +5120,6 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114351542963556362}
   - {fileID: 114086073526729312}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
@@ -5220,26 +5218,6 @@ MonoBehaviour:
   Speed: 1.5
   TileBeforeMove: {fileID: 0}
   TileAfterMove: {fileID: 0}
---- !u!114 &114351542963556362
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1348950243370568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 1
-    Name: isWalking
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!114 &114711559356974274
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5251,7 +5229,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a2a713ed4fc22a4fb0770b105ecf7a6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsWalking: 0
 --- !u!137 &137001193031810108
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

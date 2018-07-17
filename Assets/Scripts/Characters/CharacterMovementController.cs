@@ -56,7 +56,7 @@ public class CharacterMovementController : MonoBehaviour
 	public IEnumerator Move()
 	{
 		transform.LookAt(TileAfterMove.transform);
-        GetComponent<CharacterAnimationController>().IsWalking = true;
+        GetComponent<CharacterAnimationController>().PlayWalkAnimation(true);
 
         #region Lerp
         startTime = Time.time;

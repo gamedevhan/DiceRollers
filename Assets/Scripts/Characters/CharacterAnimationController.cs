@@ -3,16 +3,28 @@
 [RequireComponent(typeof(CharacterMovementController))]
 public class CharacterAnimationController : MonoBehaviour
 {
-    public bool IsWalking = false;	
-	private Animator animator;
-    
-	private void Start()
-	{		
-		animator = GetComponent<Animator>();
-	}
+    public bool IsWalking { get; set; }
 
-	private void Update()
-	{
-		animator.SetBool("isWalking", IsWalking);
-	}
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
+
+    private void Update()
+    {
+        animator.SetBool("isWalking", IsWalking);
+    }
+        
+    public void PlayWalkAnimation(bool isWalking)
+    {
+        PhotonView.Get(this).RPC("RpcSetWalkParameter", PhotonTargets.All, isWalking);
+    }
+
+    [PunRPC]
+    private void RpcSetWalkParameter(bool walkAnimationParmeter)
+    {
+        IsWalking = walkAnimationParmeter;
+    }
 }
