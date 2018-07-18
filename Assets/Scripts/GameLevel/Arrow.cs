@@ -6,8 +6,9 @@ public class Arrow : MonoBehaviour
     public bool IsActive { get; private set; }
     public MeshRenderer MeshRenderer { get; private set; }
     public BoxCollider Collider { get; private set; }
-    public IntersectionTile IntersectionTile { get; set; }
+    public IntersectionTile IntersectionTile { get; set; }    
     public PhotonView PhotonView { get; private set; }
+    public Tile PointingTile { get; set; }
 
     private bool hasPressed = false;        
     private const int blinkCount = 3;

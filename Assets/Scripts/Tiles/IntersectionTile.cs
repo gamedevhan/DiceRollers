@@ -4,9 +4,9 @@ using UnityEngine;
 public class IntersectionTile : Tile
 {
 	[SerializeField]
-	private GameObject arrowPrefab;	
-	private List<Tile> nextTiles = new List<Tile>();
-	private Dictionary<Arrow, Tile> arrowToTile = new Dictionary<Arrow, Tile>();
+	private GameObject arrowPrefab;
+    private List<Tile> nextTiles = new List<Tile>();
+    private List<int> arrowViewIDs = new List<int>();
     private CharacterMovementController enteredCharacter;
 	private PhotonView photonView;
 
@@ -22,19 +22,30 @@ public class IntersectionTile : Tile
 		{
 			nextTiles.Add(neighbourTiles[i]);
 
-            if (!PhotonNetwork.isMasterClient)
+            if (PhotonNetwork.isMasterClient)
             {
                 GameObject arrowGameObject = PhotonNetwork.InstantiateSceneObject(arrowPrefab.name, transform.position, Quaternion.identity, 0, null);
                 Arrow arrow = arrowGameObject.GetComponent<Arrow>();
-                arrow.IntersectionTile = this;
                 int arrowViewID = arrow.PhotonView.viewID;
-                photonView.RPC("InitializeArrow", PhotonTargets.All, arrowViewID, i);
 
-                // TODO: All players need to have populated dictionary, currently only masterClient has ditionary populated
-                arrowToTile.Add(arrow, neighbourTiles[i]);
+                arrowViewIDs.Add(arrowViewID);                
+                arrow.PointingTile = nextTiles[i - 1];
+                
+                photonView.RPC("InitializeArrow", PhotonTargets.All, arrowViewID, photonView.viewID, i);
             }
 		}
-	}
+
+        if (PhotonNetwork.isMasterClient)
+        {
+            int[] viewIDs = new int[arrowViewIDs.Count];
+            for (int i = 0; i < arrowViewIDs.Count; i++)
+            {
+                viewIDs[i] = arrowViewIDs[i];
+            }
+
+            photonView.RPC("SyncArrowList", PhotonTargets.All, viewIDs);
+        }
+    }
 	
 	public override void OnCharacterEnter(CharacterMovementController character)
 	{		
@@ -50,8 +61,9 @@ public class IntersectionTile : Tile
         {
             enteredCharacter.GetComponent<CharacterAnimationController>().PlayWalkAnimation(false);
 
-            foreach (Arrow arrow in arrowToTile.Keys)
+            foreach (int viewID in arrowViewIDs)
             {
+                Arrow arrow = PhotonView.Find(viewID).GetComponent<Arrow>();
                 arrow.MeshRenderer.enabled = true;
                 if (PhotonNetwork.player.ID == GameManager.Instance.TurnManager.CurrentTurnPlayerID)
                 {
@@ -73,34 +85,47 @@ public class IntersectionTile : Tile
     
     public void OnArrowPress(Arrow arrow)
     {
-        NextTile = arrowToTile[arrow];
+        NextTile = arrow.PointingTile;
         enteredCharacter.TileAfterMove = NextTile;
         
         if (enteredCharacter.MoveLeft > 0)
         {
-            enteredCharacter.PhotonView.RPC("MoveCharacter", PhotonTargets.All, enteredCharacter.MoveLeft);
+            //enteredCharacter.PhotonView.RPC("MoveCharacter", PhotonTargets.All, enteredCharacter.MoveLeft);
+            StartCoroutine(enteredCharacter.Move());
         }
         else
         {            
             GameManager.Instance.TurnManager.TurnEnd();
         }
 
-        foreach (Arrow item in arrowToTile.Keys)
+        foreach (int viewID in arrowViewIDs)
         {
-            item.SetActivte(false);
+            Arrow eachArrow = PhotonView.Find(viewID).GetComponent<Arrow>();
+            eachArrow.SetActivte(false);
         }
     }
 
 	[PunRPC]
-	private void InitializeArrow(int arrowViewID, int indexOfNeighbourTile)
+	private void InitializeArrow(int arrowViewID, int intersectionTileViewID, int indexOfNeighbourTile)
 	{
-		Arrow arrow = PhotonView.Find(arrowViewID).GetComponent<Arrow>();			
-		arrowToTile.Add(arrow, neighbourTiles[indexOfNeighbourTile]);
+		Arrow arrow = PhotonView.Find(arrowViewID).GetComponent<Arrow>();
+        IntersectionTile intersectionTile = PhotonView.Find(intersectionTileViewID).GetComponent<IntersectionTile>();
 
-		Vector3 arrowPosition = new Vector3((neighbourTiles[indexOfNeighbourTile].transform.position.x + transform.position.x) / 2, 0, (neighbourTiles[indexOfNeighbourTile].transform.position.z + transform.position.z) / 2);
+        arrow.IntersectionTile = intersectionTile;
+
+        Vector3 arrowPosition = new Vector3((neighbourTiles[indexOfNeighbourTile].transform.position.x + transform.position.x) / 2, 0, (neighbourTiles[indexOfNeighbourTile].transform.position.z + transform.position.z) / 2);
 		arrow.transform.position = arrowPosition;
 
 		Vector3 targetPosition = new Vector3(neighbourTiles[indexOfNeighbourTile].transform.position.x, transform.position.y, neighbourTiles[indexOfNeighbourTile].transform.position.z);
 		arrow.transform.LookAt(targetPosition);
 	}
+
+    [PunRPC]
+    private void SyncArrowList(int[] viewIDs)
+    {
+        foreach (int arrowViewID in viewIDs)
+        {
+            arrowViewIDs.Add(arrowViewID);
+        }
+    }
 }

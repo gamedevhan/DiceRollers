@@ -52,6 +52,7 @@ MonoBehaviour:
   - SendSpawnPointInfo
   - SetActive
   - StartCountDown
+  - SyncArrowList
   - SyncOtherPlayerCharacter
   - SyncPlayerIDs
   - SyncReadyIcon
