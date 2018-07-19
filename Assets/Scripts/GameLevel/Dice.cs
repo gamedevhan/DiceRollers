@@ -51,4 +51,29 @@ public class Dice : MonoBehaviour
 		MeshRednderer.enabled = true;
 		animator.Play("Dice" + diceResult);	
 	}
+
+    public IEnumerator RollFour()
+    {
+        DiceResult = 4;
+        DebugUtility.Log("Rolling! Result is: " + DiceResult);
+        photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
+
+        yield return new WaitForSeconds(1f);
+        DiceRollEvent(DiceResult);
+        yield return new WaitForSeconds(1f);
+        MeshRednderer.enabled = false;
+    }
+
+    public IEnumerator RollSix()
+    {
+        DiceResult = 6;
+        DebugUtility.Log("Rolling! Result is: " + DiceResult);
+        photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
+
+        yield return new WaitForSeconds(1f);
+        DiceRollEvent(DiceResult);
+        yield return new WaitForSeconds(1f);
+        MeshRednderer.enabled = false;
+    }
+    
 }

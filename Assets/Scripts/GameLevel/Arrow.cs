@@ -20,7 +20,10 @@ public class Arrow : MonoBehaviour
         set
         {
             hasPressed = HasPressed;
-            IntersectionTile.OnArrowPress(this);
+            if (hasPressed)
+            {
+                IntersectionTile.OnArrowPress(this);
+            }
         }
     }
         
@@ -40,7 +43,7 @@ public class Arrow : MonoBehaviour
 
     private void OnMouseDown()
     {
-        PhotonView.RPC("OnArrowPress", PhotonTargets.All, PhotonView.viewID);        
+        PhotonView.RPC("BlinkArrow", PhotonTargets.All, PhotonView.viewID);        
     }
 
     public void SetActivte(bool isActive = true)
@@ -51,12 +54,12 @@ public class Arrow : MonoBehaviour
     }
 
     [PunRPC]
-    public void OnArrowPress(int photonViewID)
+    public void BlinkArrow(int photonViewID)
     {
-        StartCoroutine(BlinkArrow(photonViewID));
+        StartCoroutine(RpcBlinkArrow(photonViewID));
     }
 
-    public IEnumerator BlinkArrow(int photonViewID)
+    public IEnumerator RpcBlinkArrow(int photonViewID)
     {
         for (int i = 0; i < blinkCount; i++)
         {
