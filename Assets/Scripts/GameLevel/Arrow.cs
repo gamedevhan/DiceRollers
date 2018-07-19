@@ -10,13 +10,26 @@ public class Arrow : MonoBehaviour
     public PhotonView PhotonView { get; private set; }
     public Tile PointingTile { get; set; }
 
-    private bool hasPressed = false;        
+    private bool hasPressed;
+    private bool HasPressed
+    {
+        get
+        {
+            return hasPressed;
+        }
+        set
+        {
+            hasPressed = HasPressed;
+            IntersectionTile.OnArrowPress(this);
+        }
+    }
+        
     private const int blinkCount = 3;
 
     private void Awake()
     {
         MeshRenderer = GetComponentInChildren<MeshRenderer>();
-        Collider = GetComponent<BoxCollider>();        
+        Collider = GetComponent<BoxCollider>();
         PhotonView = GetComponent<PhotonView>();
     }
 
@@ -27,8 +40,7 @@ public class Arrow : MonoBehaviour
 
     private void OnMouseDown()
     {
-        PhotonView.RPC("OnArrowPress", PhotonTargets.All, PhotonView.viewID);
-        StartCoroutine(WaitUntillPressThenUpdate());
+        PhotonView.RPC("OnArrowPress", PhotonTargets.All, PhotonView.viewID);        
     }
 
     public void SetActivte(bool isActive = true)
@@ -56,17 +68,6 @@ public class Arrow : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
         }
 
-        hasPressed = true;
-    }
-
-    private IEnumerator WaitUntillPressThenUpdate()
-    {
-        while (!hasPressed)
-        {
-            yield return null;
-        }
-
-        IntersectionTile.OnArrowPress(this);
-        hasPressed = false;
+        HasPressed = true;
     }
 }
