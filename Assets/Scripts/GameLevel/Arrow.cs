@@ -54,12 +54,12 @@ public class Arrow : MonoBehaviour
     }
 
     [PunRPC]
-    public void BlinkArrow(int photonViewID)
+    public void BlinkArrow()
     {
-        StartCoroutine(RpcBlinkArrow(photonViewID));
+        StartCoroutine(RpcBlinkArrow());
     }
 
-    public IEnumerator RpcBlinkArrow(int photonViewID)
+    public IEnumerator RpcBlinkArrow()
     {
         for (int i = 0; i < blinkCount; i++)
         {
