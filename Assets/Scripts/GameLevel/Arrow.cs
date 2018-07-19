@@ -10,22 +10,22 @@ public class Arrow : MonoBehaviour
     public PhotonView PhotonView { get; private set; }
     public Tile PointingTile { get; set; }
 
-    private bool hasPressed;
-    private bool HasPressed
-    {
-        get
-        {
-            return hasPressed;
-        }
-        set
-        {
-            hasPressed = HasPressed;
-            if (hasPressed)
-            {
-                IntersectionTile.OnArrowPress(this);
-            }
-        }
-    }
+    //private bool hasPressed;
+    //private bool HasPressed
+    //{
+    //    get
+    //    {
+    //        return hasPressed;
+    //    }
+    //    set
+    //    {
+    //        hasPressed = HasPressed;
+    //        if (hasPressed)
+    //        {
+    //            IntersectionTile.OnArrowPress(this);
+    //        }
+    //    }
+    //}
         
     private const int blinkCount = 3;
 
@@ -43,7 +43,7 @@ public class Arrow : MonoBehaviour
 
     private void OnMouseDown()
     {
-        PhotonView.RPC("BlinkArrow", PhotonTargets.All, PhotonView.viewID);        
+        PhotonView.RPC("RpcBlinkArrow", PhotonTargets.All);
     }
 
     public void SetActivte(bool isActive = true)
@@ -54,12 +54,12 @@ public class Arrow : MonoBehaviour
     }
 
     [PunRPC]
-    public void BlinkArrow()
+    public void RpcBlinkArrow()
     {
-        StartCoroutine(RpcBlinkArrow());
+        StartCoroutine(BlinkArrow());
     }
 
-    public IEnumerator RpcBlinkArrow()
+    public IEnumerator BlinkArrow()
     {
         for (int i = 0; i < blinkCount; i++)
         {
@@ -71,6 +71,10 @@ public class Arrow : MonoBehaviour
             yield return new WaitForSeconds(0.25f);
         }
 
-        HasPressed = true;
+        if (PhotonNetwork.player.ID == GameManager.Instance.TurnManager.CurrentTurnPlayerID)
+        {
+            //HasPressed = true;
+            IntersectionTile.OnArrowPress(this);
+        }
     }
 }

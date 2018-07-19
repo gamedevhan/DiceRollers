@@ -98,11 +98,7 @@ public class IntersectionTile : Tile
             GameManager.Instance.TurnManager.TurnEnd();
         }
 
-        foreach (int viewID in arrowViewIDs)
-        {
-            Arrow eachArrow = PhotonView.Find(viewID).GetComponent<Arrow>();
-            eachArrow.SetActivte(false);
-        }
+        photonView.RPC("HideAllArrow", PhotonTargets.All);
     }
 
 	[PunRPC]
@@ -126,6 +122,16 @@ public class IntersectionTile : Tile
         foreach (int arrowViewID in viewIDs)
         {
             arrowViewIDs.Add(arrowViewID);
+        }
+    }
+
+    [PunRPC]
+    private void HideAllArrow()
+    {
+        foreach (int viewID in arrowViewIDs)
+        {
+            Arrow eachArrow = PhotonView.Find(viewID).GetComponent<Arrow>();
+            eachArrow.SetActivte(false);
         }
     }
 }

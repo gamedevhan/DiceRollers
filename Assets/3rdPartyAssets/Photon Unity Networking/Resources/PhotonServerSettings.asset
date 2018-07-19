@@ -27,14 +27,15 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
+  - BlinkArrow
   - Chat
   - DestroyRpc
   - DisplayNextCharacter
   - DisplayPlayerName
   - DisplayPreviousCharacter
+  - HideAllArrow
   - InitializeArrow
   - InstantiateRpc
-  - OnArrowPress
   - OnSpawnPointsInfoReceived
   - PickupItemInit
   - PlayRollAnimation
@@ -58,4 +59,5 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - RpcBlinkArrow
   DisableAutoOpenWizard: 1
