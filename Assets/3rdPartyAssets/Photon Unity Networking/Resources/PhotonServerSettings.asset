@@ -27,7 +27,6 @@ MonoBehaviour:
   NetworkLogging: 1
   RunInBackground: 1
   RpcList:
-  - BlinkArrow
   - Chat
   - DestroyRpc
   - DisplayNextCharacter
@@ -44,6 +43,7 @@ MonoBehaviour:
   - PunRespawn
   - RequestForPickupItems
   - RequestForPickupTimes
+  - RpcBlinkArrow
   - RpcCurrentTurnPlayerLabel
   - RpcSetWalkParameter
   - RpcTurnBegin
@@ -52,6 +52,7 @@ MonoBehaviour:
   - SendRoomPlayerStatus
   - SendSpawnPointInfo
   - SetActive
+  - SetPointingTileForArrow
   - StartCountDown
   - SyncArrowList
   - SyncOtherPlayerCharacter
@@ -59,5 +60,4 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
-  - RpcBlinkArrow
   DisableAutoOpenWizard: 1

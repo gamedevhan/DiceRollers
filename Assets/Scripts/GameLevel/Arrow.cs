@@ -74,7 +74,7 @@ public class Arrow : MonoBehaviour
         if (PhotonNetwork.player.ID == GameManager.Instance.TurnManager.CurrentTurnPlayerID)
         {
             //HasPressed = true;
-            IntersectionTile.OnArrowPress(this);
+            IntersectionTile.OnArrowPress(PhotonView.viewID);
         }
     }
 }
