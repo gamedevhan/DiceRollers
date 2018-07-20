@@ -80,18 +80,15 @@ public class LevelTransitionManager : MonoBehaviour
 	}
 
 	private bool CheckIfAllReady()
-	{
-		// Check if everyone is ready
+	{		
 		foreach (var player in roomPlayers)
 		{
 			if (!player.IsReady)
-			{
-				Debug.Log("Someone is not ready");
+			{			
 				return false;	
 			}
 		}
-		
-		Debug.Log("Everyone is ready!");
+
 		return true;
 	}
 }

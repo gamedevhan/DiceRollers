@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public TurnManager TurnManager { get; private set; }
+	public TurnManager TurnManager { get; private set; }        
+    public Dice Dice;
 
-    [SerializeField]
-    private Dice dice;
     private PlayerCharacterManager playerCharacterManager;
     private GameLevelUIManager gameLevelUIManager;
     private CameraController cameraController;
@@ -33,13 +32,6 @@ public class GameManager : MonoBehaviour
         photonView = GetComponent<PhotonView>();
 	}
     
-	public void OnRollButtonPress()
-	{
-        gameLevelUIManager.DeactivateRollButton();
-		dice.MeshRednderer.enabled = true;
-		StartCoroutine(dice.Roll());
-	}
-
 	public void OnTurnBegin(int currentTurnPlayerID)
 	{
 		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[currentTurnPlayerID];
@@ -49,7 +41,7 @@ public class GameManager : MonoBehaviour
         photonView.RPC("RpcCurrentTurnPlayerLabel", PhotonTargets.All, currentTurnPlayerName);        
 
         cameraController.FollowTarget = currentTurnCharacter;
-        dice.Reset(currentTurnCharacter);
+        Dice.Reset(currentTurnCharacter);
         
 		if (PhotonNetwork.player.ID == currentTurnPlayerID)
 		{
