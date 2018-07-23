@@ -60,4 +60,5 @@ MonoBehaviour:
   - SyncReadyIcon
   - SyncReadyStatus
   - SyncSpawnPointInfo
+  - RpcInstantiateFireworks
   DisableAutoOpenWizard: 1
