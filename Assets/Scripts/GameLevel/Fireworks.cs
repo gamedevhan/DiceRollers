@@ -28,9 +28,11 @@ public class Fireworks : MonoBehaviour
 
     private IEnumerator LaunchFireworks()
     {
+        Camera camera = Camera.main;
         for (int i = 0; i < fireWorks.Length; i++)
         {
-            Vector3 position = new Vector3(0, transform.position.y + 3, 0);
+            // Position is hard coded, need to find better way
+            Vector3 position = new Vector3(GetComponent<Tile>().transform.position.x + 2 * i - 3, 3, GetComponent<Tile>().transform.position.z + 1);
             Instantiate(fireWorks[i], position, Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
         }

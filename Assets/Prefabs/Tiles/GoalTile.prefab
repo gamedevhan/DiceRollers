@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 33660835775415586}
   - component: {fileID: 23663752531551198}
   - component: {fileID: 114098911297855774}
+  - component: {fileID: 114881592170572668}
   - component: {fileID: 114663395516377494}
   m_Layer: 0
   m_Name: GoalTile
@@ -96,13 +97,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a230406181ab2fb48a44aab419fc4586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Test: 0
-  instantiated: 1
-  fireWorks:
-  - {fileID: 1247311384876784, guid: 00b30b62abb43044e8e2c1300c24fd35, type: 2}
-  - {fileID: 1247311384876784, guid: 8ec04e7c3065fa04c87a05bd72bf41f7, type: 2}
-  - {fileID: 1247311384876784, guid: 85fd5b7ed3ad1844db3e3ec5b73e718e, type: 2}
-  - {fileID: 1247311384876784, guid: 679efc6539491d64b8f95c9e3459784f, type: 2}
 --- !u!114 &114663395516377494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -129,3 +123,21 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114881592170572668
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1452086920045450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 052bc90607127254082ca60fa978b8d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Test: 0
+  instantiated: 0
+  fireWorks:
+  - {fileID: 1247311384876784, guid: 00b30b62abb43044e8e2c1300c24fd35, type: 2}
+  - {fileID: 1247311384876784, guid: 8ec04e7c3065fa04c87a05bd72bf41f7, type: 2}
+  - {fileID: 1247311384876784, guid: 85fd5b7ed3ad1844db3e3ec5b73e718e, type: 2}
+  - {fileID: 1247311384876784, guid: 679efc6539491d64b8f95c9e3459784f, type: 2}
