@@ -15,8 +15,8 @@ public class Dice : MonoBehaviour
 
 	private void Awake()
 	{		
-		MeshRednderer = GetComponent<MeshRenderer>();
-		animator = GetComponent<Animator>();
+		MeshRednderer = GetComponentInChildren<MeshRenderer>();
+		animator = GetComponentInChildren<Animator>();
 		photonView = GetComponent<PhotonView>();
 	}
 	
@@ -28,14 +28,14 @@ public class Dice : MonoBehaviour
 		
 	public IEnumerator Roll()
 	{
-		DiceResult = UnityEngine.Random.Range(1, 7);
+        DiceResult = 1;
+		//DiceResult = UnityEngine.Random.Range(1, 7);
 		DebugUtility.Log("Rolling! Result is: " + DiceResult);
 		photonView.RPC("PlayRollAnimation", PhotonTargets.All, DiceResult);
 
 		yield return new WaitForSeconds(1f);
 		DiceRollEvent(DiceResult);
-        yield return new WaitForSeconds(1f);
-        MeshRednderer.enabled = false;
+        yield return new WaitForSeconds(1f);        
 	}
 
 	public void Reset(Transform currentTurnCharacter)
@@ -49,7 +49,7 @@ public class Dice : MonoBehaviour
 	private void PlayRollAnimation(int diceResult)
 	{	
 		MeshRednderer.enabled = true;
-		animator.Play("Dice" + diceResult);	
+		animator.Play("Dice" + diceResult);
 	}
 
     public IEnumerator RollFour()

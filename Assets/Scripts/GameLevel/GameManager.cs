@@ -37,11 +37,12 @@ public class GameManager : MonoBehaviour
 		int currentTurnCharacterViewID = playerCharacterManager.CharacterPhotonViewID[currentTurnPlayerID];
         Transform currentTurnCharacter = PhotonView.Find(currentTurnCharacterViewID).transform;
 
+        Dice.Reset(currentTurnCharacter);
+
         string currentTurnPlayerName = PhotonPlayer.Find(currentTurnPlayerID).NickName;
         photonView.RPC("RpcCurrentTurnPlayerLabel", PhotonTargets.All, currentTurnPlayerName);        
 
-        cameraController.FollowTarget = currentTurnCharacter;
-        Dice.Reset(currentTurnCharacter);
+        cameraController.FollowTarget = currentTurnCharacter;        
         
 		if (PhotonNetwork.player.ID == currentTurnPlayerID)
 		{
